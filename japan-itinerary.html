@@ -1,0 +1,1089 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Japan 🇯🇵 March 30 – April 12, 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1410;
+    --ash: #4a443e;
+    --stone: #8a817a;
+    --mist: #e8e2da;
+    --paper: #f5f0e8;
+    --warm-white: #faf7f2;
+    --torii: #c0392b;
+    --gold: #b8860b;
+    --sakura: #d4919b;
+    --matcha: #6b8f52;
+    --kyoto-accent: #8b4513;
+    --tokyo-accent: #2c3e7a;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--warm-white);
+    color: var(--ink);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 17px;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  /* HERO */
+  .hero {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 80px 60px 70px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '日本';
+    position: absolute;
+    right: 40px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-family: 'Noto Serif JP', serif;
+    font-size: 160px;
+    font-weight: 300;
+    color: rgba(255,255,255,0.04);
+    letter-spacing: -10px;
+    pointer-events: none;
+  }
+
+  .hero-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    color: var(--sakura);
+    text-transform: uppercase;
+    margin-bottom: 18px;
+  }
+
+  .hero h1 {
+    font-size: 56px;
+    font-weight: 300;
+    letter-spacing: -1px;
+    line-height: 1.1;
+    margin-bottom: 10px;
+  }
+
+  .hero-dates {
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    color: var(--stone);
+    letter-spacing: 0.15em;
+    margin-top: 14px;
+  }
+
+  .hero-pills {
+    display: flex;
+    gap: 10px;
+    margin-top: 28px;
+    flex-wrap: wrap;
+  }
+
+  .pill {
+    padding: 5px 14px;
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 40px;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.55);
+  }
+
+  /* TIER LEGEND */
+  .legend {
+    background: var(--mist);
+    padding: 28px 60px;
+    display: flex;
+    gap: 36px;
+    align-items: center;
+    border-bottom: 1px solid #d8d0c6;
+    flex-wrap: wrap;
+  }
+
+  .legend-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--stone);
+    margin-right: 4px;
+  }
+
+  .legend-item { display: flex; align-items: center; gap: 10px; }
+
+  .tier-dot {
+    width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0;
+  }
+  .tier-must { background: var(--torii); }
+  .tier-good { background: var(--matcha); }
+  .tier-if   { background: var(--stone); }
+
+  .tier-text {
+    font-size: 14px;
+    color: var(--ash);
+  }
+
+  /* MAIN LAYOUT */
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 60px 40px;
+  }
+
+  /* CITY HEADER */
+  .city-header {
+    display: flex;
+    align-items: baseline;
+    gap: 20px;
+    margin-bottom: 40px;
+    padding-bottom: 16px;
+    border-bottom: 2px solid var(--ink);
+  }
+
+  .city-name {
+    font-size: 38px;
+    font-weight: 600;
+    letter-spacing: -0.5px;
+  }
+
+  .city-dates {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    color: var(--stone);
+    text-transform: uppercase;
+  }
+
+  .city-kanji {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 28px;
+    font-weight: 300;
+    color: var(--stone);
+    margin-left: auto;
+  }
+
+  /* DAY CARD */
+  .day-card {
+    margin-bottom: 44px;
+  }
+
+  .day-header {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    margin-bottom: 18px;
+  }
+
+  .day-number {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--stone);
+    flex-shrink: 0;
+  }
+
+  .day-title {
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  .day-subtitle {
+    font-size: 14px;
+    color: var(--stone);
+    font-style: italic;
+    margin-left: 6px;
+  }
+
+  /* NEIGHBORHOOD BLOCK */
+  .neighborhood {
+    background: var(--paper);
+    border-left: 3px solid var(--mist);
+    padding: 20px 24px;
+    margin-bottom: 14px;
+    border-radius: 0 8px 8px 0;
+    transition: border-color 0.2s;
+  }
+
+  .neighborhood:hover {
+    border-left-color: var(--stone);
+  }
+
+  .neighborhood-name {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--stone);
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .neighborhood-name::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--mist);
+  }
+
+  /* TIER ITEMS */
+  .tier-section { margin-bottom: 12px; }
+  .tier-section:last-child { margin-bottom: 0; }
+
+  .tier-heading {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    margin-bottom: 7px;
+  }
+
+  .tier-heading.must { color: var(--torii); }
+  .tier-heading.good { color: var(--matcha); }
+  .tier-heading.if-time { color: var(--stone); }
+
+  .tier-items {
+    list-style: none;
+    padding-left: 16px;
+  }
+
+  .tier-items li {
+    font-size: 15px;
+    color: var(--ash);
+    padding: 3px 0;
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    line-height: 1.5;
+  }
+
+  .tier-items li::before {
+    content: '→';
+    color: var(--mist);
+    font-size: 12px;
+    margin-top: 3px;
+    flex-shrink: 0;
+  }
+
+  .tier-items li .note {
+    font-style: italic;
+    color: var(--stone);
+    font-size: 13px;
+  }
+
+  .tag {
+    display: inline-block;
+    padding: 1px 8px;
+    border-radius: 3px;
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-left: 4px;
+    vertical-align: middle;
+    flex-shrink: 0;
+  }
+
+  .tag-booked { background: #fdebd0; color: #e67e22; }
+  .tag-reserve { background: #fde8e8; color: var(--torii); }
+  .tag-cash { background: #f0f9e8; color: var(--matcha); }
+  .tag-early { background: #e8f0fe; color: var(--tokyo-accent); }
+  .tag-temple { background: #f5e6ff; color: #7b2d8b; }
+  .tag-bday { background: #fde8f0; color: #c0392b; }
+  .tag-tea { background: #e8f5e9; color: #388e3c; }
+  .tag-onsen { background: #e3f2fd; color: #1565c0; }
+
+  /* SPECIAL NOTES */
+  .callout {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 18px 24px;
+    border-radius: 8px;
+    margin: 16px 0;
+    font-size: 14px;
+  }
+
+  .callout-icon { margin-right: 8px; }
+
+  /* FIXED BOOKINGS BAR */
+  .fixed-event {
+    background: linear-gradient(135deg, #1a1410 0%, #2d261e 100%);
+    border-left: 4px solid var(--torii);
+    color: var(--paper);
+    padding: 12px 18px;
+    margin-bottom: 10px;
+    border-radius: 0 6px 6px 0;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .fixed-time {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--sakura);
+    letter-spacing: 0.1em;
+    flex-shrink: 0;
+  }
+
+  /* DIVIDER */
+  .city-divider {
+    margin: 60px 0;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .city-divider::before, .city-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--mist);
+  }
+
+  .city-divider-icon {
+    font-size: 20px;
+    color: var(--stone);
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--stone);
+    white-space: nowrap;
+  }
+
+  /* TEMPLE NOTE */
+  .temple-note-box {
+    border: 1px dashed var(--sakura);
+    padding: 16px 20px;
+    border-radius: 6px;
+    margin: 20px 0;
+    background: rgba(212, 145, 155, 0.05);
+  }
+
+  .temple-note-box h4 {
+    font-size: 13px;
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--sakura);
+    margin-bottom: 8px;
+  }
+
+  .temple-note-box p {
+    font-size: 14px;
+    color: var(--ash);
+    font-style: italic;
+  }
+
+  /* FOOTER */
+  footer {
+    background: var(--ink);
+    color: var(--stone);
+    padding: 40px 60px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    display: flex;
+    gap: 60px;
+    flex-wrap: wrap;
+  }
+
+  footer h4 {
+    color: var(--paper);
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  footer li { list-style: none; padding: 2px 0; line-height: 1.6; }
+
+  @media (max-width: 680px) {
+    .hero { padding: 50px 24px; }
+    .hero h1 { font-size: 36px; }
+    .container { padding: 40px 20px; }
+    .legend { padding: 20px 24px; }
+    footer { padding: 30px 24px; }
+    .city-kanji { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-label">Trip Itinerary · 2026</div>
+  <h1>Japan</h1>
+  <p style="font-style:italic; color: rgba(255,255,255,0.45); font-size:20px; margin-top:4px;">京都 → 奈良 → 東京</p>
+  <div class="hero-dates">March 30 – April 12 · 13 nights</div>
+  <div class="hero-pills">
+    <div class="pill">✈ Delta GOBBX5</div>
+    <div class="pill">🏯 Hilton Kyoto · Mar 31–Apr 5</div>
+    <div class="pill">🏙 Hotel Toranomon Hills · Apr 5–12</div>
+  </div>
+</div>
+
+<!-- TIER LEGEND -->
+<div class="legend">
+  <span class="legend-label">Tier key</span>
+  <div class="legend-item">
+    <div class="tier-dot tier-must"></div>
+    <span class="tier-text"><strong>Must Do</strong> — non-negotiable</span>
+  </div>
+  <div class="legend-item">
+    <div class="tier-dot tier-good"></div>
+    <span class="tier-text"><strong>Good To Do</strong> — worth the detour</span>
+  </div>
+  <div class="legend-item">
+    <div class="tier-dot tier-if"></div>
+    <span class="tier-text"><strong>If Time Allows</strong> — bonus only</span>
+  </div>
+</div>
+
+<div class="container">
+
+  <div class="temple-note-box">
+    <h4>🗿 Your Temple Philosophy</h4>
+    <p>Only 3 temples made the cut — each chosen for their visual and sculptural impact, not religiosity. Fushimi Inari (1,000 vermillion gates = pure art installation), Todai-ji in Nara (Japan's largest bronze Buddha), and Senso-ji at night (lanterns, incense smoke, drama). These are places a design lover and art appreciator would feel, not just see.</p>
+  </div>
+
+  <!-- ===== KYOTO ===== -->
+  <div class="city-header" style="margin-top:40px;">
+    <div>
+      <div class="city-name">Kyoto</div>
+      <div class="city-dates">March 31 – April 5 · 4 full days</div>
+    </div>
+    <div class="city-kanji">京都</div>
+  </div>
+
+  <!-- March 31 ARRIVAL -->
+  <div class="day-card">
+    <div class="day-header">
+      <div class="day-number">Mon Mar 30 → Tue Mar 31</div>
+      <div class="day-title">Arrival Day <span class="day-subtitle">land, transfer, settle</span></div>
+    </div>
+
+    <div class="fixed-event">
+      <span class="fixed-time">✈ 11:40 AM → 2:15 PM (+1)</span>
+      <span>DL0167 · SEA → HND · Confirmation GOBBX5</span>
+    </div>
+
+    <div class="neighborhood">
+      <div class="neighborhood-name">Shinkansen Transfer → Kyoto Station</div>
+      <div class="tier-section">
+        <div class="tier-heading must"><div class="tier-dot tier-must"></div> Must Do</div>
+        <ul class="tier-items">
+          <li>Catch the Shinkansen from Shinagawa or Tokyo Station directly to Kyoto <span class="note">— buy tickets at airport, ~2.5 hrs</span></li>
+          <li>Check into Hilton Kyoto by early evening <span class="tag tag-booked">booked</span></li>
+          <li>Light dinner in Nishiki Market area <span class="note">— "Kyoto's Kitchen", narrow covered market, easy grab-and-go</span></li>
+        </ul>
+      </div>
+      <div class="tier-section">
+        <div class="tier-heading if-time"><div class="tier-dot tier-if"></div> If Time</div>
+        <ul class="tier-items">
+          <li>Evening stroll through Gion lantern streets <span class="note">— hauntingly beautiful even for 20 minutes</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- April 1 -->
+  <div class="day-card">
+    <div class="day-header">
+      <div class="day-number">Wed Apr 1</div>
+      <div class="day-title">Kyoto: Fushimi + Higashiyama <span class="day-subtitle">Kyoto's most visual day</span></div>
+    </div>
+
+    <div class="callout">
+      🌅 Start this day at 6:30–7 AM. Fushimi Inari is completely different (and magical) before tour groups arrive. The afternoon is then free for slower things.
+    </div>
+
+    <div class="neighborhood">
+      <div class="neighborhood-name">Morning · Fushimi Inari</div>
+      <div class="tier-section">
+        <div class="tier-heading must"><div class="tier-dot tier-must"></div> Must Do</div>
+        <ul class="tier-items">
+          <li>Fushimi Inari Taisha — walk the 1,000 vermillion torii gates <span class="tag tag-temple">visual temple</span> <span class="tag tag-early">go by 7am</span> <span class="note">— you don't need to hike all 4 hrs, the first 45 min is the iconic part</span></li>
+          <li>Vermillion Café nearby for coffee after the walk</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="neighborhood">
+      <div class="neighborhood-name">Afternoon · Higashiyama & Gion</div>
+      <div class="tier-section">
+        <div class="tier-heading must"><div class="tier-dot tier-must"></div> Must Do</div>
+        <ul class="tier-items">
+          <li>Higashimuki / Ninenzaka cobblestone shopping street <span class="note">— traditional crafts, ceramics, snacks</span></li>
+          <li>Wife and Husband Café — famous local coffee shop, intimate and beautiful <span class="tag tag-tea">afternoon tea</span></li>
+        </ul>
+      </div>
+      <div class="tier-section">
+        <div class="tier-heading good"><div class="tier-dot tier-good"></div> Good To Do</div>
+        <ul class="tier-items">
+          <li>Nanzenji Tenjuan — moss garden, stone lanterns, and a mirror-still koi pond tucked inside Nanzenji temple complex <span class="tag tag-temple">visual temple</span> <span class="note">— this is landscape as art; serene, uncrowded, and 10 min walk from Kiyomizudera</span></li>
+          <li>Kiyomizudera temple — wooden stage jutting from the hillside, stunning architecture <span class="note">— combine with Tenjuan since they're walkable</span></li>
+          <li>Gion evening walk along Hanamikoji Street</li>
+        </ul>
+      </div>
+      <div class="tier-section">
+        <div class="tier-heading if-time"><div class="tier-dot tier-if"></div> If Time</div>
+        <ul class="tier-items">
+          <li>Nishiki Market food stalls for dinner snacks</li>
+          <li>Hikiniku to Come — burger patty served over rice, Kyoto outpost of a Tokyo cult classic <span class="note">— great casual lunch option</span></li>
+          <li>Men ya Inoichi — refined, deeply flavoured ramen <span class="note">— one of Kyoto's most respected bowls; worth the visit if you're in the area</span></li>
+          <li>Kyoto Engine Ramen or Umishen Karaage for a casual dinner</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- April 2 -->
+  <div class="day-card">
+    <div class="day-header">
+      <div class="day-number">Thu Apr 2</div>
+      <div class="day-title">Kyoto: Arashiyama Day <span class="day-subtitle">scenic railway + bamboo + river</span></div>
+    </div>
+
+    <div class="neighborhood">
+      <div class="neighborhood-name">All Day · Arashiyama</div>
+      <div class="tier-section">
+        <div class="tier-heading must"><div class="tier-dot tier-must"></div> Must Do</div>
+        <ul class="tier-items">
+          <li>Sagano Scenic Railway (Torokko Train) <span class="tag tag-booked">book ahead</span> <span class="note">— 25 min ride through mountain gorge, especially gorgeous during sakura season</span></li>
+          <li>Arashiyama Bamboo Grove <span class="note">— go immediately after the train before the crowds peak</span></li>
+          <li>Boat ride back down the Hozu River <span class="note">— leisurely return, stunning scenery</span></li>
+          <li>Riverside walk and lunch along Togetsukyo Bridge</li>
+        </ul>
+      </div>
+      <div class="tier-section">
+        <div class="tier-heading good"><div class="tier-dot tier-good"></div> Good To Do</div>
+        <ul class="tier-items">
+          <li>Tenryu-ji temple garden <span class="tag tag-temple">visual temple</span> <span class="note">— the garden is the attraction here, not the building; a UNESCO landscape of borrowed scenery</span></li>
+          <li>Thisis Shizen — flower ice cream in the area <span class="note">— if you see it, go</span></li>
+        </ul>
+      </div>
+      <div class="tier-section">
+        <div class="tier-heading if-time"><div class="tier-dot tier-if"></div> If Time</div>
+        <ul class="tier-items">
+          <li>Donut stand in the Arashiyama region</li>
+          <li>Kimono rental for the afternoon walk</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- April 3 -->
+  <div class="day-card">
+    <div class="day-header">
+      <div class="day-number">Fri Apr 3</div>
+      <div class="day-title">Kyoto: Gion + Downtown <span class="day-subtitle">kimono photoshoot morning</span></div>
+    </div>
+
+    <div class="fixed-event">
+      <span class="fixed-time">10:30 AM – 12:00 PM</span>
+      <span>Kimono Photoshoot · Higashiyama, 100 Tatsumichō · <span style="color: var(--sakura)">BOOKED ✓</span></span>
+    </div>
+
+    <div class="neighborhood">
+      <div class="neighborhood-name">Afternoon · Gion + Pontocho</div>
+      <div class="tier-section">
+        <div class="tier-heading must"><div class="tier-dot tier-must"></div> Must Do</div>
+        <ul class="tier-items">
+          <li>Afternoon matcha experience or traditional tea ceremony in Gion <span class="tag tag-tea">afternoon tea</span> <span class="note">— this is your quintessential Kyoto moment; many cafés offer ceremonial matcha with wagashi sweets</span></li>
+          <li>Kitchen Yuzen in Nishiki Market <span class="note">— @shaikha's rec, worth finding</span></li>
+        </ul>
+      </div>
+      <div class="tier-section">
+        <div class="tier-heading good"><div class="tier-dot tier-good"></div> Good To Do</div>
+        <ul class="tier-items">
+          <li>Pontocho alley — narrow lantern-lit dining street; pick a restaurant for dinner</li>
+          <li>Ichiran Ramen for solo-booth ramen experience</li>
+        </ul>
+      </div>
+      <div class="tier-section">
+        <div class="tier-heading if-time"><div class="tier-dot tier-if"></div> If Time</div>
+        <ul class="tier-items">
+          <li>Art Garden (from your notes — check hours/location nearby)</li>
+          <li>Plum wine order — try at any izakaya this evening</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- April 4 -->
+  <div class="day-card">
+    <div class="day-header">
+      <div class="day-number">Sat Apr 4</div>
+      <div class="day-title">Nara Day Trip <span class="day-subtitle">~45 min by train from Kyoto</span></div>
+    </div>
+
+    <div class="callout">
+      🦌 Nara is compact and deeply special. The giant Buddha at Todai-ji is genuinely one of the most impressive sculptures you'll ever stand in front of — it's not religious, it's overwhelmingly human. Give yourself a full day.
+    </div>
+
+    <div class="neighborhood">
+      <div class="neighborhood-name">Morning · Nara Park + Todai-ji</div>
+      <div class="tier-section">
+        <div class="tier-heading must"><div class="tier-dot tier-must"></div> Must Do</div>
+        <ul class="tier-items">
+          <li>Todai-ji Temple — the Great Buddha Hall houses Japan's largest bronze Buddha (15m tall) <span class="tag tag-temple">visual temple</span> <span class="note">— genuinely awe-inspiring as architecture + sculpture regardless of faith</span></li>
+          <li>Nara Park deer — they bow for crackers, it's surreal and delightful</li>
+        </ul>
+      </div>
+      <div class="tier-section">
+        <div class="tier-heading good"><div class="tier-dot tier-good"></div> Good To Do</div>
+        <ul class="tier-items">
+          <li>Kasuga Taisha — lantern-lined stone paths through ancient cedar forest <span class="note">— go downhill from here for fewer crowds, per your notes</span></li>
+          <li>Higashimuki Shopping Street — local souvenirs, Nara crafts</li>
+        </ul>
+      </div>
+      <div class="tier-section">
+        <div class="tier-heading if-time"><div class="tier-dot tier-if"></div> If Time</div>
+        <ul class="tier-items">
+          <li>Dorgawa trolley route instead of main park area <span class="note">— from your notes, fewer tourists</span></li>
+          <li>Mt. Wakakusa for panoramic views of the city</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="neighborhood">
+      <div class="neighborhood-name">Evening · Return to Kyoto</div>
+      <div class="tier-section">
+        <div class="tier-heading must"><div class="tier-dot tier-must"></div> Must Do</div>
+        <ul class="tier-items">
+          <li>Return to Kyoto for final dinner <span class="note">— Pontocho or anywhere you missed</span></li>
+          <li>Pack and prep for tomorrow's Shinkansen to Tokyo 🎂</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- April 5 - BIRTHDAY -->
+  <div class="day-card">
+    <div class="day-header">
+      <div class="day-number">Sun Apr 5 🎂</div>
+      <div class="day-title">Kyoto → Tokyo 🎂 <span class="day-subtitle">arrive, unwind, celebrate</span></div>
+    </div>
+
+    <div class="callout">
+      🎂 The perfect birthday arc: arrive in Tokyo, drop bags, explore the neighbourhood, then a special dinner before slipping into your private onsen room at 7:55 PM — emerge fully renewed at 9:55 PM and end the night however you like. No sightseeing pressure — just arrival, warmth, and celebration.
+    </div>
+
+    <div class="neighborhood">
+      <div class="neighborhood-name">Morning · Kyoto Checkout → Shinkansen</div>
+      <div class="tier-section">
+        <div class="tier-heading must"><div class="tier-dot tier-must"></div> Must Do</div>
+        <ul class="tier-items">
+          <li>Check out by 11 AM, take morning Shinkansen to Tokyo <span class="note">— ~2.5 hrs, grab a birthday bento at Kyoto Station for the ride</span></li>
+          <li>Check into Hotel Toranomon Hills <span class="tag tag-booked">booked</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="neighborhood">
+      <div class="neighborhood-name">Afternoon / Early Evening · Birthday Dinner</div>
+      <div class="tier-section">
+        <div class="tier-heading must"><div class="tier-dot tier-must"></div> Must Do</div>
+        <ul class="tier-items">
+          <li>Special birthday dinner — aim for a 5:30–7:00 PM reservation so you're done and glowing by onsen time <span class="tag tag-bday">birthday</span> <span class="tag tag-reserve">reserve ahead</span> <span class="note">— consider Pizza Bar on 38th (needs 1 month advance) or a high-end omakase for the occasion</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="fixed-event">
+      <span class="fixed-time">7:55 PM – 9:55 PM</span>
+      <span>Kudochi Onsen · Cenote-セノーテ- (120 min) · Roppongi · <span style="color: var(--sakura)">BOOKED ✓</span></span>
+    </div>
+
+    <div class="neighborhood">
+      <div class="neighborhood-name">Evening · Kudochi Onsen Roppongi <span class="note">(10 min from your hotel)</span></div>
+      <div class="tier-section">
+        <div class="tier-heading must"><div class="tier-dot tier-must"></div> Must Do</div>
+        <ul class="tier-items">
+          <li>Kudochi Onsen · Cenote private room — hot spring + sauna + cold plunge <span class="tag tag-onsen">onsen</span> <span class="tag tag-bday">birthday</span> <span class="tag tag-booked">booked</span> <span class="note">— fully private, tattoo-friendly · QR code via member login (refreshes every 30 min, don't screenshot ahead of time) · arrive 5 min before · kudochi-sauna.com</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== TOKYO ===== -->
+  <div class="city-divider">
+    <div class="city-divider-icon">✈ · · Shinkansen · · 🗼</div>
+  </div>
+
+  <div class="city-header">
+    <div>
+      <div class="city-name">Tokyo</div>
+      <div class="city-dates">April 5 – 12 · 7 full days</div>
+    </div>
+    <div class="city-kanji">東京</div>
+  </div>
+
+  <!-- April 6 -->
+  <div class="day-card">
+    <div class="day-header">
+      <div class="day-number">Mon Apr 6</div>
+      <div class="day-title">Shibuya / Ebisu Neighborhood <span class="day-subtitle">color analysis + crossing + vintage</span></div>
+    </div>
+
+    <div class="fixed-event">
+      <span class="fixed-time">11:00 AM</span>
+      <span>Color Analysis · Ebisu Nishi 1-15-2, Aparutoman Ito 7F 706 · <span style="color: var(--sakura)">BRING CASH</span></span>
+    </div>
+
+    <div class="neighborhood">
+      <div class="neighborhood-name">Afternoon · Shibuya</div>
+      <div class="tier-section">
+        <div class="tier-heading must"><div class="tier-dot tier-must"></div> Must Do</div>
+        <ul class="tier-items">
+          <li>Shibuya Crossing — at rush hour (5–7 PM is peak chaos) for the full experience <span class="note">— Shibuya Sky is on Apr 10; use this afternoon freely for vintage and the crossing</span></li>
+        </ul>
+      </div>
+      <div class="tier-section">
+        <div class="tier-heading good"><div class="tier-dot tier-good"></div> Good To Do</div>
+        <ul class="tier-items">
+          <li>Vintage shopping: Cara Shibuya Parko mall, floors 4–5 <span class="note">— for Joseph: curated Japanese vintage</span></li>
+          <li>Nuir Vintage Shibuya + Qoo Vintage</li>
+          <li>Aura Japon Tokyo vintage</li>
+        </ul>
+      </div>
+      <div class="tier-section">
+        <div class="tier-heading if-time"><div class="tier-dot tier-if"></div> If Time</div>
+        <ul class="tier-items">
+          <li>Otter café or Dog café <span class="note">— must book online in advance</span></li>
+          <li>Harajuku Takeshita Street for fashion chaos</li>
+          <li>Harajuku Gyoza Lou — legendary cheap gyoza, always a queue but moves fast <span class="note">— perfect late lunch after vintage shopping</span></li>
+          <li>Imo Pip — cream brûlée sweet potato dessert <span class="note">— also in the Harajuku area, easy to grab on the same walk</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- April 7 -->
+  <div class="day-card">
+    <div class="day-header">
+      <div class="day-number">Tue Apr 7</div>
+      <div class="day-title">Oshiage + Asakusa <span class="day-subtitle">Skytree → capybaras → Senso-ji → wagyu</span></div>
+    </div>
+
+    <div class="fixed-event">
+      <span class="fixed-time">6:00 – 8:00 PM</span>
+      <span>Wagyu Experience · EMC, 3-25-17 Oshiage · Oshiage Station B3 exit · <span style="color: var(--sakura)">BOOKED ✓</span></span>
+    </div>
+
+    <div class="neighborhood">
+      <div class="neighborhood-name">Morning · Oshiage (Skytree Town)</div>
+      <div class="tier-section">
+        <div class="tier-heading must"><div class="tier-dot tier-must"></div> Must Do</div>
+        <ul class="tier-items">
+          <li>Zoff — Tokyo Skytree Town Solamachi (3F) <span class="note">— same-day glasses, ~45 min turnaround · at Oshiage Station, right below the Skytree · perfect starting point for the day</span></li>
+          <li>Cafe Capyba — pet and hang out with resident capybaras over drinks <span class="tag tag-reserve">book Mar 24</span> <span class="note">— 10–15 min walk from Oshiage to Asakusa · reservations open exactly 2 weeks ahead via website only · ~¥1,250 for 30 min · cspace.co.jp</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="neighborhood">
+      <div class="neighborhood-name">Afternoon/Evening · Asakusa → Oshiage (one neighborhood flow)</div>
+      <div class="tier-section">
+        <div class="tier-heading must"><div class="tier-dot tier-must"></div> Must Do</div>
+        <ul class="tier-items">
+          <li>Senso-ji Temple at dusk → into evening <span class="tag tag-temple">visual temple</span> <span class="note">— the lanterns, incense smoke, and Nakamise gate at twilight is your most cinematic temple moment. 5 min walk to your Wagyu dinner from here.</span></li>
+        </ul>
+      </div>
+      <div class="tier-section">
+        <div class="tier-heading if-time"><div class="tier-dot tier-if"></div> If Time</div>
+        <ul class="tier-items">
+          <li>Tokyo Skytree views from outside — right next to Oshiage Station</li>
+          <li>Nakamise shopping street before Senso-ji for snacks and souvenirs</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- April 8 -->
+  <div class="day-card">
+    <div class="day-header">
+      <div class="day-number">Wed Apr 8</div>
+      <div class="day-title">Ginza + Shinjuku <span class="day-subtitle">Age.3 → shopping → evening wander</span></div>
+    </div>
+
+    <div class="neighborhood">
+      <div class="neighborhood-name">Morning · Ginza</div>
+      <div class="tier-section">
+        <div class="tier-heading must"><div class="tier-dot tier-must"></div> Must Do</div>
+        <ul class="tier-items">
+          <li>Age.3 Ginza — viral cream sandwiches <span class="note">— get there early, they sell out</span></li>
+          <li>Pudding Lab — in Ginza area <span class="note">— easy morning stop before or after Age.3</span></li>
+        </ul>
+      </div>
+      <div class="tier-section">
+        <div class="tier-heading good"><div class="tier-dot tier-good"></div> Good To Do</div>
+        <ul class="tier-items">
+          <li>Hoshino Coffee — soufflé pancakes, elegant kissaten coffee culture <span class="tag tag-tea">afternoon tea</span></li>
+          <li>Le Labo store in Ginza <span class="note">— if you want to check it off</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="neighborhood">
+      <div class="neighborhood-name">Evening · Shinjuku</div>
+      <div class="tier-section">
+        <div class="tier-heading good"><div class="tier-dot tier-good"></div> Good To Do</div>
+        <ul class="tier-items">
+          <li>TeamLab Borderless <span class="tag tag-reserve">book now</span> <span class="note">— Azabudai Hills, 2 min from Kamiyacho Station · visual, wandering, no set route · go in the evening · ~2.5–3 hrs</span></li>
+          <li>Kabukicho (red light district) night walk — safe, wild, neon-everything</li>
+        </ul>
+      </div>
+      <div class="tier-section">
+        <div class="tier-heading if-time"><div class="tier-dot tier-if"></div> If Time</div>
+        <ul class="tier-items">
+          <li>Yoyogi Park afternoon stroll if it's a nice day</li>
+          <li>Milkland in Shinjuku area for soft cream</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- April 9 -->
+  <div class="day-card">
+    <div class="day-header">
+      <div class="day-number">Thu Apr 9</div>
+      <div class="day-title">Hakone Option OR Roppongi/Ueno <span class="day-subtitle">choose your adventure</span></div>
+    </div>
+
+    <div class="neighborhood">
+      <div class="neighborhood-name">Option A · Hakone Day Trip (90 min from Tokyo)</div>
+      <div class="tier-section">
+        <div class="tier-heading must"><div class="tier-dot tier-must"></div> Must Do</div>
+        <ul class="tier-items">
+          <li>Romance Car (Odakyu Line express) → stunning scenic train ride <span class="note">— book the forward-facing seats</span></li>
+          <li>Hakone Open Air Museum — incredible outdoor sculpture garden + Mt. Fuji backdrop <span class="tag tag-temple">art/sculpture</span></li>
+        </ul>
+      </div>
+      <div class="tier-section">
+        <div class="tier-heading good"><div class="tier-dot tier-good"></div> Good To Do</div>
+        <ul class="tier-items">
+          <li>GQ Tour — go-karts around Mt. Fuji roads <span class="note">— if you want an active, memorable twist to the day; totally changes the energy from scenic to exhilarating</span></li>
+          <li>Hakone onsen at a ryokan or day spa <span class="tag tag-onsen">onsen</span> <span class="note">— excellent complement to the day if you have energy left</span></li>
+          <li>Mt. Fuji views from Ao Terrace or Daruma-yama Observatory</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="neighborhood">
+      <div class="neighborhood-name">Option B · Roppongi + Ueno (Stay Tokyo)</div>
+      <div class="tier-section">
+        <div class="tier-heading must"><div class="tier-dot tier-must"></div> Must Do</div>
+        <ul class="tier-items">
+          <li>Mori Art Museum (Roppongi Hills, 52nd floor) — world-class contemporary art + city views <span class="note">— 5 min from your hotel</span></li>
+        </ul>
+      </div>
+      <div class="tier-section">
+        <div class="tier-heading good"><div class="tier-dot tier-good"></div> Good To Do</div>
+        <ul class="tier-items">
+          <li>Ueno Park + National Museum <span class="note">— especially lovely during cherry blossom season (which this IS)</span></li>
+          <li>Ueno Zoo or Ameyoko market</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- April 10 -->
+  <div class="day-card">
+    <div class="day-header">
+      <div class="day-number">Fri Apr 10</div>
+      <div class="day-title">Shimokitazawa + Daikanyama → Shibuya Sky <span class="day-subtitle">vintage mornings + sunset views</span></div>
+    </div>
+
+    <div class="fixed-event">
+      <span class="fixed-time">3:40 PM → Sunset</span>
+      <span>Shibuya Sky Observatory · Shibuya Scramble Square 45F · Order 26KK237620780 · <span style="color: var(--sakura)">BOOKED ✓</span></span>
+    </div>
+
+    <div class="neighborhood">
+      <div class="neighborhood-name">Afternoon · Shibuya Sky + Crossing</div>
+      <div class="tier-section">
+        <div class="tier-heading must"><div class="tier-dot tier-must"></div> Must Do</div>
+        <ul class="tier-items">
+          <li>Shibuya Sky — open-air 360° rooftop, arrive by 3:30 PM · stay through sunset · one of the best skyline moments in Tokyo <span class="tag tag-booked">booked</span> <span class="note">— KKday voucher in your email (order 26KK237620780) · present at Shibuya Scramble Square 45F</span></li>
+          <li>Shibuya Crossing — do it right after coming down from Shibuya Sky, you'll be in the area at peak hour <span class="note">— 5–7 PM rush hour below = the perfect chaos</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="neighborhood">
+      <div class="neighborhood-name">Shimokitazawa → Daikanyama</div>
+      <div class="tier-section">
+        <div class="tier-heading must"><div class="tier-dot tier-must"></div> Must Do</div>
+        <ul class="tier-items">
+          <li>Shimokitazawa vintage shopping — Siamanca Vintage, Hive Preloved, Thierry <span class="note">— the best vintage neighborhood in Tokyo, feels like a village</span></li>
+          <li>Dotcom Space — milk bread, honey butter toast <span class="note">— incredible café, perfect mid-morning stop</span></li>
+        </ul>
+      </div>
+      <div class="tier-section">
+        <div class="tier-heading good"><div class="tier-dot tier-good"></div> Good To Do</div>
+        <ul class="tier-items">
+          <li>Comme'n bread bakery in the area</li>
+          <li>Lambert Tokyo Matcha</li>
+          <li>Daikanyama T-Site (bookstore + café complex) — architecturally beautiful <span class="tag tag-tea">café culture</span></li>
+        </ul>
+      </div>
+      <div class="tier-section">
+        <div class="tier-heading if-time"><div class="tier-dot tier-if"></div> If Time</div>
+        <ul class="tier-items">
+          <li>Bonsai making class or Origami museum</li>
+          <li>Traditional tea ceremony and calligraphy experience</li>
+          <li>Udon Shin or Katsu Motomura for dinner <span class="note">— easy wind-down before the early TeamLab start tomorrow</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- April 11 -->
+  <div class="day-card">
+    <div class="day-header">
+      <div class="day-number">Sat Apr 11 ⭐</div>
+      <div class="day-title">Best Last Day ⭐ + TeamLab Planets <span class="day-subtitle">sensory morning → final favorites → farewell</span></div>
+    </div>
+
+    <div class="fixed-event">
+      <span class="fixed-time">8:30 AM – 9:00 PM</span>
+      <span>TeamLab Planets TOKYO · Premium Pass × 2 · Shin-Toyosu Station (1 min walk) · <span style="color: var(--sakura)">BOOKED ✓</span></span>
+    </div>
+
+    <div class="neighborhood">
+      <div class="neighborhood-name">Morning · TeamLab Planets (Toyosu)</div>
+      <div class="tier-section">
+        <div class="tier-heading must"><div class="tier-dot tier-must"></div> Must Do</div>
+        <ul class="tier-items">
+          <li>TeamLab Planets TOKYO — barefoot, walk through water, fully immersive sensory experience <span class="tag tag-booked">booked</span> <span class="note">— Premium Pass × 2 (¥24,000 total) · QR code appears in My Tickets after midnight on Apr 11 · entry anytime 8:30 AM–9 PM · go early to beat crowds · ~2–3 hrs</span></li>
+          <li>Download the teamLab App beforehand <span class="note">— lets you interact with The Infinite Crystal Universe artwork in real time</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="neighborhood">
+      <div class="neighborhood-name">Afternoon / Evening · Your Curated Finale</div>
+      <div class="callout" style="margin-bottom:16px;">
+        🍣 <strong>Sushi Dai decision:</strong> TeamLab is booked from 8:30 AM, so if you want Sushi Dai (Toyosu Market, 3:30–4 AM wake-up queue), you'd do it in the very early morning and then head straight to TeamLab after. It's intense but the two venues are literally next to each other at Toyosu — makes for an extraordinary, unforgettable morning.
+      </div>
+      <div class="tier-section">
+        <div class="tier-heading must"><div class="tier-dot tier-must"></div> Must Do</div>
+        <ul class="tier-items">
+          <li>Final shopping: Onitsuka Tiger, engraved chopsticks, Loft stationery</li>
+          <li>Sumo show or exhibition <span class="note">— check schedule; the Ryogoku Kokugikan area has sumo stables and related spots</span></li>
+          <li>Cloud Club Matcha — final matcha moment <span class="tag tag-tea">afternoon tea</span></li>
+        </ul>
+      </div>
+      <div class="tier-section">
+        <div class="tier-heading good"><div class="tier-dot tier-good"></div> Good To Do</div>
+        <ul class="tier-items">
+          <li>Return to your favorite spot from the trip <span class="note">— walk it slowly, let it land</span></li>
+          <li>Henry's Burger for a final wagyu burger lunch</li>
+          <li>Katsu Motomura for tonkatsu <span class="note">— no reservations needed</span></li>
+        </ul>
+      </div>
+      <div class="tier-section">
+        <div class="tier-heading if-time"><div class="tier-dot tier-if"></div> If Time</div>
+        <ul class="tier-items">
+          <li>Ghibli Museum <span class="tag tag-reserve">requires advance booking</span> <span class="note">— only do this if you booked months ago</span></li>
+          <li>Ankora custom fountain pen studio</li>
+          <li>Skin clinic</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- April 12 Departure -->
+  <div class="day-card">
+    <div class="day-header">
+      <div class="day-number">Sun Apr 12</div>
+      <div class="day-title">Departure ✈️</div>
+    </div>
+
+    <div class="fixed-event">
+      <span class="fixed-time">4:05 PM</span>
+      <span>DL0166 · HND Terminal 3 → SEA · Arrive 9:16 AM · Confirmation GOBBX5</span>
+    </div>
+
+    <div class="neighborhood">
+      <div class="neighborhood-name">Morning Before Flight</div>
+      <div class="tier-section">
+        <div class="tier-heading must"><div class="tier-dot tier-must"></div> Must Do</div>
+        <ul class="tier-items">
+          <li>Check out by 12 PM</li>
+          <li>Head to Haneda by 1:30–2 PM <span class="note">— ~30 min from Toranomon by train</span></li>
+        </ul>
+      </div>
+      <div class="tier-section">
+        <div class="tier-heading good"><div class="tier-dot tier-good"></div> Good To Do</div>
+        <ul class="tier-items">
+          <li>Grab one last combini breakfast and matcha <span class="note">— 7-Eleven in Japan genuinely slaps</span></li>
+          <li>Any last-minute duty-free shopping at HND</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <h4>♨️ Onsen</h4>
+    <ul>
+      <li>Kudochi Onsen · Roppongi (Apr 5 🎂) — <strong>BOOKED ✓</strong></li>
+      <li>Cenote room · 7:55–9:55 PM · tattoo-friendly</li>
+      <li>~¥8,000 / 2 hrs · kudochi-sauna.com</li>
+    </ul>
+  </div>
+  <div>
+    <h4>🗿 Your 3 Temples</h4>
+    <ul>
+      <li>Fushimi Inari — vermillion gates</li>
+      <li>Todai-ji — giant Buddha</li>
+      <li>Senso-ji — lantern drama at dusk</li>
+    </ul>
+  </div>
+  <div>
+    <h4>🍵 Afternoon Tea Moments</h4>
+    <ul>
+      <li>Wife & Husband Café · Kyoto</li>
+      <li>Hoshino Coffee (soufflé) · Ginza</li>
+      <li>Daikanyama T-Site · Tokyo</li>
+      <li>Lambert / Cloud Club Matcha</li>
+    </ul>
+  </div>
+  <div>
+    <h4>📌 Book In Advance</h4>
+    <ul>
+      <li>Sagano Scenic Railway</li>
+      <li>Shibuya Sky · Apr 10 3:40 PM — <strong>BOOKED ✓</strong></li>
+      <li>TeamLab Borderless · Apr 8 evening</li>
+      <li>TeamLab Planets · Apr 11 8:30 AM — <strong>BOOKED ✓</strong></li>
+      <li>Yuen Bettei Daita Onsen</li>
+      <li>Ghibli Museum (months ahead!)</li>
+    </ul>
+  </div>
+</footer>
+
+</body>
+</html>
