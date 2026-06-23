@@ -1,0 +1,1876 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shreya's AI Adventure</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Jost:wght@300;400;500;600&display=swap"
+    rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #F8F6F2;
+      --text: #1A1917;
+      --muted: #7A7570;
+      --border: #E4DFD8;
+      --accent: #2B5BA8;
+      --why: #8B5E1A;
+      --p1: #5A4CAD;
+      --p1bg: #EEEDFB;
+      --p2: #1A7A5E;
+      --p2bg: #E4F5EF;
+      --p3: #A05C1A;
+      --p3bg: #FAF0E4;
+      --p4: #2E7A3C;
+      --p4bg: #E8F5EB;
+      --radius: 10px;
+      --shadow: 0 1px 3px rgba(26, 25, 23, .05), 0 6px 24px rgba(26, 25, 23, .06);
+      --shadow-hover: 0 2px 6px rgba(26, 25, 23, .08), 0 12px 36px rgba(26, 25, 23, .10);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Jost', system-ui, sans-serif;
+      font-weight: 400;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4 {
+      font-family: 'DM Serif Display', Georgia, serif;
+      font-weight: 400;
+      line-height: 1.15;
+      margin: 0;
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    /* ---------- Header ---------- */
+    header.hero {
+      background: #1A1917;
+      color: #F8F6F2;
+      position: relative;
+      overflow: hidden;
+      padding: 72px 24px 64px;
+    }
+
+    header.hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(640px circle at 18% 22%, rgba(90, 76, 173, .42), transparent 60%),
+        radial-gradient(560px circle at 84% 14%, rgba(43, 91, 168, .40), transparent 58%),
+        radial-gradient(720px circle at 70% 96%, rgba(26, 122, 94, .30), transparent 60%);
+      pointer-events: none;
+    }
+
+    .hero-inner {
+      max-width: 1080px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .hero .eyebrow {
+      font-size: .78rem;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: #C9C3BA;
+      margin-bottom: 18px;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.6rem, 6vw, 4.4rem);
+      color: #fff;
+      letter-spacing: .5px;
+    }
+
+    .hero .subtitle {
+      margin-top: 16px;
+      font-size: clamp(1rem, 2.2vw, 1.25rem);
+      color: #D7D1C8;
+      font-weight: 300;
+    }
+
+    .hero .meta-pills {
+      margin-top: 26px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .hero .meta-pills span {
+      border: 1px solid rgba(255, 255, 255, .22);
+      border-radius: 999px;
+      padding: 6px 14px;
+      font-size: .82rem;
+      color: #E7E2DA;
+      background: rgba(255, 255, 255, .04);
+    }
+
+    /* ---------- Layout ---------- */
+    main {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 0 24px 96px;
+    }
+
+    .intro {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 30px 30px 26px;
+      margin: -36px 0 14px;
+      position: relative;
+    }
+
+    .intro p {
+      margin: 0 0 14px;
+      color: #34322E;
+    }
+
+    .intro p:last-child {
+      margin-bottom: 0;
+    }
+
+    .intro .lead {
+      font-size: 1.12rem;
+    }
+
+    /* ---------- Threads legend ---------- */
+    .legend {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 24px 26px;
+      margin: 14px 0 12px;
+    }
+
+    .legend h3 {
+      font-size: 1.3rem;
+      margin-bottom: 4px;
+    }
+
+    .legend .sub {
+      color: var(--muted);
+      font-size: .92rem;
+      margin-bottom: 18px;
+    }
+
+    .legend-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+    }
+
+    .thread {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px 16px;
+      background: var(--bg);
+    }
+
+    .thread .t-name {
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      margin-bottom: 4px;
+    }
+
+    .thread .dot {
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      flex: 0 0 auto;
+    }
+
+    .thread p {
+      margin: 0;
+      font-size: .9rem;
+      color: #46443F;
+    }
+
+    .dot.story {
+      background: var(--p1);
+    }
+
+    .dot.intuition {
+      background: var(--p2);
+    }
+
+    .dot.exhibition {
+      background: var(--p3);
+    }
+
+    .dot.why {
+      background: var(--why);
+    }
+
+    .legend .note {
+      margin-top: 16px;
+      font-size: .86rem;
+      color: var(--muted);
+      border-top: 1px dashed var(--border);
+      padding-top: 14px;
+    }
+
+    /* ---------- Controls ---------- */
+    .controls {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      margin: 26px 0 8px;
+      flex-wrap: wrap;
+    }
+
+    .controls .label {
+      font-size: .82rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-right: 4px;
+    }
+
+    .btn {
+      font-family: 'Jost', sans-serif;
+      font-size: .85rem;
+      font-weight: 500;
+      border: 1px solid var(--border);
+      background: #fff;
+      color: var(--text);
+      padding: 8px 16px;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: all .15s ease;
+    }
+
+    .btn:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    /* ---------- Part section ---------- */
+    .part {
+      margin-top: 40px;
+    }
+
+    .part-header {
+      border-radius: var(--radius);
+      padding: 26px 28px;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border);
+    }
+
+    .part-1 .part-header {
+      background: var(--p1bg);
+      border-color: #DAD6F4;
+    }
+
+    .part-2 .part-header {
+      background: var(--p2bg);
+      border-color: #CDEBE0;
+    }
+
+    .part-3 .part-header {
+      background: var(--p3bg);
+      border-color: #F0E1CC;
+    }
+
+    .part-4 .part-header {
+      background: var(--p4bg);
+      border-color: #CFE9D5;
+    }
+
+    .part-eyebrow {
+      font-size: .78rem;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+
+    .part-1 .part-eyebrow {
+      color: var(--p1);
+    }
+
+    .part-2 .part-eyebrow {
+      color: var(--p2);
+    }
+
+    .part-3 .part-eyebrow {
+      color: var(--p3);
+    }
+
+    .part-4 .part-eyebrow {
+      color: var(--p4);
+    }
+
+    .part-header h2 {
+      font-size: clamp(1.7rem, 3.6vw, 2.3rem);
+      margin: 8px 0 6px;
+    }
+
+    .part-dates {
+      font-size: .92rem;
+      color: #5C584F;
+      font-weight: 500;
+      margin-bottom: 12px;
+    }
+
+    .part-desc {
+      margin: 0;
+      color: #403E39;
+      max-width: 74ch;
+    }
+
+    /* ---------- Session cards ---------- */
+    .sessions {
+      margin-top: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .session {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      transition: box-shadow .18s ease;
+    }
+
+    .session:hover {
+      box-shadow: var(--shadow-hover);
+    }
+
+    .session-summary {
+      list-style: none;
+      cursor: pointer;
+      padding: 20px 22px;
+      display: flex;
+      gap: 18px;
+      align-items: flex-start;
+    }
+
+    .session-summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .snum {
+      flex: 0 0 auto;
+      width: 46px;
+      height: 46px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.25rem;
+      color: #fff;
+    }
+
+    .part-1 .snum {
+      background: var(--p1);
+    }
+
+    .part-2 .snum {
+      background: var(--p2);
+    }
+
+    .part-3 .snum {
+      background: var(--p3);
+    }
+
+    .part-4 .snum {
+      background: var(--p4);
+    }
+
+    .s-body {
+      flex: 1 1 auto;
+      min-width: 0;
+    }
+
+    .s-top {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: 10px;
+    }
+
+    .s-date {
+      font-size: .8rem;
+      color: var(--muted);
+      letter-spacing: .04em;
+    }
+
+    .s-status {
+      font-size: .72rem;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      font-weight: 600;
+      padding: 2px 9px;
+      border-radius: 999px;
+    }
+
+    .s-status.ready {
+      background: var(--p2bg);
+      color: var(--p2);
+    }
+
+    .s-status.progress {
+      background: #F3F0EB;
+      color: var(--muted);
+    }
+
+    .session-summary h3 {
+      font-size: 1.28rem;
+      margin: 4px 0 8px;
+    }
+
+    .wow {
+      background: var(--bg);
+      border-left: 3px solid var(--accent);
+      padding: 9px 13px;
+      border-radius: 0 6px 6px 0;
+      font-size: .92rem;
+      color: #3A3833;
+      margin: 6px 0 10px;
+    }
+
+    .wow b {
+      font-weight: 600;
+      color: var(--accent);
+    }
+
+    .teaser {
+      font-size: .95rem;
+      color: #46443F;
+      margin: 0 0 12px;
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .stage-pill {
+      font-size: .76rem;
+      font-weight: 500;
+      padding: 4px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      color: #46443F;
+      background: var(--bg);
+    }
+
+    .stage-tag {
+      font-size: .68rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-right: 2px;
+    }
+
+    .chev {
+      flex: 0 0 auto;
+      color: var(--muted);
+      transition: transform .2s ease;
+      margin-top: 6px;
+    }
+
+    details[open]>.session-summary .chev {
+      transform: rotate(90deg);
+    }
+
+    /* ---------- Level 3 outline ---------- */
+    .outline {
+      padding: 4px 22px 22px 22px;
+      border-top: 1px solid var(--border);
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: 170px 1fr;
+      gap: 14px;
+      padding: 13px 0;
+      border-bottom: 1px dashed var(--border);
+    }
+
+    .row:last-of-type {
+      border-bottom: none;
+    }
+
+    .row .rk {
+      font-size: .74rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      font-weight: 600;
+      color: var(--muted);
+      padding-top: 2px;
+    }
+
+    .row .rv {
+      color: #34322E;
+      font-size: .95rem;
+    }
+
+    .row.why .rk {
+      color: var(--why);
+    }
+
+    .row.why .rv {
+      color: #5A431A;
+    }
+
+    /* ---------- Level 4 notes ---------- */
+    .notes {
+      margin-top: 16px;
+    }
+
+    .notes-summary {
+      list-style: none;
+      cursor: pointer;
+      font-size: .85rem;
+      font-weight: 600;
+      letter-spacing: .04em;
+      color: var(--accent);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 15px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: #fff;
+    }
+
+    .notes-summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .notes-summary:hover {
+      border-color: var(--accent);
+    }
+
+    .notes-body {
+      margin-top: 14px;
+      background: #FBFAF8;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 18px 20px;
+    }
+
+    .notes-body .status-line {
+      font-size: .8rem;
+      color: var(--muted);
+      margin: 0 0 12px;
+      font-style: italic;
+    }
+
+    .notes-body h4 {
+      font-size: 1.05rem;
+      margin: 18px 0 6px;
+    }
+
+    .notes-body h4:first-of-type {
+      margin-top: 0;
+    }
+
+    .notes-body p {
+      margin: 0 0 10px;
+      font-size: .92rem;
+      color: #36342F;
+    }
+
+    .notes-body ul {
+      margin: 0 0 12px;
+      padding-left: 20px;
+    }
+
+    .notes-body li {
+      font-size: .92rem;
+      color: #36342F;
+      margin-bottom: 6px;
+    }
+
+    .beat {
+      border-left: 3px solid var(--border);
+      padding: 2px 0 2px 16px;
+      margin: 0 0 16px;
+    }
+
+    .part-1 .beat {
+      border-color: var(--p1);
+    }
+
+    .beat .beat-h {
+      font-weight: 600;
+      color: var(--text);
+      font-size: .96rem;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .visual {
+      display: block;
+      margin-top: 6px;
+      font-size: .84rem;
+      color: #5C584F;
+      background: #F1EFEA;
+      border-radius: 6px;
+      padding: 7px 11px;
+    }
+
+    .visual b {
+      color: var(--p1);
+    }
+
+    code.kbd {
+      background: #EFEDE8;
+      padding: 1px 6px;
+      border-radius: 4px;
+      font-size: .85em;
+    }
+
+    footer {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 30px 24px 60px;
+      color: var(--muted);
+      font-size: .88rem;
+      border-top: 1px solid var(--border);
+    }
+
+    footer .living {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px 20px;
+      box-shadow: var(--shadow);
+      margin-bottom: 18px;
+      color: #46443F;
+    }
+
+    footer .living b {
+      color: var(--text);
+    }
+
+    @media (max-width:620px) {
+      header.hero {
+        padding: 54px 18px 48px;
+      }
+
+      main {
+        padding: 0 16px 72px;
+      }
+
+      .legend-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .row {
+        grid-template-columns: 1fr;
+        gap: 3px;
+      }
+
+      .row .rk {
+        padding-top: 0;
+      }
+
+      .session-summary {
+        padding: 16px;
+      }
+
+      .snum {
+        width: 40px;
+        height: 40px;
+        font-size: 1.05rem;
+      }
+
+      .intro {
+        padding: 22px 18px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header class="hero">
+    <div class="hero-inner">
+      <div class="eyebrow">A Summer Curriculum · 2026</div>
+      <h1>Shreya's AI Adventure</h1>
+      <div class="subtitle">Summer Curriculum · 13 sessions</div>
+      <div class="meta-pills">
+        <span>Built for a curious 10-year-old</span>
+        <span>&amp; her PhD parents</span>
+        <span>Four threads, one exhibition</span>
+      </div>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- INTRO -->
+    <section class="intro">
+      <p class="lead">This is a thirteen-week journey, not a class. It is built to work for a curious ten-year-old and
+        for two PhD parents at the very same time — no baby-talk, no jargon walls. We start at the deep end (a question
+        worth thirteen weeks) and end with Shreya standing in front of a real, published exhibition that she made and
+        explains herself.</p>
+      <p>The curriculum is organized into <b>four Parts</b> you can scan in thirty seconds: <b>history → mechanics →
+          building → demo day</b>. Inside each Part, every session is a card. Click a card to open its <b>structured
+          outline</b> (for parents and educators), and inside that you'll find <b>full, build-ready session notes</b>
+        written so they can be pasted straight into Claude to generate slides and visuals.</p>
+      <p>Running through all of it are <b>four cross-cutting threads</b> — distinct from the per-session "journey stage"
+        pills. Here's the difference, so nothing gets confused this time:</p>
+    </section>
+
+    <!-- THREADS LEGEND -->
+    <section class="legend">
+      <h3>The four threads</h3>
+      <div class="sub">These weave through the whole summer. A thread is the <em>storyline</em>; a journey-stage pill
+        (on each card) just tells you <em>where in the arc</em> that session sits.</div>
+      <div class="legend-grid">
+        <div class="thread">
+          <div class="t-name"><span class="dot story"></span>1 · The Story</div>
+          <p>How AI was built, and by whom — a human story of people, dreams, and accidents stretching back to fire.</p>
+        </div>
+        <div class="thread">
+          <div class="t-name"><span class="dot intuition"></span>2 · The Intuition</div>
+          <p>What's actually going on inside, built as gut-feeling and pictures — never as math.</p>
+        </div>
+        <div class="thread">
+          <div class="t-name"><span class="dot exhibition"></span>3 · The Exhibition</div>
+          <p>"Human Eye · AI Eye" — Kanchan dada's photographs beside AI images of the same subjects, published live on
+            GitHub Pages for demo day.</p>
+        </div>
+        <div class="thread">
+          <div class="t-name"><span class="dot why"></span>4 · Why Bother?</div>
+          <p>"If AI can do so much, why learn anything?" Planted in Session 1, answered by Shreya herself in Session 13.
+          </p>
+        </div>
+      </div>
+      <div class="note"><b>Journey-stage pills</b> (e.g. <em>Opening Question</em>, <em>First Build</em>,
+        <em>Showtime</em>) appear on each session card to show the trajectory of the summer. They are <em>not</em> the
+        four threads — they're the path.
+      </div>
+    </section>
+
+    <!-- CONTROLS -->
+    <div class="controls">
+      <span class="label">Sessions</span>
+      <button class="btn" id="expandAll" type="button">Expand all</button>
+      <button class="btn" id="collapseAll" type="button">Collapse all</button>
+    </div>
+
+    <!-- ===================== PART 1 ===================== -->
+    <section class="part part-1">
+      <div class="part-header">
+        <div class="part-eyebrow">Part 1</div>
+        <h2>The Long Story</h2>
+        <div class="part-dates">June 23 – July 14 · Sessions 1–4</div>
+        <p class="part-desc">Where AI came from and who built it. We open at the very top — the biggest, oldest question
+          — then walk backwards through every generation of inventors who asked "what could be made simpler?", from
+          today's self-driving cars all the way back to fire. It comes first because you can't feel that a field belongs
+          to you until you know it was built by people, one curious idea at a time, and that the story isn't finished.
+        </p>
+      </div>
+
+      <div class="sessions">
+
+        <!-- SESSION 1 (READY) -->
+        <details class="session" id="s1">
+          <summary class="session-summary">
+            <div class="snum">1</div>
+            <div class="s-body">
+              <div class="s-top">
+                <span class="s-date">Tue, June 23</span>
+                <span class="s-status ready">Ready</span>
+              </div>
+              <h3>The longest story ever told</h3>
+              <div class="wow">AI didn't start this year. It started with <b>fire</b>. Today we walk the whole story
+                backwards — from a self-driving Waymo all the way to the first spark — and find a question so big it
+                takes thirteen weeks to answer.</div>
+              <p class="teaser">A backwards journey through every generation that asked "what could be made simpler?" —
+                ending on a question Shreya will answer herself on demo day.</p>
+              <div class="pill-row">
+                <span class="stage-pill"><span class="stage-tag">Journey stage:</span> Opening Question</span>
+                <span class="stage-pill"><span class="dot story"
+                    style="display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px;"></span>Threads:
+                  Story + Why Bother?</span>
+              </div>
+            </div>
+            <div class="chev">▶</div>
+          </summary>
+
+          <div class="outline">
+            <div class="row">
+              <div class="rk">The Story (concept)</div>
+              <div class="rv">AI is machines mimicking things humans do with their minds and senses — seeing,
+                understanding language, deciding, creating. The history of AI is really the history of <em>every</em>
+                tool humans built to make something simpler, walked backwards from today's frontier to the first fire,
+                then forwards again through a surprising lens (the Jevons Paradox).</div>
+            </div>
+            <div class="row">
+              <div class="rk">Hands-on</div>
+              <div class="rv">The Backwards Timeline card game: each family member gets invention cards (Waymo, video
+                call, telephone, recorded music, camera, printing press, writing, fire) and places them walking
+                <em>backwards</em> in time. Then everyone replays them <em>forwards</em>, and at each card asks the
+                Jevons question: "What new things did this let humans do that they couldn't before?"
+              </div>
+            </div>
+            <div class="row">
+              <div class="rk">Show-off moment</div>
+              <div class="rv">Shreya names any one invention and, in under 30 seconds, says the one thing it made
+                simpler <em>and</em> one brand-new thing it opened up. ("The camera made remembering a face simpler —
+                and now there are more artists making pictures than ever.")</div>
+            </div>
+            <div class="row why">
+              <div class="rk">Why bother?</div>
+              <div class="rv">Plant the question and <em>do not</em> answer it: "If AI can do olympiad math and beat
+                world champions, why should you bother learning anything? Hold that question. It takes thirteen weeks to
+                answer — and you'll answer it yourself on demo day."</div>
+            </div>
+            <div class="row">
+              <div class="rk">Project thread</div>
+              <div class="rv">First AI Journal entry — "What would I automate, and what should stay human?" Three
+                answers in each column, in her own words.</div>
+            </div>
+            <div class="row">
+              <div class="rk">Artifact</div>
+              <div class="rv">An interactive automation timeline (the card game, captured) that becomes the first page
+                of her exhibition site.</div>
+            </div>
+
+            <details class="notes">
+              <summary class="notes-summary">📄 Full session notes (build-ready)</summary>
+              <div class="notes-body">
+                <p class="status-line">Status: Ready — complete beat-by-beat script. Paste any beat into Claude with
+                  "make slides / find visuals for this beat."</p>
+
+                <p>Total arc: ~75–90 min with breaks. The spine is <b>backwards in time, then forwards through the
+                    Jevons lens.</b> A 10-year-old needs visual anchors, so every beat lists suggested images/videos.
+                  Keep the adults engaged with the real dates and the real intellectual tension; keep Shreya engaged
+                  with the pictures and the card game.</p>
+
+                <div class="beat">
+                  <span class="beat-h">Beat 1 — "What does AI even mean?"</span>
+                  <p>Open with the question, not an answer. Let everyone guess first. Then land the honest,
+                    kid-accessible definition: <em>"AI is when we build machines that mimic things humans normally do
+                      with their minds and senses — seeing, understanding language, deciding, and creating."</em> Note
+                    for the parents: that's deliberately broad and behavior-based, which is honest — there is no single
+                    agreed technical definition, and that's part of the story.</p>
+                  <span class="visual"><b>Visual:</b> a split screen — a human eye and a camera lens; a child talking
+                    and a phone showing speech-to-text. Short clip of a phone describing a photo aloud.</span>
+                </div>
+
+                <div class="beat">
+                  <span class="beat-h">Beat 2 — Cool things she'd love TODAY</span>
+                  <p>Make it desirable and concrete: (a) self-driving cars — she may have seen <em>Waymos</em> around
+                    town; (b) a robot that cleans up toys and books after a study session or a playdate; (c)
+                    robots doing chores and heavy work people don't enjoy. Frame these as "wouldn't it be amazing if…" —
+                    we'll come back to which ones are real.</p>
+                  <span class="visual"><b>Visual:</b> Waymo driverless-car footage (by late 2025 Waymo ran a
+                    unified 260+ sq-mi service area and began freeway rides); a home-robot demo reel. Keep it short
+                    and wondrous.</span>
+                </div>
+
+                <div class="beat">
+                  <span class="beat-h">Beat 3 — Walk BACKWARDS through the generations</span>
+                  <p>The big reveal: none of this started today. Each generation asked "what could be made simpler?" and
+                    built an answer. Walk back, one vivid stop at a time:</p>
+                  <ul>
+                    <li><b>Video calling</b> — Shreya video-calls family in Kolkata and Seattle. Once pure science
+                      fiction: <em>The Jetsons</em> promised exactly this in 1962.</li>
+                    <li><b>The telephone</b> — talking across distance (Alexander Graham Bell, 1876).</li>
+                    <li><b>Recorded music</b> — capturing a sound so you can hear it again forever.</li>
+                    <li><b>The camera</b> — keeping a moment without painting it by hand.</li>
+                    <li><b>The printing press</b> — Gutenberg, ~1440: copying a book without a scribe.</li>
+                    <li><b>Writing itself</b> — storing a thought outside your own head.</li>
+                    <li><b>Fire &amp; the first tools</b> — the very first time humans bent the world to make life
+                      simpler.</li>
+                  </ul>
+                  <span class="visual"><b>Visual per stop:</b> Jetsons video-phone clip → vintage telephone-exchange
+                    photo → old gramophone → early box camera → a Gutenberg press → ancient clay tablet/cave wall →
+                    cave-painting + early fire. One image per card; she'll reuse them in the game.</span>
+                </div>
+
+                <div class="beat">
+                  <span class="beat-h">Beat 4 — Snap back to TODAY's frontier</span>
+                  <p>Now jump to the present and let it feel almost unfair how much AI can do: <em>olympiad-level
+                      math</em> (in 2024 Google's system reached <b>silver-medal standard</b>, 28/42, one point shy of
+                    gold; in 2025 Gemini Deep Think reached <b>gold-medal standard</b>, 35/42 — officially graded by the
+                    math olympiad); <em>beating world champions at chess</em> (Deep Blue beat Kasparov, 1997) and
+                    <em>Go</em> (AlphaGo beat Lee Sedol, 2016); writing, coding, and generating images and video.
+                    <b>Honesty note for parents:</b> say "gold-medal <em>standard</em>," not "won a gold medal" — the AI
+                    wasn't an official contestant. This beat exists to provoke: <em>"If AI can do ALL this… what are
+                      humans even for?"</em>
+                  </p>
+                  <span class="visual"><b>Visual:</b> a "silver 2024 → gold 2025" scoreboard; the famous AlphaGo "move
+                    37" board; a wall of AI-generated images. Let the provocation hang in the air.</span>
+                </div>
+
+                <div class="beat">
+                  <span class="beat-h">Beat 5 — The experience answer</span>
+                  <p>First answer to the provocation: <em>experiences can't be outsourced.</em> Hearing a piece of music
+                    that gives you goosebumps. Eating something delicious. Choosing what to wear. The feeling of finally
+                    landing a hard Bharatanatyam step, hitting a softball cleanly, or winning a swim race after weeks of
+                    trying. AI can <em>describe</em> every one of these — it can never <em>have</em> them. Nobody can
+                    take those away from her.</p>
+                  <span class="visual"><b>Visual:</b> a warm montage — dance, piano keys, a swim lane, a family meal.
+                    Ask Shreya to name a feeling AI could never feel.</span>
+                </div>
+
+                <div class="beat">
+                  <span class="beat-h">Beat 6 — The survival pushback &amp; the Jevons Paradox</span>
+                  <p>The grown-up counter-punch (great for the PhD parents): "Fine, but experiences need survival. How
+                    do we keep eating, working, mattering?" Introduce the <b>Jevons Paradox</b> (William Stanley Jevons,
+                    <em>The Coal Question</em>, 1865): when better steam engines made coal use more <em>efficient</em>,
+                    Britain burned <em>more</em> coal, not less — because cheap power created brand-new uses.
+                    Cheaper-and-better doesn't shrink a world; it grows it. Now <b>replay Beat 3's inventions
+                      forwards</b> through this lens: writing didn't kill memory; the printing press didn't make scribes
+                    pointless — it created mass literacy; the camera didn't kill painting — there are more visual
+                    artists than ever; the phone didn't kill conversation. So today's AI won't empty the world of things
+                    to do — it opens problems we couldn't touch before.
+                  </p>
+                  <span class="visual"><b>Visual:</b> a simple "efficiency up ↑ → usage up ↑" sketch of Jevons; then the
+                    timeline cards flipped forward with a "+ new jobs / + new art" stamp on each.</span>
+                </div>
+
+                <div class="beat">
+                  <span class="beat-h">Beat 7 — But AI can't do everything (the wide-open frontier)</span>
+                  <p>Ground the hope in real 2026 limits, honestly: a robot still <em>can't</em> reliably tidy a messy
+                    playroom, fold a basket of laundry, or help an elderly grandparent out of bed. Real proof: the 2026
+                    Weave "Isaac 0" laundry robot costs ~$8,000 and <em>still</em> needs a human to remotely fix the
+                    tricky folds; the 1X "NEO" home robot leans on remote human helpers for tasks it doesn't know. And
+                    from the scientists we read: AI doesn't keep learning after it's built the way a kid does, it
+                    doesn't <em>know what anything feels like</em>, and it lacks real common sense about the physical
+                    world. Frame it as an invitation: <em>"There is SO much still to figure out — and it's wide open for
+                      your generation."</em></p>
+                  <span class="visual"><b>Visual:</b> clip of a robot fumbling laundry; side-by-side "AI is great at ___
+                    / humans still own ___" board. Sources: LeCun–Malik–Dupoux (2026) and Surya Ganguli,
+                    <em>Daedalus</em> (2026).</span>
+                </div>
+
+                <div class="beat">
+                  <span class="beat-h">Beat 8 — Plant the question, walk away</span>
+                  <p>Close on the hook, unanswered: <em>"So — if AI can do so much, why should you bother learning
+                      anything at all? Don't answer yet. Hold it. It takes thirteen weeks. And on demo day, YOU tell
+                      US."</em> Write the question on a card and pin it somewhere she'll see it all summer.</p>
+                  <span class="visual"><b>Visual:</b> a single bold card — "Why bother learning anything if AI can do
+                    it?" — signed and dated by Shreya, photographed for the exhibition's first page.</span>
+                </div>
+
+                <p><b>Wrap → into the project:</b> open the AI Journal and do the "automate vs. keep human"
+                  three-and-three. Capture the card game as the interactive automation timeline — page one of the live
+                  site.</p>
+              </div>
+            </details>
+          </div>
+        </details>
+
+        <!-- SESSION 2 -->
+        <details class="session" id="s2">
+          <summary class="session-summary">
+            <div class="snum">2</div>
+            <div class="s-body">
+              <div class="s-top">
+                <span class="s-date">Tue, June 30</span>
+                <span class="s-status progress">In progress</span>
+              </div>
+              <h3>The dreamers who imagined thinking machines</h3>
+              <div class="wow">Some of the people who dreamed up AI were a movie star, a logician whose
+                great-great-grandson now leads AI, and a code-breaker who helped end a war. <b>The field was built by
+                  wildly different humans.</b></div>
+              <p class="teaser">Meet the surprising, very human cast who imagined machines that think — long before
+                computers could.</p>
+              <div class="pill-row">
+                <span class="stage-pill"><span class="stage-tag">Journey stage:</span> Meet the Builders</span>
+                <span class="stage-pill"><span class="dot story"
+                    style="display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px;"></span>Thread:
+                  Story</span>
+              </div>
+            </div>
+            <div class="chev">▶</div>
+          </summary>
+          <div class="outline">
+            <div class="row">
+              <div class="rk">The Story (concept)</div>
+              <div class="rv">AI has a human lineage. Ada Lovelace imagined machines could do more than arithmetic;
+                George Boole turned logic into algebra (true/false → 1/0); Alan Turing asked "can machines think?"; Hedy
+                Lamarr, a Hollywood star, co-invented frequency-hopping that helped pave the way for wireless. The
+                throughline: ideas come from everywhere, including people who don't look like "scientists."</div>
+            </div>
+            <div class="row">
+              <div class="rk">Hands-on</div>
+              <div class="rv">"Logic like Boole" — play true/false light-switch games (AND, OR, NOT) with the family,
+                using hands as switches, to feel how yes/no decisions can stack into something clever.</div>
+            </div>
+            <div class="row">
+              <div class="rk">Show-off moment</div>
+              <div class="rv">Shreya runs a 20-second AND/OR demo: "Lights on ONLY if Mom AND Dad both say yes" vs "if
+                EITHER says yes" — and predicts the outcome before the hands move.</div>
+            </div>
+            <div class="row why">
+              <div class="rk">Why bother?</div>
+              <div class="rv">If a movie star and a logician from the 1800s could shape this, what could <em>you</em>
+                shape? Learning is how you join a story that's still being written.</div>
+            </div>
+            <div class="row">
+              <div class="rk">Project thread</div>
+              <div class="rv">Journal: pick one builder, draw them, and write one sentence on what they made simpler.
+              </div>
+            </div>
+            <div class="row">
+              <div class="rk">Artifact</div>
+              <div class="rv">A "family tree of ideas" mini-poster linking each person to a modern thing (Boole → the 1s
+                and 0s in every phone).</div>
+            </div>
+            <details class="notes">
+              <summary class="notes-summary">📄 Full session notes (build-ready)</summary>
+              <div class="notes-body">
+                <p class="status-line">Draft — full notes coming. The content below is complete and accurate; the
+                  beat-by-beat script will be expanded next.</p>
+                <p><b>Verified anchors to use:</b> Geoffrey Hinton (the "Godfather of AI," 2024 Nobel laureate in
+                  Physics) is the <b>great-great-grandson of George Boole</b> — a real family line from 1800s logic to
+                  modern deep learning. Hedy Lamarr &amp; George Antheil received <b>U.S. Patent 2,292,387 (1942)</b>
+                  for frequency-hopping; frame it as having <b>"helped pave the way"</b> for spread-spectrum tech used
+                  in variants by Wi-Fi/Bluetooth — <em>not</em> as "the mathematical foundation." Turing's 1950 "Can
+                  machines think?" and Ada Lovelace's 1843 notes round out the cast.</p>
+                <p><b>Visual suggestions:</b> portraits of Lovelace, Boole, Turing, Lamarr; a "Boole → 1/0 → your phone"
+                  arrow graphic; the Hinton–Boole family-tree branch; Lamarr's patent sketch.</p>
+              </div>
+            </details>
+          </div>
+        </details>
+
+        <!-- SESSION 3 -->
+        <details class="session" id="s3">
+          <summary class="session-summary">
+            <div class="snum">3</div>
+            <div class="s-body">
+              <div class="s-top">
+                <span class="s-date">Tue, July 7</span>
+                <span class="s-status progress">In progress</span>
+              </div>
+              <h3>From rules to learning</h3>
+              <div class="wow">For decades we tried to <b>tell</b> computers every rule. It didn't work for things like
+                "what's a cat?" The big idea: stop writing rules — let the machine <b>learn from examples</b>, like a
+                kid.</div>
+              <p class="teaser">The shift that changed everything: from hand-written rules to learning from examples.
+              </p>
+              <div class="pill-row">
+                <span class="stage-pill"><span class="stage-tag">Journey stage:</span> The Big Shift</span>
+                <span class="stage-pill"><span class="dot story"
+                    style="display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px;"></span>Threads:
+                  Story + Intuition</span>
+              </div>
+            </div>
+            <div class="chev">▶</div>
+          </summary>
+          <div class="outline">
+            <div class="row">
+              <div class="rk">The Story (concept)</div>
+              <div class="rv">Early AI was "expert systems" — humans writing thousands of if-then rules. It broke on
+                messy real-world things. The breakthrough was machine learning: show the system many examples and let it
+                find the pattern itself.</div>
+            </div>
+            <div class="row">
+              <div class="rk">Hands-on</div>
+              <div class="rv">"Rules vs examples" game: first try to write rules for "what makes a dog a dog" (it gets
+                absurd fast), then sort a pile of photos into dog/not-dog and notice how examples teach faster than
+                rules.</div>
+            </div>
+            <div class="row">
+              <div class="rk">Show-off moment</div>
+              <div class="rv">Shreya stumps the adults: she gives a 20-second "rule" for recognizing her favorite
+                animal, then finds the edge case that breaks it.</div>
+            </div>
+            <div class="row why">
+              <div class="rk">Why bother?</div>
+              <div class="rv">Machines learn from examples — but <em>you</em> choose which examples matter, and you
+                understand <em>why</em>. That judgment is the part worth learning.</div>
+            </div>
+            <div class="row">
+              <div class="rk">Project thread</div>
+              <div class="rv">Journal: collect 5 example photos of one subject Kanchan dada might shoot (for later:
+                Human Eye · AI Eye).</div>
+            </div>
+            <div class="row">
+              <div class="rk">Artifact</div>
+              <div class="rv">A "rules vs. examples" before/after card for the site.</div>
+            </div>
+            <details class="notes">
+              <summary class="notes-summary">📄 Full session notes (build-ready)</summary>
+              <div class="notes-body">
+                <p class="status-line">Draft — full notes coming.</p>
+                <p><b>Honesty anchor (from our reading):</b> even today's learning machines need humans to prepare and
+                  curate the examples — learning is, in the words of LeCun, Malik &amp; Dupoux (2026), still "outsourced
+                  to human experts." That's a feature to highlight, not hide: the human in the loop is real.</p>
+                <p><b>Visuals:</b> a silly exploding "rule list" for "what is a dog"; a tidy grid of dog photos; a
+                  simple "examples in → pattern out" diagram.</p>
+              </div>
+            </details>
+          </div>
+        </details>
+
+        <!-- SESSION 4 -->
+        <details class="session" id="s4">
+          <summary class="session-summary">
+            <div class="snum">4</div>
+            <div class="s-body">
+              <div class="s-top">
+                <span class="s-date">Tue, July 14</span>
+                <span class="s-status progress">In progress</span>
+              </div>
+              <h3>The spark that lit today's AI</h3>
+              <div class="wow">Three things had to meet at once: <b>tons of examples, big fast computers, and a clever
+                  idea called neural networks.</b> When they finally met, AI woke up.</div>
+              <p class="teaser">Why AI exploded recently — the three ingredients that finally came together.</p>
+              <div class="pill-row">
+                <span class="stage-pill"><span class="stage-tag">Journey stage:</span> Ignition</span>
+                <span class="stage-pill"><span class="dot story"
+                    style="display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px;"></span>Threads:
+                  Story + Intuition</span>
+              </div>
+            </div>
+            <div class="chev">▶</div>
+          </summary>
+          <div class="outline">
+            <div class="row">
+              <div class="rk">The Story (concept)</div>
+              <div class="rv">The "deep learning" era took off when data, computing power, and neural-network ideas all
+                arrived together (the 2012 image-recognition leap is the classic marker). It's a story of patience: the
+                idea existed for decades before the world could run it.</div>
+            </div>
+            <div class="row">
+              <div class="rk">Hands-on</div>
+              <div class="rv">"Three ingredients" recipe card: act out making a dish where all three ingredients must be
+                present — remove one and the dish fails — to feel why timing mattered.</div>
+            </div>
+            <div class="row">
+              <div class="rk">Show-off moment</div>
+              <div class="rv">Shreya names the three ingredients and what happens if any one is missing, in under 30
+                seconds.</div>
+            </div>
+            <div class="row why">
+              <div class="rk">Why bother?</div>
+              <div class="rv">Great ideas often wait years for the world to catch up. Learning means being ready when
+                your moment arrives.</div>
+            </div>
+            <div class="row">
+              <div class="rk">Project thread</div>
+              <div class="rv">Journal: "an idea I have that the world isn't ready for yet."</div>
+            </div>
+            <div class="row">
+              <div class="rk">Artifact</div>
+              <div class="rv">A timeline strip "1950s idea → 2012 spark → today," closing out Part 1 on the site.</div>
+            </div>
+            <details class="notes">
+              <summary class="notes-summary">📄 Full session notes (build-ready)</summary>
+              <div class="notes-body">
+                <p class="status-line">Draft — full notes coming.</p>
+                <p><b>Anchor:</b> the 2012 ImageNet moment (Hinton, Krizhevsky, Sutskever) is the clean story beat for
+                  "the spark." Keep neural nets at the gut level here — the mechanics get their own Part next.</p>
+                <p><b>Visuals:</b> three-ingredient recipe graphic (data 🍚 + compute ⚡ + neural-net idea 💡); a "then
+                  vs now" computer-power sketch.</p>
+              </div>
+            </details>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- ===================== PART 2 ===================== -->
+    <section class="part part-2">
+      <div class="part-header">
+        <div class="part-eyebrow">Part 2</div>
+        <h2>How the Magic Works</h2>
+        <div class="part-dates">July 21 – August 11 · Sessions 5–8</div>
+        <p class="part-desc">Intuition for what's actually inside — built entirely as pictures and gut-feeling, never
+          math. Now that Shreya knows where AI came from, she gets to peek under the hood: how a machine "sees,"
+          "guesses the next word," and "makes pictures." It comes second because mechanics mean more once you know the
+          story, and because understanding the inside is what turns AI from magic into something she can imagine
+          building.</p>
+      </div>
+
+      <div class="sessions">
+
+        <!-- SESSION 5 -->
+        <details class="session" id="s5">
+          <summary class="session-summary">
+            <div class="snum">5</div>
+            <div class="s-body">
+              <div class="s-top"><span class="s-date">Tue, July 21</span><span class="s-status progress">In
+                  progress</span></div>
+              <h3>How a machine sees</h3>
+              <div class="wow">A photo is just a giant grid of numbers. AI "sees" by spotting patterns in those numbers
+                — edges, then shapes, then "that's a face." <b>No eyes required.</b></div>
+              <p class="teaser">Inside computer vision — how pixels become "I see a cat."</p>
+              <div class="pill-row">
+                <span class="stage-pill"><span class="stage-tag">Journey stage:</span> Peek Inside I</span>
+                <span class="stage-pill"><span class="dot intuition"
+                    style="display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px;"></span>Threads:
+                  Intuition + Exhibition</span>
+              </div>
+            </div>
+            <div class="chev">▶</div>
+          </summary>
+          <div class="outline">
+            <div class="row">
+              <div class="rk">The Story (concept)</div>
+              <div class="rv">Images are grids of numbers (pixels). Vision models build understanding in layers: first
+                tiny edges, then textures, then parts, then whole objects. It's pattern-stacking, not "seeing."</div>
+            </div>
+            <div class="row">
+              <div class="rk">Hands-on</div>
+              <div class="rv">Graph-paper pixel art: color a tiny grid, then read out the "numbers"; zoom out to see the
+                picture emerge — feel how detail lives in the grid.</div>
+            </div>
+            <div class="row">
+              <div class="rk">Show-off moment</div>
+              <div class="rv">Shreya turns a 5×5 grid of numbers into a recognizable shape in front of the family in
+                under 30 seconds.</div>
+            </div>
+            <div class="row why">
+              <div class="rk">Why bother?</div>
+              <div class="rv">AI sees patterns; humans see <em>meaning</em>. Knowing the difference is how you stay the
+                boss of the tool.</div>
+            </div>
+            <div class="row">
+              <div class="rk">Project thread</div>
+              <div class="rv">With Kanchan dada: choose the exhibition's subjects (a flower, a face, a Kolkata street)
+                and shoot the first "human eye" photos.</div>
+            </div>
+            <div class="row">
+              <div class="rk">Artifact</div>
+              <div class="rv">A "pixels → edges → object" explainer panel for the site.</div>
+            </div>
+            <details class="notes">
+              <summary class="notes-summary">📄 Full session notes (build-ready)</summary>
+              <div class="notes-body">
+                <p class="status-line">Draft — full notes coming.</p>
+                <p><b>Honesty anchor (Ganguli, 2026):</b> AI vision can be fooled by "adversarial examples" — tiny
+                  tweaks invisible to us that make a classifier confidently wrong. Great kid demo of "AI sees
+                  differently than you do."</p>
+                <p><b>Visuals:</b> zoomed pixel grid of an eye; layer-by-layer feature maps (edges→shapes→face); a fun
+                  "fooled AI" optical-illusion style image.</p>
+              </div>
+            </details>
+          </div>
+        </details>
+
+        <!-- SESSION 6 -->
+        <details class="session" id="s6">
+          <summary class="session-summary">
+            <div class="snum">6</div>
+            <div class="s-body">
+              <div class="s-top"><span class="s-date">Tue, July 28</span><span class="s-status progress">In
+                  progress</span></div>
+              <h3>How a machine guesses the next word</h3>
+              <div class="wow">A chatbot is basically the world's best <b>"finish my sentence"</b> player. It doesn't
+                know what it's saying — it predicts what word probably comes next, over and over.</div>
+              <p class="teaser">The surprisingly simple trick behind chatbots — prediction, not understanding.</p>
+              <div class="pill-row">
+                <span class="stage-pill"><span class="stage-tag">Journey stage:</span> Peek Inside II</span>
+                <span class="stage-pill"><span class="dot intuition"
+                    style="display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px;"></span>Thread:
+                  Intuition</span>
+              </div>
+            </div>
+            <div class="chev">▶</div>
+          </summary>
+          <div class="outline">
+            <div class="row">
+              <div class="rk">The Story (concept)</div>
+              <div class="rv">Language models predict the next word from everything before it. Trained on enormous text,
+                they get spookily good — but it's prediction, not understanding. That's why they can sound confident and
+                still be wrong.</div>
+            </div>
+            <div class="row">
+              <div class="rk">Hands-on</div>
+              <div class="rv">Human "next-word" game: family builds a silly story one predicted word at a time; then
+                play "autocomplete charades" with phone keyboards.</div>
+            </div>
+            <div class="row">
+              <div class="rk">Show-off moment</div>
+              <div class="rv">Shreya predicts the next word in three of Mom's sentences before Mom finishes — and
+                explains how she "trained" on knowing Mom.</div>
+            </div>
+            <div class="row why">
+              <div class="rk">Why bother?</div>
+              <div class="rv">It guesses words; you decide if they're <em>true</em>. Knowing things is how you catch a
+                confident machine being wrong.</div>
+            </div>
+            <div class="row">
+              <div class="rk">Project thread</div>
+              <div class="rv">Write the exhibition's image prompts (the "AI eye" instructions) for the subjects chosen
+                in Session 5.</div>
+            </div>
+            <div class="row">
+              <div class="rk">Artifact</div>
+              <div class="rv">A "next-word predictor" interactive snippet for the site.</div>
+            </div>
+            <details class="notes">
+              <summary class="notes-summary">📄 Full session notes (build-ready)</summary>
+              <div class="notes-body">
+                <p class="status-line">Draft — full notes coming.</p>
+                <p><b>Honesty anchor (Ganguli, 2026):</b> humans learn language from ~100 million words; LLMs need on
+                  the order of ten trillion — "it would take us about 240,000 years to read everything an LLM read." Use
+                  this to make Shreya feel like the efficient genius she is.</p>
+                <p><b>Visuals:</b> phone autocomplete bar; a "probability cloud" of next-word options; the
+                  100M-vs-10-trillion words bar chart.</p>
+              </div>
+            </details>
+          </div>
+        </details>
+
+        <!-- SESSION 7 -->
+        <details class="session" id="s7">
+          <summary class="session-summary">
+            <div class="snum">7</div>
+            <div class="s-body">
+              <div class="s-top"><span class="s-date">Tue, August 4</span><span
+                  class="s-status progress">In progress</span></div>
+              <h3>How a machine makes a picture</h3>
+              <div class="wow">Image generators start with pure <b>static</b> — like TV snow — and slowly clean it into
+                a picture, guided by your words. Creativity from noise.</div>
+              <p class="teaser">Inside image generation — turning random noise into art with a sentence.</p>
+              <div class="pill-row">
+                <span class="stage-pill"><span class="stage-tag">Journey stage:</span> Peek Inside III</span>
+                <span class="stage-pill"><span class="dot intuition"
+                    style="display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px;"></span>Threads:
+                  Intuition + Exhibition</span>
+              </div>
+            </div>
+            <div class="chev">▶</div>
+          </summary>
+          <div class="outline">
+            <div class="row">
+              <div class="rk">The Story (concept)</div>
+              <div class="rv">Diffusion models learn to remove noise. Start from random static and, step by step,
+                "denoise" toward an image that matches the words you gave — guided creativity, not copying.</div>
+            </div>
+            <div class="row">
+              <div class="rk">Hands-on</div>
+              <div class="rv">"Static to picture" flipbook: scribble random dots, then erase toward a drawing in stages
+                — physically act out denoising. Then generate the first real "AI eye" images for the exhibition.</div>
+            </div>
+            <div class="row">
+              <div class="rk">Show-off moment</div>
+              <div class="rv">Shreya explains "it starts from TV snow and cleans it up" while flipping her flipbook —
+                under 30 seconds.</div>
+            </div>
+            <div class="row why">
+              <div class="rk">Why bother?</div>
+              <div class="rv">AI can make a thousand pictures; <em>you</em> decide which one is good, and why. Taste and
+                judgment are yours.</div>
+            </div>
+            <div class="row">
+              <div class="rk">Project thread</div>
+              <div class="rv">Generate AI versions of Kanchan dada's subjects; save matched human/AI pairs.</div>
+            </div>
+            <div class="row">
+              <div class="rk">Artifact</div>
+              <div class="rv">First side-by-side "Human Eye · AI Eye" pair, live on the site.</div>
+            </div>
+            <details class="notes">
+              <summary class="notes-summary">📄 Full session notes (build-ready)</summary>
+              <div class="notes-body">
+                <p class="status-line">Draft — full notes coming.</p>
+                <p><b>Context to use:</b> by 2025–26, tools like image/video generators (e.g., Veo, and the Sora era)
+                  made this mainstream — but they still struggle with consistency, hands/faces, and true physics. Honest
+                  framing: dazzling and flawed, which is exactly what makes the exhibition interesting.</p>
+                <p><b>Visuals:</b> a denoising strip (static → blurry → sharp); a matched human-photo vs AI-image pair
+                  from her own subjects.</p>
+              </div>
+            </details>
+          </div>
+        </details>
+
+        <!-- SESSION 8 -->
+        <details class="session" id="s8">
+          <summary class="session-summary">
+            <div class="snum">8</div>
+            <div class="s-body">
+              <div class="s-top"><span class="s-date">Tue, August 11</span><span
+                  class="s-status progress">In progress</span></div>
+              <h3>What AI still can't do</h3>
+              <div class="wow">A robot still can't reliably <b>fold your laundry</b> or tidy your room — and a $8,000
+                one in 2026 still needs a human helping from afar. The hardest things for AI are the easy things for a
+                10-year-old.</div>
+              <p class="teaser">The honest frontier — where today's AI breaks, and why that's exciting.</p>
+              <div class="pill-row">
+                <span class="stage-pill"><span class="stage-tag">Journey stage:</span> The Honest Frontier</span>
+                <span class="stage-pill"><span class="dot intuition"
+                    style="display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px;"></span>Threads:
+                  Intuition + Why Bother?</span>
+              </div>
+            </div>
+            <div class="chev">▶</div>
+          </summary>
+          <div class="outline">
+            <div class="row">
+              <div class="rk">The Story (concept)</div>
+              <div class="rv">The real 2026 limits, from the scientists we read: AI doesn't keep learning after it's
+                built; it's weak in the physical, hands-on world; it doesn't know what anything <em>feels</em> like; and
+                it lacks real common sense. The things that are hardest for AI — tidying a room, learning a new dance by
+                feel — are easy for Shreya.</div>
+            </div>
+            <div class="row">
+              <div class="rk">Hands-on</div>
+              <div class="rv">"Stump the robot" challenge: list chores around the house and rank how hard each is for a
+                robot vs. for Shreya; watch a real laundry-robot clip and spot where the human has to step in.</div>
+            </div>
+            <div class="row">
+              <div class="rk">Show-off moment</div>
+              <div class="rv">Shreya names one thing she learned "by feel" (a dance step, a swim stroke) that AI can't,
+                and why — in under 30 seconds.</div>
+            </div>
+            <div class="row why">
+              <div class="rk">Why bother?</div>
+              <div class="rv">The unsolved list is huge — and it's hers to work on. The best reason to learn is that the
+                frontier is wide open.</div>
+            </div>
+            <div class="row">
+              <div class="rk">Project thread</div>
+              <div class="rv">Journal: "three things AI can't do that I can," with a drawing of each.</div>
+            </div>
+            <div class="row">
+              <div class="rk">Artifact</div>
+              <div class="rv">A "What AI can't do (yet)" panel — closing Part 2 on the site.</div>
+            </div>
+            <details class="notes">
+              <summary class="notes-summary">📄 Full session notes (build-ready)</summary>
+              <div class="notes-body">
+                <p class="status-line">Draft — full notes coming. This session leans directly on our two source
+                  articles.</p>
+                <p><b>Use these verified, current limits:</b></p>
+                <ul>
+                  <li><b>No continual learning</b> (LeCun–Malik–Dupoux, 2026): once built, AI "learn[s] essentially
+                    nothing"; it must be rebuilt by a big team. Shreya learns a new Bharatanatyam step in a couple of
+                    tries.</li>
+                  <li><b>Physical world / manipulation</b>: Weave's <b>Isaac 0</b> laundry robot — <b>$7,999</b> (or
+                    $450/mo), launched Feb 11, 2026, takes 30–90 min/load and a human remotely makes "5–10 second
+                    corrections" on tricky garments. 1X's <b>NEO</b> ($20,000 or $499/mo) uses remote human "Experts"
+                    for tasks it doesn't know.</li>
+                  <li><b>No genuine experience</b> &amp; weak <b>common sense</b> (Ganguli, 2026): AI can describe water
+                    but doesn't know it's wet; it gets fooled by static a kid would laugh at.</li>
+                </ul>
+                <p><b>Visuals:</b> the fumbling-laundry-robot clip; a "hard for AI / easy for me" seesaw; a price tag on
+                  a robot that still needs help.</p>
+              </div>
+            </details>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- ===================== PART 3 ===================== -->
+    <section class="part part-3">
+      <div class="part-header">
+        <div class="part-eyebrow">Part 3</div>
+        <h2>Human Eye · AI Eye</h2>
+        <div class="part-dates">August 18 – September 8 · Sessions 9–12</div>
+        <p class="part-desc">Building the exhibition. Shreya and Kanchan dada photograph real subjects; Shreya makes AI
+          images of the same things; together they curate the pairs and publish them to a live GitHub Pages site. It
+          comes third because by now she understands the story <em>and</em> the machinery — so she can build something
+          honest and beautiful that shows the difference between a human's eye and a machine's. This Part turns
+          knowledge into a made thing with her name on it.</p>
+      </div>
+
+      <div class="sessions">
+
+        <!-- SESSION 9 -->
+        <details class="session" id="s9">
+          <summary class="session-summary">
+            <div class="snum">9</div>
+            <div class="s-body">
+              <div class="s-top"><span class="s-date">Tue, August 18</span><span class="s-status progress">In
+                  progress</span></div>
+              <h3>The curator's eye</h3>
+              <div class="wow">Kanchan dada is the family photographer — today he and Shreya become <b>exhibition
+                  co-directors.</b> Choosing what to show is its own kind of art.</div>
+              <p class="teaser">What makes a photograph special — and how a curator decides.</p>
+              <div class="pill-row">
+                <span class="stage-pill"><span class="stage-tag">Journey stage:</span> Curate</span>
+                <span class="stage-pill"><span class="dot exhibition"
+                    style="display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px;"></span>Thread:
+                  Exhibition</span>
+              </div>
+            </div>
+            <div class="chev">▶</div>
+          </summary>
+          <div class="outline">
+            <div class="row">
+              <div class="rk">The Story (concept)</div>
+              <div class="rv">A human photograph carries choices: light, moment, feeling, why-this-matters. Curating is
+                choosing which images tell a story together. Shreya learns the language of the human eye before
+                comparing it to the machine's.</div>
+            </div>
+            <div class="row">
+              <div class="rk">Hands-on</div>
+              <div class="rv">With Kanchan dada: a mini photo-walk; pick the 6 subjects for the show; talk through why
+                each human shot was taken.</div>
+            </div>
+            <div class="row">
+              <div class="rk">Show-off moment</div>
+              <div class="rv">Shreya presents her favorite of Kanchan dada's photos and says, in 30 seconds, the one
+                feeling it captures.</div>
+            </div>
+            <div class="row why">
+              <div class="rk">Why bother?</div>
+              <div class="rv">AI can make images; only a human can decide which ones <em>mean</em> something. Curating
+                is a human superpower.</div>
+            </div>
+            <div class="row">
+              <div class="rk">Project thread</div>
+              <div class="rv">Lock the final subject list; collect all "human eye" photos.</div>
+            </div>
+            <div class="row">
+              <div class="rk">Artifact</div>
+              <div class="rv">The exhibition's subject list and intro text, drafted for the site.</div>
+            </div>
+            <details class="notes">
+              <summary class="notes-summary">📄 Full session notes (build-ready)</summary>
+              <div class="notes-body">
+                <p class="status-line">Draft — full notes coming.</p>
+                <p><b>Role framing:</b> Kanchan dada = family photographer &amp; exhibition co-director; Shreya =
+                  co-director and presenter. The exhibition will be published live on GitHub Pages and she presents it
+                  on demo day.</p>
+                <p><b>Visuals:</b> contact-sheet layout; "why this shot?" sticky-note overlays on a few of Kanchan
+                  dada's photos.</p>
+              </div>
+            </details>
+          </div>
+        </details>
+
+        <!-- SESSION 10 -->
+        <details class="session" id="s10">
+          <summary class="session-summary">
+            <div class="snum">10</div>
+            <div class="s-body">
+              <div class="s-top"><span class="s-date">Tue, August 25</span><span class="s-status progress">In
+                  progress</span></div>
+              <h3>Teaching the AI to see your subjects</h3>
+              <div class="wow">Now Shreya makes the <b>AI eye</b> versions — and discovers how hard it is to get a
+                machine to capture what Kanchan dada caught in one click.</div>
+              <p class="teaser">Prompt-crafting the AI counterparts — and finding the gaps.</p>
+              <div class="pill-row">
+                <span class="stage-pill"><span class="stage-tag">Journey stage:</span> Generate</span>
+                <span class="stage-pill"><span class="dot exhibition"
+                    style="display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px;"></span>Threads:
+                  Exhibition + Intuition</span>
+              </div>
+            </div>
+            <div class="chev">▶</div>
+          </summary>
+          <div class="outline">
+            <div class="row">
+              <div class="rk">The Story (concept)</div>
+              <div class="rv">Generating a matching "AI eye" image means describing in words what a photographer
+                captured instantly. The gaps (it can't feel the moment, gets details wrong) become the heart of the
+                exhibition.</div>
+            </div>
+            <div class="row">
+              <div class="rk">Hands-on</div>
+              <div class="rv">Iterative prompting: write a prompt, see the result, refine — for each of the 6 subjects;
+                keep a "tries" log.</div>
+            </div>
+            <div class="row">
+              <div class="rk">Show-off moment</div>
+              <div class="rv">Shreya shows her best AI image and the prompt that made it, explaining one thing it got
+                right and one it got wrong — under 30 seconds.</div>
+            </div>
+            <div class="row why">
+              <div class="rk">Why bother?</div>
+              <div class="rv">Getting AI to do what you want takes <em>knowing what you want</em> — and words for it.
+                Learning gives you those words.</div>
+            </div>
+            <div class="row">
+              <div class="rk">Project thread</div>
+              <div class="rv">Finalize all 6 AI images, paired to the human photos.</div>
+            </div>
+            <div class="row">
+              <div class="rk">Artifact</div>
+              <div class="rv">The full set of 6 matched pairs, with prompts, staged for the site.</div>
+            </div>
+            <details class="notes">
+              <summary class="notes-summary">📄 Full session notes (build-ready)</summary>
+              <div class="notes-body">
+                <p class="status-line">Draft — full notes coming.</p>
+                <p><b>Teach honestly:</b> use the "tries log" to show iteration is normal and that the machine often
+                  misses meaning even when it nails surface detail — ties straight back to Session 8's limits.</p>
+                <p><b>Visuals:</b> a 3-attempt prompt-refinement strip per subject; the matched-pair grid taking shape.
+                </p>
+              </div>
+            </details>
+          </div>
+        </details>
+
+        <!-- SESSION 11 -->
+        <details class="session" id="s11">
+          <summary class="session-summary">
+            <div class="snum">11</div>
+            <div class="s-body">
+              <div class="s-top"><span class="s-date">Tue, September 1</span><span
+                  class="s-status progress">In progress</span></div>
+              <h3>Publishing it to the world</h3>
+              <div class="wow">Shreya's exhibition goes <b>live on the real internet</b> — a GitHub Pages site with a
+                web address she can send to cousins in Kolkata and Seattle.</div>
+              <p class="teaser">From folder of images to a published, shareable website.</p>
+              <div class="pill-row">
+                <span class="stage-pill"><span class="stage-tag">Journey stage:</span> Publish</span>
+                <span class="stage-pill"><span class="dot exhibition"
+                    style="display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px;"></span>Thread:
+                  Exhibition</span>
+              </div>
+            </div>
+            <div class="chev">▶</div>
+          </summary>
+          <div class="outline">
+            <div class="row">
+              <div class="rk">The Story (concept)</div>
+              <div class="rv">Putting work on the open web is a milestone: a real URL, a real audience. Shreya sees how
+                a published page is just files and links — demystifying "the internet."</div>
+            </div>
+            <div class="row">
+              <div class="rk">Hands-on</div>
+              <div class="rv">Lay out the gallery (her matched pairs + captions), then publish to GitHub Pages; test the
+                live link on a phone.</div>
+            </div>
+            <div class="row">
+              <div class="rk">Show-off moment</div>
+              <div class="rv">Shreya video-calls a cousin in Kolkata or Seattle and shares the live link on the spot —
+                under 30 seconds of "look what I made."</div>
+            </div>
+            <div class="row why">
+              <div class="rk">Why bother?</div>
+              <div class="rv">Making something real and sharing it is a feeling AI can't have for you. The pride is 100%
+                human.</div>
+            </div>
+            <div class="row">
+              <div class="rk">Project thread</div>
+              <div class="rv">The exhibition is live; gather first reactions from family abroad.</div>
+            </div>
+            <div class="row">
+              <div class="rk">Artifact</div>
+              <div class="rv">The published "Human Eye · AI Eye" gallery at her GitHub Pages URL.</div>
+            </div>
+            <details class="notes">
+              <summary class="notes-summary">📄 Full session notes (build-ready)</summary>
+              <div class="notes-body">
+                <p class="status-line">Draft — full notes coming.</p>
+                <p><b>Connection thread:</b> tie the "share across distance" moment back to Session 1's video-call beat
+                  — the Jetsons dream she now uses to show her own creation. The whole arc rhymes.</p>
+                <p><b>Visuals:</b> the live gallery on a laptop and a phone; a screen-recording of the publish step; a
+                  video-call reaction shot.</p>
+              </div>
+            </details>
+          </div>
+        </details>
+
+        <!-- SESSION 12 -->
+        <details class="session" id="s12">
+          <summary class="session-summary">
+            <div class="snum">12</div>
+            <div class="s-body">
+              <div class="s-top"><span class="s-date">Tue, September 8</span><span
+                  class="s-status progress">In progress</span></div>
+              <h3>Becoming the guide</h3>
+              <div class="wow">An exhibition needs a voice. Shreya writes and rehearses the <b>tour she'll give on demo
+                  day</b> — and starts shaping her answer to the big question.</div>
+              <p class="teaser">Crafting the walkthrough — and drafting the answer to "why bother?"</p>
+              <div class="pill-row">
+                <span class="stage-pill"><span class="stage-tag">Journey stage:</span> Rehearse</span>
+                <span class="stage-pill"><span class="dot exhibition"
+                    style="display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px;"></span>Threads:
+                  Exhibition + Why Bother?</span>
+              </div>
+            </div>
+            <div class="chev">▶</div>
+          </summary>
+          <div class="outline">
+            <div class="row">
+              <div class="rk">The Story (concept)</div>
+              <div class="rv">Presenting is storytelling. Shreya turns her gallery into a guided walk: what each pair
+                shows about human vs. machine seeing, and what she learned. She begins drafting her demo-day answer to
+                "why bother learning anything?"</div>
+            </div>
+            <div class="row">
+              <div class="rk">Hands-on</div>
+              <div class="rv">Write a one-line caption-script per pair; do a full rehearsal tour for the family; collect
+                questions to prepare for.</div>
+            </div>
+            <div class="row">
+              <div class="rk">Show-off moment</div>
+              <div class="rv">Shreya gives a 30-second "lightning tour" of two pairs without notes.</div>
+            </div>
+            <div class="row why">
+              <div class="rk">Why bother?</div>
+              <div class="rv">She reviews her journal from Session 1 onward and starts writing her own answer — in her
+                own voice.</div>
+            </div>
+            <div class="row">
+              <div class="rk">Project thread</div>
+              <div class="rv">Finalize the tour script and the draft "why bother" answer.</div>
+            </div>
+            <div class="row">
+              <div class="rk">Artifact</div>
+              <div class="rv">A "curator's notes" page added to the live site.</div>
+            </div>
+            <details class="notes">
+              <summary class="notes-summary">📄 Full session notes (build-ready)</summary>
+              <div class="notes-body">
+                <p class="status-line">Draft — full notes coming.</p>
+                <p><b>Callback:</b> pull her Session 1 journal ("automate vs. keep human") and every "why bother?" note
+                  since, so her Session 13 answer is genuinely <em>hers</em>, built over the whole summer.</p>
+                <p><b>Visuals:</b> a simple speaker-notes layout; a "my journey" wall of her journal pages.</p>
+              </div>
+            </details>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- ===================== PART 4 ===================== -->
+    <section class="part part-4">
+      <div class="part-header">
+        <div class="part-eyebrow">Part 4</div>
+        <h2>Demo Day</h2>
+        <div class="part-dates">September 15 · Session 13</div>
+        <p class="part-desc">The finale. Shreya presents her live exhibition to family — and answers, in her own words,
+          the question planted on day one: "Why bother learning anything if AI can do it?" It comes last because the
+          answer can't be told to her; it has to be earned across thirteen weeks. The goal of the whole summer lands
+          here: not a computer scientist, but a girl who knows this field belongs to her.</p>
+      </div>
+
+      <div class="sessions">
+
+        <!-- SESSION 13 -->
+        <details class="session" id="s13">
+          <summary class="session-summary">
+            <div class="snum">13</div>
+            <div class="s-body">
+              <div class="s-top"><span class="s-date">Tue, September 15</span><span
+                  class="s-status progress">In progress</span></div>
+              <h3>The exhibition opens — and the question answered</h3>
+              <div class="wow">Thirteen weeks ago we asked: <b>"Why bother learning anything if AI can do it?"</b> Today
+                Shreya opens her live exhibition — and answers it herself.</div>
+              <p class="teaser">Demo day: the live presentation, and the answer only she can give.</p>
+              <div class="pill-row">
+                <span class="stage-pill"><span class="stage-tag">Journey stage:</span> Showtime</span>
+                <span class="stage-pill"><span class="dot why"
+                    style="display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px;"></span>Threads:
+                  All four converge</span>
+              </div>
+            </div>
+            <div class="chev">▶</div>
+          </summary>
+          <div class="outline">
+            <div class="row">
+              <div class="rk">The Story (concept)</div>
+              <div class="rv">The four threads converge: she tells the <em>story</em> of AI, shows she understands the
+                <em>intuition</em>, presents the <em>exhibition</em> she built, and delivers her own answer to the
+                <em>why-bother</em> question — proof the field belongs to her.
+              </div>
+            </div>
+            <div class="row">
+              <div class="rk">Hands-on</div>
+              <div class="rv">The live event: Shreya gives the guided tour of her published gallery to family (in person
+                and over video call to Kolkata/Seattle), then takes questions.</div>
+            </div>
+            <div class="row">
+              <div class="rk">Show-off moment</div>
+              <div class="rv">The whole presentation <em>is</em> the show-off — but the 30-second core is her
+                one-sentence answer to "why bother learning anything if AI can do it?"</div>
+            </div>
+            <div class="row why">
+              <div class="rk">Why bother?</div>
+              <div class="rv">Answered by Shreya, in her own words. (The curriculum doesn't script this — it's the point
+                of the entire summer that the answer is hers.)</div>
+            </div>
+            <div class="row">
+              <div class="rk">Project thread</div>
+              <div class="rv">Add her final "answer" page to the live site, signed and dated — bookending the Session 1
+                question card.</div>
+            </div>
+            <div class="row">
+              <div class="rk">Artifact</div>
+              <div class="rv">The complete, published "Shreya's AI Adventure" exhibition + her answer, live for family
+                worldwide.</div>
+            </div>
+            <details class="notes">
+              <summary class="notes-summary">📄 Full session notes (build-ready)</summary>
+              <div class="notes-body">
+                <p class="status-line">Draft — full notes coming.</p>
+                <p><b>Run-of-show sketch:</b> (1) welcome + the Session-1 question card revisited; (2) the guided "Human
+                  Eye · AI Eye" tour; (3) "what I learned about what AI can and can't do"; (4) her answer to the big
+                  question; (5) family Q&amp;A and video-call guests. Keep it joyful, not a test.</p>
+                <p><b>Goal reminder:</b> success is Shreya feeling that AI <em>belongs to her</em> — not producing a
+                  computer scientist. Celebrate the maker, not the metrics.</p>
+                <p><b>Visuals:</b> the live site on a big screen; the bookended question/answer cards side by side; a
+                  family photo at the "opening."</p>
+              </div>
+            </details>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="living">
+      <b>A living document.</b> This curriculum is being filled in session by session. Session 1 is fully written and
+      build-ready; Sessions 2–13 carry complete outlines today, with their full beat-by-beat notes marked “Draft — full
+      notes coming” and added as we go. Per-session status badges (<em>Ready</em> / <em>In progress</em>) track the
+      build.
+    </div>
+    Shreya's AI Adventure · A summer curriculum for one curious 10-year-old and her family · 2026
+  </footer>
+
+  <script>
+    (function () {
+      var details = Array.prototype.slice.call(document.querySelectorAll('details.session'));
+      var expandBtn = document.getElementById('expandAll');
+      var collapseBtn = document.getElementById('collapseAll');
+      if (expandBtn) { expandBtn.addEventListener('click', function () { details.forEach(function (d) { d.open = true; }); }); }
+      if (collapseBtn) { collapseBtn.addEventListener('click', function () { details.forEach(function (d) { d.open = false; }); }); }
+    })();
+  </script>
+
+</body>
+
+</html>
