@@ -536,7 +536,7 @@
 <p>The rule is one writer per file, arranged in three tiers, and every cross tier move is executed by exactly one actor, Base, at wrap-up. It is the git model: workspaces are branches, wrap-up is the merge.</p>
 
 <figure>
-<svg viewBox="0 0 760 350" role="img" aria-label="Concurrency model: two spoke workspaces merged into shared project logic by Base, which promotes to the global claim store">
+<svg viewBox="0 0 760 480" role="img" aria-label="Concurrency model: two spoke workspaces merged into shared project logic by Base, which promotes to the global claim store, with a separate periodic Seal session auditing the shared tiers">
 <defs><marker id="a8" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
 
 <g class="g-gray">
@@ -578,7 +578,7 @@
 <text class="lbl" x="280" y="204" text-anchor="middle">staging &#8594; ripe claims</text>
 
 <path d="M 538 56 L 510 56 L 510 266 L 392 266" class="dd" marker-end="url(#a8)"/>
-<text class="lbl" x="502" y="220" text-anchor="end">merges + audits</text>
+<text class="lbl" x="502" y="220" text-anchor="end">merges, level 1 checks</text>
 
 <g class="g-blue">
 <rect x="540" y="240" width="180" height="52" rx="8" stroke-width="0.8"/>
@@ -587,8 +587,25 @@
 </g>
 <path d="M 290 292 L 290 316 L 630 316 L 630 294" class="dd" marker-end="url(#a8)"/>
 <text class="lbl" x="460" y="308" text-anchor="middle">promotes</text>
+
+<g class="g-amber">
+<rect x="240" y="390" width="220" height="52" rx="8" stroke-width="0.8"/>
+<text class="th" x="350" y="408" text-anchor="middle" dominant-baseline="central">Seal session</text>
+<text class="ts" x="350" y="426" text-anchor="middle" dominant-baseline="central">fresh agent, weekly cadence</text>
+</g>
+<path d="M 300 388 L 300 360 L 270 360 L 270 294" class="dd" marker-end="url(#a8)"/>
+<path d="M 400 388 L 400 360 L 660 360 L 660 294" class="dd" marker-end="url(#a8)" marker-start="url(#a8)"/>
+<text class="lbl" x="490" y="352" text-anchor="middle">audits levels 2 + 3</text>
+
+<g class="g-amber">
+<rect x="540" y="390" width="180" height="52" rx="8" stroke-width="0.8"/>
+<text class="th" x="630" y="408" text-anchor="middle" dominant-baseline="central">audit report</text>
+<text class="ts" x="630" y="426" text-anchor="middle" dominant-baseline="central">own file, read at standup</text>
+</g>
+<line x1="462" y1="416" x2="536" y2="416" class="dd" marker-end="url(#a8)"/>
+<text class="lbl" x="499" y="408" text-anchor="middle">writes</text>
 </svg>
-<figcaption>Tier 1: workspaces, written only by their own spoke, fully parallel. Tier 2: project /logic, written only by Base. Tier 3: knowledge/, written only by Base. Reads are unrestricted at every tier.</figcaption>
+<figcaption>Tier 1: workspaces, written only by their own spoke, fully parallel. Tier 2: project /logic, written only by Base. Tier 3: knowledge/, written only by Base. The Seal reads the shared tiers and writes only its own report file, so the one writer per file rule holds everywhere. Reads are unrestricted at every tier.</figcaption>
 </figure>
 
 <dl>
@@ -596,6 +613,8 @@
 <dd>During the day, spokes touch only disjoint file sets, so any number can run in parallel with no locking. The two shared tiers each have exactly one writer, Base, which runs at a single moment, wrap-up, when the spokes are idle. There is no window in which two writers can race on the same file. ARA achieved consistency with one sequential writer per artifact; this achieves it with one writer per file plus a serialized merge point.</dd>
 <dt>What Base does at the merge</dt>
 <dd>Reads every workspace's staging and /logic candidates, crystallizes ripe claims into project /logic with IDs and provenance, deduplicates against existing claims (widening scope beats adding a near duplicate), promotes claims that generalize across projects into knowledge/, and runs the light audit while it is already reading everything: do cited evidence IDs resolve, did any recorded falsifier fire against the day's results. Findings become next standup's work items.</dd>
+<dt>Where sealing happens</dt>
+<dd>Split by level, matching cost and independence to cadence. Level 1 (structural: cited IDs resolve, recorded falsifiers checked against new results, entries well formed) runs inline in Base's wrap-up; it is mechanical, cheap, and judgment free, so Base running it on its own merge is safe. Levels 2 and 3 (rigor: do conclusions follow from cited evidence; reproducibility: re-run selected /src configs and confirm the evidence regenerates) run in a separate periodic Seal session, a fresh agent with no stake in the work, slotted into the weekly review cadence. This preserves ARA's key audit property, that the auditor is never the writer being audited. The Seal writes findings only to its own report file, which Base reads at the next standup and turns into work items: demote or re-scope flagged claims, fix broken citations, re-run failed reproductions.</dd>
 <dt>The two-spokes-one-project case</dt>
 <dd>A1 and A2 above share a project but never a file: each has its own trace, evidence, src, and staging. If both stage overlapping beliefs, the conflict surfaces at the merge, where Base sees both candidates side by side and reconciles them into one claim, exactly like a git merge conflict resolved by the integrator rather than by the branch authors.</dd>
 </dl>
