@@ -1,624 +1,1344 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ARA and hub and spoke, side by side</title>
-<style>
-  :root{
-    --paper:#FCFBF8; --ink:#26251F; --muted:#5F5E5A; --hairline:#E3E0D6;
-    --purple:#534AB7; --purple-bg:#EEEDFE; --purple-dk:#3C3489;
-    --teal:#0F6E56; --teal-bg:#E1F5EE; --teal-dk:#085041;
-    --blue:#185FA5; --blue-bg:#E6F1FB; --blue-dk:#0C447C;
-    --amber:#854F0B; --amber-bg:#FAEEDA; --amber-dk:#633806;
-    --gray:#5F5E5A; --gray-bg:#F1EFE8; --gray-dk:#444441;
-  }
-  *{box-sizing:border-box}
-  body{margin:0;background:var(--paper);color:var(--ink);
-       font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
-  main{max-width:860px;margin:0 auto;padding:48px 28px 80px}
-  h1,h2,h3{font-family:Georgia,"Times New Roman",serif;font-weight:500;line-height:1.25}
-  h1{font-size:32px;margin:0 0 6px}
-  h2{font-size:22px;margin:56px 0 10px;padding-top:18px;border-top:1px solid var(--hairline)}
-  h3{font-size:17px;margin:26px 0 6px}
-  p{margin:10px 0}
-  .sub{color:var(--muted);font-size:14px;margin:0 0 28px}
-  code{font:13px ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
-       background:var(--gray-bg);border-radius:4px;padding:1px 5px}
-  figure{margin:22px 0;padding:18px 14px;border:1px solid var(--hairline);border-radius:12px;background:#fff}
-  figcaption{font-size:13px;color:var(--muted);margin-top:10px;text-align:center}
-  table{border-collapse:collapse;width:100%;font-size:14.5px;margin:16px 0}
-  th{text-align:left;font-weight:500;border-bottom:1.5px solid var(--ink);padding:8px 10px}
-  td{border-bottom:1px solid var(--hairline);padding:8px 10px;vertical-align:top}
-  .legend{display:flex;flex-wrap:wrap;gap:10px 22px;font-size:13.5px;color:var(--muted);
-          border:1px solid var(--hairline);border-radius:10px;padding:12px 16px;margin:18px 0}
-  .legend span{white-space:nowrap}
-  .dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:7px;vertical-align:baseline}
-  .lin{display:inline-block;width:26px;height:0;border-top:1.6px solid var(--muted);vertical-align:middle;margin-right:6px}
-  .lin.dash{border-top-style:dashed}
-  dl{margin:12px 0}
-  dt{font-weight:500;margin-top:14px}
-  dd{margin:2px 0 0 0;color:#3A3934}
-  .note{background:var(--amber-bg);border:1px solid #EFD9AC;border-radius:10px;padding:12px 16px;font-size:14.5px}
-  svg{display:block;width:100%;height:auto}
-  svg text{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
-  .th{font-size:14px;font-weight:500}
-  .ts{font-size:12px}
-  .g-gray rect{fill:var(--gray-bg);stroke:var(--gray)}
-  .g-gray .th{fill:var(--gray-dk)} .g-gray .ts{fill:var(--gray)}
-  .g-purple rect{fill:var(--purple-bg);stroke:var(--purple)}
-  .g-purple .th{fill:var(--purple-dk)} .g-purple .ts{fill:var(--purple)}
-  .g-teal rect{fill:var(--teal-bg);stroke:var(--teal)}
-  .g-teal .th{fill:var(--teal-dk)} .g-teal .ts{fill:var(--teal)}
-  .g-blue rect{fill:var(--blue-bg);stroke:var(--blue)}
-  .g-blue .th{fill:var(--blue-dk)} .g-blue .ts{fill:var(--blue)}
-  .g-amber rect{fill:var(--amber-bg);stroke:var(--amber)}
-  .g-amber .th{fill:var(--amber-dk)} .g-amber .ts{fill:var(--amber)}
-  .cn{stroke:#444441;stroke-width:1.3;fill:none}
-  .dd{stroke:#8A887F;stroke-width:1.1;fill:none;stroke-dasharray:4 4}
-  .lbl{font-size:12px;fill:#5F5E5A}
-  .frame{fill:none;stroke:#8A887F;stroke-width:0.8;stroke-dasharray:4 4}
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>ARA and hub and spoke, side by side</title>
+  <style>
+    :root {
+      --paper: #FCFBF8;
+      --ink: #26251F;
+      --muted: #5F5E5A;
+      --hairline: #E3E0D6;
+      --purple: #534AB7;
+      --purple-bg: #EEEDFE;
+      --purple-dk: #3C3489;
+      --teal: #0F6E56;
+      --teal-bg: #E1F5EE;
+      --teal-dk: #085041;
+      --blue: #185FA5;
+      --blue-bg: #E6F1FB;
+      --blue-dk: #0C447C;
+      --amber: #854F0B;
+      --amber-bg: #FAEEDA;
+      --amber-dk: #5A2E05;
+      --gray: #5F5E5A;
+      --gray-bg: #F1EFE8;
+      --gray-dk: #444441;
+    }
+
+    * {
+      box-sizing: border-box
+    }
+
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font: 16px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif
+    }
+
+    main {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 48px 28px 80px
+    }
+
+    h1,
+    h2,
+    h3 {
+      font-family: Georgia, "Times New Roman", serif;
+      font-weight: 500;
+      line-height: 1.25
+    }
+
+    h1 {
+      font-size: 32px;
+      margin: 0 0 6px
+    }
+
+    h2 {
+      font-size: 22px;
+      margin: 56px 0 10px;
+      padding-top: 18px;
+      border-top: 1px solid var(--hairline)
+    }
+
+    h3 {
+      font-size: 17px;
+      margin: 26px 0 6px
+    }
+
+    p {
+      margin: 10px 0
+    }
+
+    .sub {
+      color: var(--muted);
+      font-size: 14px;
+      margin: 0 0 28px
+    }
+
+    code {
+      font: 13px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      background: var(--gray-bg);
+      border-radius: 4px;
+      padding: 1px 5px
+    }
+
+    figure {
+      margin: 26px 0;
+      padding: 20px 18px;
+      border: 1px solid #DEDACF;
+      border-radius: 16px;
+      background: #fff
+    }
+
+    figcaption {
+      font-size: 13px;
+      color: var(--muted);
+      margin: 12px auto 0;
+      max-width: 800px;
+      line-height: 1.5;
+      text-align: center
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      font-size: 14.5px;
+      margin: 16px 0
+    }
+
+    th {
+      text-align: left;
+      font-weight: 500;
+      border-bottom: 1.5px solid var(--ink);
+      padding: 8px 10px
+    }
+
+    td {
+      border-bottom: 1px solid var(--hairline);
+      padding: 8px 10px;
+      vertical-align: top
+    }
+
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 20px;
+      font-size: 13.5px;
+      color: var(--muted);
+      border: 1px solid var(--hairline);
+      border-radius: 10px;
+      padding: 12px 16px;
+      margin: 18px 0
+    }
+
+    .legend span {
+      white-space: nowrap
+    }
+
+    .dot {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 3px;
+      margin-right: 7px;
+      vertical-align: baseline
+    }
+
+    .lin {
+      display: inline-block;
+      width: 26px;
+      height: 0;
+      border-top: 1.7px solid #3F3D38;
+      vertical-align: middle;
+      margin-right: 6px
+    }
+
+    .lin.dash {
+      border-top: 0;
+      border-top: 1.4px dashed #6F6C63
+    }
+
+    dl {
+      margin: 12px 0
+    }
+
+    dt {
+      font-weight: 500;
+      margin-top: 14px
+    }
+
+    dd {
+      margin: 2px 0 0 0;
+      color: #3A3934
+    }
+
+    .note {
+      background: var(--amber-bg);
+      border: 1px solid #EFD9AC;
+      border-radius: 10px;
+      padding: 12px 16px;
+      font-size: 14.5px
+    }
+
+    svg {
+      display: block;
+      width: 100%;
+      height: auto
+    }
+
+    svg text {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif
+    }
+
+    .fig-title {
+      font-size: 18px;
+      font-weight: 600;
+      fill: var(--ink)
+    }
+
+    .fig-sub {
+      font-size: 12.5px;
+      fill: var(--muted)
+    }
+
+    .lane-bg {
+      fill: #FBFAF6;
+      stroke: #EAE6DC;
+      stroke-width: 1
+    }
+
+    .lane-title {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      fill: #77736B
+    }
+
+    .bt {
+      font-size: 14px;
+      font-weight: 600
+    }
+
+    .bs {
+      font-size: 11.5px;
+      fill: var(--muted)
+    }
+
+    .store-inner {
+      fill: #fff;
+      stroke: #185FA5;
+      stroke-width: 1
+    }
+
+    .g-gray rect {
+      fill: var(--gray-bg);
+      stroke: var(--gray)
+    }
+
+    .g-gray .bt {
+      fill: var(--gray-dk)
+    }
+
+    .g-purple rect {
+      fill: var(--purple-bg);
+      stroke: var(--purple)
+    }
+
+    .g-purple .bt {
+      fill: var(--purple-dk)
+    }
+
+    .g-teal rect {
+      fill: var(--teal-bg);
+      stroke: var(--teal)
+    }
+
+    .g-teal .bt {
+      fill: var(--teal-dk)
+    }
+
+    .g-blue rect {
+      fill: var(--blue-bg);
+      stroke: var(--blue)
+    }
+
+    .g-blue .bt {
+      fill: var(--blue-dk)
+    }
+
+    .g-amber rect {
+      fill: var(--amber-bg);
+      stroke: var(--amber)
+    }
+
+    .g-amber .bt {
+      fill: var(--amber-dk)
+    }
+
+    .ctrl {
+      stroke: #3F3D38;
+      stroke-width: 1.6;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round
+    }
+
+    .data {
+      stroke: #6F6C63;
+      stroke-width: 1.6;
+      fill: none;
+      stroke-dasharray: 5 5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      opacity: 0.65
+    }
+
+    /* colored data-flow variants — arrow color matches the skill box */
+    .data-teal {
+      stroke: var(--teal);
+      stroke-width: 1.6;
+      fill: none;
+      stroke-dasharray: 5 5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      opacity: 0.9
+    }
+
+    .data-purple {
+      stroke: var(--purple);
+      stroke-width: 1.6;
+      fill: none;
+      stroke-dasharray: 5 5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      opacity: 0.9
+    }
+
+    .data-amber {
+      stroke: var(--amber);
+      stroke-width: 1.6;
+      fill: none;
+      stroke-dasharray: 5 5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      opacity: 0.9
+    }
+
+    .audit {
+      stroke: var(--amber);
+      stroke-width: 1.4;
+      fill: none;
+      stroke-dasharray: 3 3;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      opacity: 0.85
+    }
+
+    .audit-strong {
+      stroke: var(--amber);
+      stroke-width: 1.7;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      opacity: 1
+    }
+
+    /* figure 2 text styles — ported from reference3 */
+    .tiny {
+      font-size: 10.5px;
+      fill: var(--muted)
+    }
+
+    .callout {
+      fill: #FFF8EA;
+      stroke: #E8C879;
+      stroke-width: 1
+    }
+
+    .callout-text {
+      font-size: 11.5px;
+      fill: #633806
+    }
+
+    html.dark .ctrl {
+      stroke: #C8C5BC;
+    }
+
+    html.dark .data {
+      stroke: #A9A69E;
+    }
+
+    .node-sub {
+      font-size: 11.5px;
+      fill: var(--muted)
+    }
+
+    .claim-schema {
+      border: 1px solid var(--hairline);
+      border-radius: 10px;
+      padding: 14px 18px;
+      margin: 18px 0;
+      background: var(--blue-bg);
+      font-size: 14px;
+    }
+
+    .claim-schema strong {
+      color: var(--blue-dk);
+    }
+
+    .claim-schema code {
+      background: #fff;
+      border: 1px solid #D5E4F3;
+    }
+
+    .theme-toggle {
+      position: fixed;
+      top: 16px;
+      right: 16px;
+      background: var(--paper);
+      color: var(--ink);
+      border: 1px solid var(--hairline);
+      border-radius: 8px;
+      padding: 6px 12px;
+      font: 13px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      cursor: pointer;
+      z-index: 100;
+    }
+
+    .theme-toggle:hover {
+      background: var(--gray-bg);
+    }
+
+    /* dark mode – applied via html.dark */
+    html.dark {
+      --paper: #1A1917;
+      --ink: #E8E6E1;
+      --muted: #A9A69E;
+      --hairline: #3A3833;
+      --purple-bg: #25234A;
+      --purple-dk: #A89EFF;
+      --teal-bg: #0F2B24;
+      --teal-dk: #6ED4B8;
+      --blue-bg: #0F1E2E;
+      --blue-dk: #7AB8F5;
+      --amber-bg: #2A1E0A;
+      --amber-dk: #E5B86A;
+      --gray-bg: #252422;
+      --gray-dk: #C8C5BC;
+    }
+
+    html.dark figure {
+      background: #22211F;
+      border-color: #3A3833;
+    }
+
+    html.dark .claim-schema code {
+      background: #1A1917;
+      border-color: #2A3A4A;
+    }
+
+    html.dark .store-inner {
+      fill: #1E1D1B;
+    }
+
+    html.dark .lane-bg {
+      fill: #1E1D1B;
+      stroke: #2E2C28;
+    }
+
+    html.dark code {
+      background: #252422;
+    }
+
+    html.dark .ctrl {
+      stroke: #C8C5BC;
+    }
+
+    html.dark .data {
+      stroke: #A9A69E;
+    }
+
+    html.dark svg text.fig-title {
+      fill: var(--ink);
+    }
+
+    html.dark svg text.fig-sub {
+      fill: var(--muted);
+    }
+  </style>
 </head>
+
 <body>
-<main>
-
-<h1>ARA and hub and spoke, side by side</h1>
-<p class="sub">One skeleton, two systems. Compiled July 2026 from the ARA paper (arXiv 2604.24658), the research world model blog post, and the claude-templates skill set.</p>
-
-<p>Both systems make research state outlive the context window: recorded work that a future session can read, trust, and build on. This document defines ARA first, then re-renders the hub and spoke system onto the identical diagram skeleton so that every difference is visible as a changed box rather than a new picture.</p>
-
-<div class="legend">
-  <span><span class="lin"></span>solid arrow: control flow (single thread)</span>
-  <span><span class="lin dash"></span>dashed arrow: data read or write</span>
-  <span><span class="dot" style="background:var(--gray-bg);border:1.5px solid var(--gray)"></span>session activity</span>
-  <span><span class="dot" style="background:var(--teal-bg);border:1.5px solid var(--teal)"></span>read path</span>
-  <span><span class="dot" style="background:var(--purple-bg);border:1.5px solid var(--purple)"></span>write path</span>
-  <span><span class="dot" style="background:var(--blue-bg);border:1.5px solid var(--blue)"></span>files on disk</span>
-  <span><span class="dot" style="background:var(--amber-bg);border:1.5px solid var(--amber)"></span>audit</span>
-</div>
-
-<h2>1. What ARA is</h2>
-
-<p>An ARA (Agent-Native Research Artifact) is a per-project repository that serves as the research memory, plus three skills that operate on it. There is no orchestrator: the host agent (any Claude Code style session) does the work, and coordination happens entirely through the files. One agent, one thread; the recorder blocks the loop briefly while it writes, then work resumes. The Seal is the only asynchronous element, a separate periodic session.</p>
-
-<figure>
-<svg viewBox="0 0 760 500" role="img" aria-label="ARA session lifecycle">
-<defs><marker id="a2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
-
-<g class="g-gray">
-<rect x="140" y="20" width="230" height="56" rx="8" stroke-width="0.8"/>
-<text class="th" x="255" y="38" text-anchor="middle" dominant-baseline="central">Session start</text>
-<text class="ts" x="255" y="58" text-anchor="middle" dominant-baseline="central">reads last session record</text>
-</g>
-<line x1="255" y1="76" x2="255" y2="126" class="cn" marker-end="url(#a2)"/>
-
-<g class="g-gray">
-<rect x="140" y="130" width="230" height="56" rx="8" stroke-width="0.8"/>
-<text class="th" x="255" y="148" text-anchor="middle" dominant-baseline="central">Research loop</text>
-<text class="ts" x="255" y="168" text-anchor="middle" dominant-baseline="central">code, run, observe</text>
-</g>
-
-<g class="g-teal">
-<rect x="440" y="130" width="180" height="56" rx="8" stroke-width="0.8"/>
-<text class="th" x="530" y="148" text-anchor="middle" dominant-baseline="central">Foresight</text>
-<text class="ts" x="530" y="168" text-anchor="middle" dominant-baseline="central">inference over memory</text>
-</g>
-<line x1="372" y1="146" x2="438" y2="146" class="cn" marker-end="url(#a2)"/>
-<line x1="438" y1="170" x2="374" y2="170" class="cn" marker-end="url(#a2)"/>
-
-<line x1="255" y1="186" x2="255" y2="246" class="cn" marker-end="url(#a2)"/>
-<text class="lbl" x="267" y="220" text-anchor="start">at closure</text>
-
-<rect x="90" y="250" width="340" height="128" rx="12" class="frame"/>
-<text class="th" x="106" y="274" text-anchor="start" style="fill:#444441">research-manager (subroutine)</text>
-<g class="g-purple">
-<rect x="106" y="294" width="94" height="40" rx="6" stroke-width="0.8"/>
-<text class="th" x="153" y="314" text-anchor="middle" dominant-baseline="central">Harvest</text>
-</g>
-<line x1="200" y1="314" x2="216" y2="314" class="cn" marker-end="url(#a2)"/>
-<g class="g-purple">
-<rect x="218" y="294" width="94" height="40" rx="6" stroke-width="0.8"/>
-<text class="th" x="265" y="314" text-anchor="middle" dominant-baseline="central">Route</text>
-</g>
-<line x1="312" y1="314" x2="328" y2="314" class="cn" marker-end="url(#a2)"/>
-<g class="g-purple">
-<rect x="330" y="294" width="94" height="40" rx="6" stroke-width="0.8"/>
-<text class="th" x="377" y="314" text-anchor="middle" dominant-baseline="central">Mature</text>
-</g>
-
-<path d="M 90 314 L 60 314 L 60 158 L 138 158" class="cn" marker-end="url(#a2)"/>
-<text class="lbl" x="68" y="236" text-anchor="start">resume</text>
-
-<line x1="255" y1="378" x2="255" y2="426" class="cn" marker-end="url(#a2)"/>
-<text class="lbl" x="267" y="406" text-anchor="start">session over</text>
-
-<g class="g-gray">
-<rect x="140" y="428" width="230" height="56" rx="8" stroke-width="0.8"/>
-<text class="th" x="255" y="446" text-anchor="middle" dominant-baseline="central">Session end</text>
-<text class="ts" x="255" y="466" text-anchor="middle" dominant-baseline="central">writes session record</text>
-</g>
-
-<g class="g-blue">
-<rect x="530" y="260" width="190" height="72" rx="8" stroke-width="0.8"/>
-<text class="th" x="625" y="286" text-anchor="middle" dominant-baseline="central">ARA repository</text>
-<text class="ts" x="625" y="308" text-anchor="middle" dominant-baseline="central">logic, trace, evidence, src</text>
-</g>
-<path d="M 530 186 L 530 224 L 600 224 L 600 258" class="dd" marker-end="url(#a2)"/>
-<text class="lbl" x="540" y="216" text-anchor="start">reads</text>
-<line x1="432" y1="296" x2="526" y2="296" class="dd" marker-end="url(#a2)"/>
-<text class="lbl" x="479" y="286" text-anchor="middle">writes</text>
-
-<g class="g-amber">
-<rect x="520" y="428" width="210" height="56" rx="8" stroke-width="0.8"/>
-<text class="th" x="625" y="446" text-anchor="middle" dominant-baseline="central">Seal session</text>
-<text class="ts" x="625" y="466" text-anchor="middle" dominant-baseline="central">separate agent, periodic</text>
-</g>
-<line x1="655" y1="426" x2="655" y2="336" class="dd" marker-end="url(#a2)" marker-start="url(#a2)"/>
-<text class="lbl" x="665" y="384" text-anchor="start">reads, writes report</text>
-</svg>
-<figcaption>The ARA session. Solid control flow is one unbroken thread; the Seal has no control connection to the main session.</figcaption>
-</figure>
-
-<dl>
-<dt>Closure moment</dt>
-<dd>Any point where something resolves: an experiment produces a result, a hypothesis is confirmed or killed, a dead end is hit, or the session ends. Most closures happen mid session. Raw evidence lands in /evidence continuously; only the epistemic layers wait for outcomes.</dd>
-<dt>Foresight</dt>
-<dd>Read only, pulled, never scheduled. Answers questions whose answers are not literally recorded by composing existing claims, labeling grounded steps versus speculative leaps, attaching confidence, and naming what observation would falsify the prediction.</dd>
-<dt>Repository</dt>
-<dd>Four layers. /logic holds claims, concepts, and heuristics as structured entries with IDs. /trace holds the exploration graph including dead ends. /evidence holds raw outputs. /src holds code and configs with rationale. Cross references by ID make the whole thing a traversable knowledge graph of how the project went.</dd>
-<dt>Seal</dt>
-<dd>Periodic audit in three levels: structural integrity, epistemic rigor, execution reproducibility. Failure blocks nothing; findings are written back as work items and the artifact carries no trust stamp until they are addressed.</dd>
-</dl>
-
-<h3>The research-manager, zoomed in</h3>
-
-<p>Every step is the same LLM following a rubric in the skill file. The router decides what type of object each harvested event is; only belief bound events pass through a ripeness gate.</p>
-
-<figure>
-<svg viewBox="0 0 760 560" role="img" aria-label="Detailed research-manager pipeline">
-<defs><marker id="a3" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
-
-<g class="g-gray">
-<rect x="270" y="20" width="220" height="56" rx="8" stroke-width="0.8"/>
-<text class="th" x="380" y="38" text-anchor="middle" dominant-baseline="central">Closure trigger</text>
-<text class="ts" x="380" y="58" text-anchor="middle" dominant-baseline="central">result, dead end, or end</text>
-</g>
-<line x1="380" y1="76" x2="380" y2="116" class="cn" marker-end="url(#a3)"/>
-
-<g class="g-purple">
-<rect x="270" y="120" width="220" height="56" rx="8" stroke-width="0.8"/>
-<text class="th" x="380" y="138" text-anchor="middle" dominant-baseline="central">Harvester</text>
-<text class="ts" x="380" y="158" text-anchor="middle" dominant-baseline="central">extracts events from session</text>
-</g>
-<line x1="380" y1="176" x2="380" y2="216" class="cn" marker-end="url(#a3)"/>
-
-<g class="g-purple">
-<rect x="270" y="220" width="220" height="56" rx="8" stroke-width="0.8"/>
-<text class="th" x="380" y="238" text-anchor="middle" dominant-baseline="central">Router</text>
-<text class="ts" x="380" y="258" text-anchor="middle" dominant-baseline="central">classifies each event</text>
-</g>
-
-<path d="M 320 276 L 320 306 L 105 306 L 105 336" class="cn" marker-end="url(#a3)"/>
-<text class="lbl" x="205" y="298" text-anchor="middle">raw output</text>
-<path d="M 360 276 L 360 318 L 275 318 L 275 336" class="cn" marker-end="url(#a3)"/>
-<text class="lbl" x="322" y="332" text-anchor="middle">attempts</text>
-<path d="M 400 276 L 400 318 L 445 318 L 445 336" class="cn" marker-end="url(#a3)"/>
-<text class="lbl" x="428" y="298" text-anchor="start">code</text>
-<path d="M 440 276 L 440 306 L 635 306 L 635 336" class="cn" marker-end="url(#a3)"/>
-<text class="lbl" x="545" y="298" text-anchor="middle">candidate beliefs</text>
-
-<g class="g-blue">
-<rect x="30" y="340" width="150" height="56" rx="8" stroke-width="0.8"/>
-<text class="th" x="105" y="358" text-anchor="middle" dominant-baseline="central">/evidence</text>
-<text class="ts" x="105" y="378" text-anchor="middle" dominant-baseline="central">numbers, logs</text>
-</g>
-<g class="g-blue">
-<rect x="200" y="340" width="150" height="56" rx="8" stroke-width="0.8"/>
-<text class="th" x="275" y="358" text-anchor="middle" dominant-baseline="central">/trace</text>
-<text class="ts" x="275" y="378" text-anchor="middle" dominant-baseline="central">tries, dead ends</text>
-</g>
-<g class="g-blue">
-<rect x="370" y="340" width="150" height="56" rx="8" stroke-width="0.8"/>
-<text class="th" x="445" y="358" text-anchor="middle" dominant-baseline="central">/src</text>
-<text class="ts" x="445" y="378" text-anchor="middle" dominant-baseline="central">code + rationale</text>
-</g>
-<g class="g-purple">
-<rect x="540" y="340" width="190" height="56" rx="8" stroke-width="0.8"/>
-<text class="th" x="635" y="358" text-anchor="middle" dominant-baseline="central">Maturity tracker</text>
-<text class="ts" x="635" y="378" text-anchor="middle" dominant-baseline="central">ripe enough?</text>
-</g>
-
-<path d="M 600 396 L 600 428 L 530 428 L 530 458" class="cn" marker-end="url(#a3)"/>
-<text class="lbl" x="588" y="422" text-anchor="end">ripe</text>
-<path d="M 670 396 L 670 428 L 690 428 L 690 458" class="cn" marker-end="url(#a3)"/>
-<text class="lbl" x="682" y="422" text-anchor="start">not yet</text>
-
-<g class="g-blue">
-<rect x="440" y="460" width="180" height="56" rx="8" stroke-width="0.8"/>
-<text class="th" x="530" y="478" text-anchor="middle" dominant-baseline="central">/logic</text>
-<text class="ts" x="530" y="498" text-anchor="middle" dominant-baseline="central">claim crystallizes with ID</text>
-</g>
-<g class="g-blue">
-<rect x="640" y="460" width="110" height="56" rx="8" stroke-width="0.8"/>
-<text class="th" x="695" y="478" text-anchor="middle" dominant-baseline="central">staging/</text>
-<text class="ts" x="695" y="498" text-anchor="middle" dominant-baseline="central">waits</text>
-</g>
-
-<text class="lbl" x="695" y="540" text-anchor="middle">&#8635; re-checked at next closure</text>
-<text class="lbl" x="30" y="540" text-anchor="start">If the trigger was session end, the manager also writes the session record.</text>
-</svg>
-<figcaption>A crystallized claim carries Statement, Conditions, Sources, Status, Confidence, Provenance, and Falsification. Refuted claims keep their record with Status flipped, never deleted.</figcaption>
-</figure>
-
-<h2>2. Hub and spoke, on the same skeleton</h2>
-
-<p>Same layout, same box positions, hub and spoke terminology. Read this against the ARA diagram above; every box that changed is a difference between the systems.</p>
-
-<figure>
-<svg viewBox="0 0 760 500" role="img" aria-label="Hub and spoke session on the ARA skeleton">
-<defs><marker id="a4" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
-
-<g class="g-gray">
-<rect x="140" y="20" width="230" height="56" rx="8" stroke-width="0.8"/>
-<text class="th" x="255" y="38" text-anchor="middle" dominant-baseline="central">Spoke init (/spoke)</text>
-<text class="ts" x="255" y="58" text-anchor="middle" dominant-baseline="central">reads status, log, context</text>
-</g>
-<path d="M 700 258 L 700 48 L 374 48" class="dd" marker-end="url(#a4)"/>
-<text class="lbl" x="688" y="150" text-anchor="end">reads at init</text>
-<line x1="255" y1="76" x2="255" y2="126" class="cn" marker-end="url(#a4)"/>
-
-<g class="g-gray">
-<rect x="140" y="130" width="230" height="56" rx="8" stroke-width="0.8"/>
-<text class="th" x="255" y="148" text-anchor="middle" dominant-baseline="central">Research loop</text>
-<text class="ts" x="255" y="168" text-anchor="middle" dominant-baseline="central">code, run, observe</text>
-</g>
-
-<g class="g-teal">
-<rect x="440" y="130" width="180" height="56" rx="8" stroke-width="0.8"/>
-<text class="th" x="530" y="148" text-anchor="middle" dominant-baseline="central">File reads</text>
-<text class="ts" x="530" y="168" text-anchor="middle" dominant-baseline="central">plain text, no inference</text>
-</g>
-<line x1="372" y1="146" x2="438" y2="146" class="cn" marker-end="url(#a4)"/>
-<line x1="438" y1="170" x2="374" y2="170" class="cn" marker-end="url(#a4)"/>
-
-<line x1="255" y1="186" x2="255" y2="246" class="cn" marker-end="url(#a4)"/>
-<text class="lbl" x="267" y="220" text-anchor="start">at checkpoints</text>
-
-<rect x="90" y="250" width="340" height="128" rx="12" class="frame"/>
-<text class="th" x="106" y="274" text-anchor="start" style="fill:#444441">/spoke-update + /capture (subroutine)</text>
-<g class="g-purple">
-<rect x="106" y="294" width="94" height="40" rx="6" stroke-width="0.8"/>
-<text class="th" x="153" y="314" text-anchor="middle" dominant-baseline="central">Snapshot</text>
-</g>
-<line x1="200" y1="314" x2="216" y2="314" class="cn" marker-end="url(#a4)"/>
-<g class="g-purple">
-<rect x="218" y="294" width="94" height="40" rx="6" stroke-width="0.8"/>
-<text class="th" x="265" y="314" text-anchor="middle" dominant-baseline="central">Append</text>
-</g>
-<line x1="312" y1="314" x2="328" y2="314" class="cn" marker-end="url(#a4)"/>
-<g class="g-purple">
-<rect x="330" y="294" width="94" height="40" rx="6" stroke-width="0.8"/>
-<text class="th" x="377" y="314" text-anchor="middle" dominant-baseline="central">Capture</text>
-</g>
-
-<path d="M 90 314 L 60 314 L 60 158 L 138 158" class="cn" marker-end="url(#a4)"/>
-<text class="lbl" x="68" y="236" text-anchor="start">resume</text>
-
-<line x1="255" y1="378" x2="255" y2="426" class="cn" marker-end="url(#a4)"/>
-<text class="lbl" x="267" y="406" text-anchor="start">session over</text>
-
-<g class="g-gray">
-<rect x="140" y="428" width="230" height="56" rx="8" stroke-width="0.8"/>
-<text class="th" x="255" y="446" text-anchor="middle" dominant-baseline="central">Session end</text>
-<text class="ts" x="255" y="466" text-anchor="middle" dominant-baseline="central">updates Handoff section</text>
-</g>
-
-<g class="g-blue">
-<rect x="530" y="260" width="190" height="72" rx="8" stroke-width="0.8"/>
-<text class="th" x="625" y="286" text-anchor="middle" dominant-baseline="central">Project files</text>
-<text class="ts" x="625" y="308" text-anchor="middle" dominant-baseline="central">status, log, learnings</text>
-</g>
-<path d="M 530 186 L 530 224 L 600 224 L 600 258" class="dd" marker-end="url(#a4)"/>
-<text class="lbl" x="540" y="216" text-anchor="start">reads</text>
-<line x1="432" y1="296" x2="526" y2="296" class="dd" marker-end="url(#a4)"/>
-<text class="lbl" x="479" y="286" text-anchor="middle">writes own files</text>
-
-<text class="lbl" x="625" y="452" text-anchor="middle">No Seal counterpart. Trust rests on append only</text>
-<text class="lbl" x="625" y="470" text-anchor="middle">logs and human review during Base wrap-up.</text>
-</svg>
-<figcaption>What changed against ARA: Foresight became plain file reads, the structured manager became freeform markdown writes, the layered artifact became prose files, and the audit session is absent.</figcaption>
-</figure>
-
-<dl>
-<dt>Spoke init instead of session record read</dt>
-<dd>A spoke loads the preamble, its status file, its spoke log, and project context verbatim. Same continuity mechanism as ARA, but the handoff lives in the Current Step and Handoff sections of the status file rather than a dedicated session record.</dd>
-<dt>File reads instead of Foresight</dt>
-<dd>There is no inference over memory. The spoke reads text and reasons over whatever it loaded in context. It can recall what is written; it cannot ask the store a question whose answer is not literally recorded, and it gets no confidence labels or falsifiers.</dd>
-<dt>/spoke-update instead of research-manager</dt>
-<dd>Same trigger discipline (checkpoints and session end), same blocking single writer property, same write isolation (a spoke writes only its own status and log). But the output is freeform markdown: a status snapshot overwrite, an appended timestamped log entry, and a capture nudge into the project learnings file. There is no typed routing into layers, no IDs, no claim structure, so the record is a chronological journal rather than a traversable knowledge graph of how the project went.</dd>
-<dt>Project files instead of a layered artifact</dt>
-<dd>The closest correspondences: spoke logs with their mandated dead end format approximate /trace, learnings approximate /logic without the claim schema, and linked docs or sheets approximate /evidence. The bindings between them are prose mentions, not ID references.</dd>
-</dl>
-
-<h3>What hub and spoke has that ARA does not</h3>
-
-<p>ARA is a single project, single thread design. Hub and spoke is an operating system across projects: multiple spoke sessions run in parallel, each an independent Claude Code session bound to one project or task, and a Base session coordinates through the files.</p>
-
-<figure>
-<svg viewBox="0 0 760 400" role="img" aria-label="Hub and spoke orchestration across projects">
-<defs><marker id="a5" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
-
-<g class="g-gray">
-<rect x="280" y="20" width="200" height="56" rx="8" stroke-width="0.8"/>
-<text class="th" x="380" y="38" text-anchor="middle" dominant-baseline="central">Base session</text>
-<text class="ts" x="380" y="58" text-anchor="middle" dominant-baseline="central">orchestrates via files</text>
-</g>
-
-<g class="g-blue">
-<rect x="280" y="110" width="200" height="52" rx="8" stroke-width="0.8"/>
-<text class="th" x="380" y="128" text-anchor="middle" dominant-baseline="central">knowledge/ + work log</text>
-<text class="ts" x="380" y="146" text-anchor="middle" dominant-baseline="central">cross-project state</text>
-</g>
-<line x1="380" y1="76" x2="380" y2="108" class="dd" marker-end="url(#a5)"/>
-<text class="lbl" x="390" y="96" text-anchor="start">promotes at wrap-up</text>
-
-<g class="g-blue">
-<rect x="110" y="210" width="220" height="52" rx="8" stroke-width="0.8"/>
-<text class="th" x="220" y="228" text-anchor="middle" dominant-baseline="central">Project A files</text>
-<text class="ts" x="220" y="246" text-anchor="middle" dominant-baseline="central">status, logs, learnings</text>
-</g>
-<g class="g-blue">
-<rect x="430" y="210" width="220" height="52" rx="8" stroke-width="0.8"/>
-<text class="th" x="540" y="228" text-anchor="middle" dominant-baseline="central">Project B files</text>
-<text class="ts" x="540" y="246" text-anchor="middle" dominant-baseline="central">status, logs, learnings</text>
-</g>
-
-<path d="M 220 210 L 220 48 L 278 48" class="dd" marker-end="url(#a5)"/>
-<text class="lbl" x="212" y="150" text-anchor="end">reads</text>
-<path d="M 540 210 L 540 48 L 482 48" class="dd" marker-end="url(#a5)"/>
-<text class="lbl" x="550" y="150" text-anchor="start">reads</text>
-
-<g class="g-gray">
-<rect x="60" y="310" width="150" height="52" rx="8" stroke-width="0.8"/>
-<text class="th" x="135" y="328" text-anchor="middle" dominant-baseline="central">Spoke A1</text>
-<text class="ts" x="135" y="346" text-anchor="middle" dominant-baseline="central">own session</text>
-</g>
-<g class="g-gray">
-<rect x="230" y="310" width="150" height="52" rx="8" stroke-width="0.8"/>
-<text class="th" x="305" y="328" text-anchor="middle" dominant-baseline="central">Spoke A2</text>
-<text class="ts" x="305" y="346" text-anchor="middle" dominant-baseline="central">own session</text>
-</g>
-<g class="g-gray">
-<rect x="470" y="310" width="150" height="52" rx="8" stroke-width="0.8"/>
-<text class="th" x="545" y="328" text-anchor="middle" dominant-baseline="central">Spoke B1</text>
-<text class="ts" x="545" y="346" text-anchor="middle" dominant-baseline="central">own session</text>
-</g>
-
-<line x1="135" y1="308" x2="135" y2="264" class="dd" marker-end="url(#a5)"/>
-<line x1="305" y1="308" x2="305" y2="264" class="dd" marker-end="url(#a5)"/>
-<line x1="545" y1="308" x2="545" y2="264" class="dd" marker-end="url(#a5)"/>
-</svg>
-<figcaption>Every gray box is an independent parallel session. Write isolation: each spoke writes only its own files; spokes read anything; only Base writes cross-project state.</figcaption>
-</figure>
-
-<dl>
-<dt>Base as active hub</dt>
-<dd>Base runs standup, consolidates spoke statuses into the work log at wrap-up, and promotes cross-project learnings into knowledge/. ARA has no equivalent process; its artifact is the hub. Consolidation therefore happens out of band here (a human paced Base session) versus inline in ARA (the maturity tracker at every closure).</dd>
-<dt>Scale model</dt>
-<dd>ARA: one artifact, one project, sessions strictly sequential against it. Hub and spoke: many projects, many concurrent sessions, made safe by write isolation rather than by having a single writer.</dd>
-</dl>
-
-<h2>3. Differences at a glance</h2>
-
-<table>
-<tr><th>Dimension</th><th>ARA</th><th>Hub and spoke</th></tr>
-<tr><td>Read path</td><td>Foresight: inference over memory with confidence and falsifiers</td><td>Plain file reads; recall only</td></tr>
-<tr><td>Recorder output</td><td>Typed entries routed into layers, IDs, claim schema with falsification</td><td>Freeform markdown: snapshot, appended log, prose learnings</td></tr>
-<tr><td>Store shape</td><td>Knowledge graph: claims cite trace nodes cite evidence by ID</td><td>Chronological journal: prose files linked by mention</td></tr>
-<tr><td>Refutation</td><td>Status transition on the claim, correction cites old ID</td><td>Append a new entry; old text stays but carries no status</td></tr>
-<tr><td>Audit</td><td>Seal: separate periodic session, findings become work items</td><td>None; human review at Base wrap-up</td></tr>
-<tr><td>Scope</td><td>One project, one artifact, sequential sessions</td><td>Many projects, parallel spoke sessions, Base as hub</td></tr>
-<tr><td>Consolidation</td><td>Inline: maturity tracker at every closure</td><td>Out of band: Base promotes learnings at wrap-up</td></tr>
-</table>
-
-<div class="note"><strong>The one line summary.</strong> ARA is deeper: a structured, falsifiable, auditable memory for one project. Hub and spoke is wider: a coordination layer for many projects and parallel sessions, whose memory is prose. The natural synthesis is hub and spoke's shell with an ARA shaped store inside each project: keep spokes, Base, and write isolation; upgrade capture to a claim schema; add a foresight style read skill.</div>
-
-<h2>4. The synthesis architecture</h2>
-
-<p>Hub and spoke's shell, ARA's store. Two views: first the inside of one spoke, then how multiple spokes stay consistent.</p>
-
-<h3>4.1 Inside one spoke</h3>
-
-<p>The spoke session keeps its skeleton. The recorder is the ARA manager verbatim, triggered at /spoke-update checkpoints; its typed writes land in a workspace holding all five store components. Foresight is a read only call from the work loop, and the shared /logic layer sits outside the workspace because the spoke never writes it.</p>
-
-<figure>
-<svg viewBox="0 0 760 505" role="img" aria-label="One spoke operating on its project artifact with recorder pipeline, foresight, workspace layers, and shared logic">
-<defs><marker id="a7" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
-
-<g class="g-gray">
-<rect x="60" y="20" width="200" height="52" rx="8" stroke-width="0.8"/>
-<text class="th" x="160" y="38" text-anchor="middle" dominant-baseline="central">Spoke init (/spoke)</text>
-<text class="ts" x="160" y="56" text-anchor="middle" dominant-baseline="central">reads handoff, /logic</text>
-</g>
-<line x1="160" y1="72" x2="160" y2="102" class="cn" marker-end="url(#a7)"/>
-
-<g class="g-gray">
-<rect x="60" y="104" width="200" height="52" rx="8" stroke-width="0.8"/>
-<text class="th" x="160" y="122" text-anchor="middle" dominant-baseline="central">Work loop</text>
-<text class="ts" x="160" y="140" text-anchor="middle" dominant-baseline="central">code, run, observe</text>
-</g>
-
-<g class="g-teal">
-<rect x="300" y="104" width="170" height="52" rx="8" stroke-width="0.8"/>
-<text class="th" x="385" y="122" text-anchor="middle" dominant-baseline="central">Foresight</text>
-<text class="ts" x="385" y="140" text-anchor="middle" dominant-baseline="central">read only skill</text>
-</g>
-<line x1="260" y1="120" x2="298" y2="120" class="cn" marker-end="url(#a7)"/>
-<line x1="298" y1="144" x2="262" y2="144" class="cn" marker-end="url(#a7)"/>
-<path d="M 385 102 L 385 76 L 610 76 L 610 88" class="dd" marker-end="url(#a7)"/>
-<text class="lbl" x="497" y="68" text-anchor="middle">reads any layer, any project</text>
-
-<line x1="160" y1="156" x2="160" y2="196" class="cn" marker-end="url(#a7)"/>
-<text class="lbl" x="172" y="180" text-anchor="start">at checkpoints</text>
-
-<rect x="40" y="200" width="420" height="150" rx="12" class="frame"/>
-<text class="th" x="56" y="224" text-anchor="start" style="fill:#444441">recorder: /spoke-update, ARA style</text>
-<g class="g-purple">
-<rect x="56" y="244" width="110" height="40" rx="6" stroke-width="0.8"/>
-<text class="th" x="111" y="264" text-anchor="middle" dominant-baseline="central">Harvest</text>
-</g>
-<line x1="166" y1="264" x2="184" y2="264" class="cn" marker-end="url(#a7)"/>
-<g class="g-purple">
-<rect x="186" y="244" width="110" height="40" rx="6" stroke-width="0.8"/>
-<text class="th" x="241" y="264" text-anchor="middle" dominant-baseline="central">Route</text>
-</g>
-<line x1="296" y1="264" x2="314" y2="264" class="cn" marker-end="url(#a7)"/>
-<g class="g-purple">
-<rect x="316" y="244" width="110" height="40" rx="6" stroke-width="0.8"/>
-<text class="th" x="371" y="264" text-anchor="middle" dominant-baseline="central">Mature</text>
-</g>
-<text class="lbl" x="250" y="316" text-anchor="middle">raw&#8594;evidence &#183; tries&#8594;trace &#183; code&#8594;src &#183; beliefs&#8594;staging</text>
-
-<line x1="460" y1="275" x2="496" y2="275" class="dd" marker-end="url(#a7)"/>
-
-<path d="M 40 275 L 20 275 L 20 130 L 58 130" class="cn" marker-end="url(#a7)"/>
-<text class="lbl" x="28" y="210" text-anchor="start">resume</text>
-
-<line x1="160" y1="350" x2="160" y2="418" class="cn" marker-end="url(#a7)"/>
-<text class="lbl" x="172" y="388" text-anchor="start">session over</text>
-
-<g class="g-gray">
-<rect x="60" y="420" width="200" height="52" rx="8" stroke-width="0.8"/>
-<text class="th" x="160" y="438" text-anchor="middle" dominant-baseline="central">Session end</text>
-<text class="ts" x="160" y="456" text-anchor="middle" dominant-baseline="central">updates Handoff section</text>
-</g>
-
-<g class="g-blue">
-<rect x="500" y="90" width="230" height="300" rx="14" stroke-width="0.8"/>
-<text class="th" x="516" y="114" text-anchor="start">Spoke workspace</text>
-<text class="ts" x="516" y="132" text-anchor="start">sole writer: this spoke</text>
-</g>
-<rect x="516" y="148" width="198" height="38" rx="6" fill="#FFFFFF" stroke="#185FA5" stroke-width="0.8"/>
-<text class="th" x="615" y="167" text-anchor="middle" dominant-baseline="central" style="fill:#0C447C">/evidence</text>
-<rect x="516" y="198" width="198" height="38" rx="6" fill="#FFFFFF" stroke="#185FA5" stroke-width="0.8"/>
-<text class="th" x="615" y="217" text-anchor="middle" dominant-baseline="central" style="fill:#0C447C">/trace</text>
-<rect x="516" y="248" width="198" height="38" rx="6" fill="#FFFFFF" stroke="#185FA5" stroke-width="0.8"/>
-<text class="th" x="615" y="267" text-anchor="middle" dominant-baseline="central" style="fill:#0C447C">/src</text>
-<rect x="516" y="298" width="198" height="38" rx="6" fill="#FFFFFF" stroke="#185FA5" stroke-width="0.8"/>
-<text class="th" x="615" y="317" text-anchor="middle" dominant-baseline="central" style="fill:#0C447C">staging/</text>
-
-<line x1="615" y1="390" x2="615" y2="418" class="dd" marker-end="url(#a7)"/>
-<text class="lbl" x="605" y="408" text-anchor="end">ripe claims, at wrap-up</text>
-
-<g class="g-blue">
-<rect x="500" y="420" width="230" height="52" rx="8" stroke-width="0.8"/>
-<text class="th" x="615" y="438" text-anchor="middle" dominant-baseline="central">shared /logic</text>
-<text class="ts" x="615" y="456" text-anchor="middle" dominant-baseline="central">single writer: Base</text>
-</g>
-</svg>
-<figcaption>The unlabeled dashed arrow is the recorder's typed writes into the workspace. The spoke never touches /logic; that move belongs to Base.</figcaption>
-</figure>
-
-<dl>
-<dt>Harvester, in this setting</dt>
-<dd>Fires at every /spoke-update checkpoint and at session end. It scans everything since the previous checkpoint: the transcript, tool outputs (MAST job results, SQL query outputs, eval numbers), and config diffs. Each extracted event carries a provenance tag (user asserted, agent suggested, agent executed) and a pointer to its raw source, which becomes the /evidence entry. The old freeform status snapshot survives as one harvested event type among others, so nothing about resumability is lost.</dd>
-<dt>/src, in this setting</dt>
-<dd>Experiment configs, launch commands, and slash command definitions, each stored with the rationale for its settings. This is the layer the old system scattered across the queue sheet's config columns; here it is spoke owned and ID addressable, so a trace node can cite exactly the config that produced it.</dd>
-<dt>staging/, in this setting</dt>
-<dd>Per spoke, which is the detail that makes concurrency trivial: half formed beliefs never touch a shared file. The Mature step re-checks staged items at every subsequent checkpoint, where they ripen, merge into an existing claim, or die. Nothing is ever promoted out of staging directly; only ripe claims move, and only at wrap-up.</dd>
-<dt>Foresight, in this setting</dt>
-<dd>Called at two moments: spoke init (replacing part of the verbatim file load with an actual briefing: current beliefs, open questions, known dead ends for this task) and before proposing any experiment (predicted outcome, confidence, falsifier). Its read scope is deliberately wider than the spoke's write scope: shared /logic first, then the global claim store, then any spoke's trace. Zero writes is what makes that unrestricted read scope safe under concurrency.</dd>
-</dl>
-
-<h3>4.2 Concurrency and the merge</h3>
-
-<p>The rule is one writer per file, arranged in three tiers, and every cross tier move is executed by exactly one actor, Base, at wrap-up. It is the git model: workspaces are branches, wrap-up is the merge.</p>
-
-<figure>
-<svg viewBox="0 0 760 480" role="img" aria-label="Concurrency model: two spoke workspaces merged into shared project logic by Base, which promotes to the global claim store, with a separate periodic Seal session auditing the shared tiers">
-<defs><marker id="a8" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
-
-<g class="g-gray">
-<rect x="80" y="30" width="180" height="52" rx="8" stroke-width="0.8"/>
-<text class="th" x="170" y="48" text-anchor="middle" dominant-baseline="central">Spoke A1</text>
-<text class="ts" x="170" y="66" text-anchor="middle" dominant-baseline="central">own session</text>
-</g>
-<g class="g-gray">
-<rect x="300" y="30" width="180" height="52" rx="8" stroke-width="0.8"/>
-<text class="th" x="390" y="48" text-anchor="middle" dominant-baseline="central">Spoke A2</text>
-<text class="ts" x="390" y="66" text-anchor="middle" dominant-baseline="central">own session</text>
-</g>
-<g class="g-gray">
-<rect x="540" y="30" width="180" height="52" rx="8" stroke-width="0.8"/>
-<text class="th" x="630" y="48" text-anchor="middle" dominant-baseline="central">Base session</text>
-<text class="ts" x="630" y="66" text-anchor="middle" dominant-baseline="central">wrap-up: merge, audit</text>
-</g>
-
-<g class="g-blue">
-<rect x="80" y="130" width="180" height="52" rx="8" stroke-width="0.8"/>
-<text class="th" x="170" y="148" text-anchor="middle" dominant-baseline="central">A1 workspace</text>
-<text class="ts" x="170" y="166" text-anchor="middle" dominant-baseline="central">own layers + staging</text>
-</g>
-<g class="g-blue">
-<rect x="300" y="130" width="180" height="52" rx="8" stroke-width="0.8"/>
-<text class="th" x="390" y="148" text-anchor="middle" dominant-baseline="central">A2 workspace</text>
-<text class="ts" x="390" y="166" text-anchor="middle" dominant-baseline="central">own layers + staging</text>
-</g>
-<line x1="170" y1="82" x2="170" y2="128" class="dd" marker-end="url(#a8)" marker-start="url(#a8)"/>
-<line x1="390" y1="82" x2="390" y2="128" class="dd" marker-end="url(#a8)" marker-start="url(#a8)"/>
-
-<g class="g-blue">
-<rect x="190" y="240" width="200" height="52" rx="8" stroke-width="0.8"/>
-<text class="th" x="290" y="258" text-anchor="middle" dominant-baseline="central">Project A /logic</text>
-<text class="ts" x="290" y="276" text-anchor="middle" dominant-baseline="central">single writer: Base</text>
-</g>
-<path d="M 170 182 L 170 212 L 250 212 L 250 238" class="dd" marker-end="url(#a8)"/>
-<path d="M 390 182 L 390 212 L 330 212 L 330 238" class="dd" marker-end="url(#a8)"/>
-<text class="lbl" x="280" y="204" text-anchor="middle">staging &#8594; ripe claims</text>
-
-<path d="M 538 56 L 510 56 L 510 266 L 392 266" class="dd" marker-end="url(#a8)"/>
-<text class="lbl" x="502" y="220" text-anchor="end">merges, level 1 checks</text>
-
-<g class="g-blue">
-<rect x="540" y="240" width="180" height="52" rx="8" stroke-width="0.8"/>
-<text class="th" x="630" y="258" text-anchor="middle" dominant-baseline="central">knowledge/</text>
-<text class="ts" x="630" y="276" text-anchor="middle" dominant-baseline="central">cross-project claims</text>
-</g>
-<path d="M 290 292 L 290 316 L 630 316 L 630 294" class="dd" marker-end="url(#a8)"/>
-<text class="lbl" x="460" y="308" text-anchor="middle">promotes</text>
-
-<g class="g-amber">
-<rect x="240" y="390" width="220" height="52" rx="8" stroke-width="0.8"/>
-<text class="th" x="350" y="408" text-anchor="middle" dominant-baseline="central">Seal session</text>
-<text class="ts" x="350" y="426" text-anchor="middle" dominant-baseline="central">fresh agent, weekly cadence</text>
-</g>
-<path d="M 300 388 L 300 360 L 270 360 L 270 294" class="dd" marker-end="url(#a8)"/>
-<path d="M 400 388 L 400 360 L 660 360 L 660 294" class="dd" marker-end="url(#a8)" marker-start="url(#a8)"/>
-<text class="lbl" x="490" y="352" text-anchor="middle">audits levels 2 + 3</text>
-
-<g class="g-amber">
-<rect x="540" y="390" width="180" height="52" rx="8" stroke-width="0.8"/>
-<text class="th" x="630" y="408" text-anchor="middle" dominant-baseline="central">audit report</text>
-<text class="ts" x="630" y="426" text-anchor="middle" dominant-baseline="central">own file, read at standup</text>
-</g>
-<line x1="462" y1="416" x2="536" y2="416" class="dd" marker-end="url(#a8)"/>
-<text class="lbl" x="499" y="408" text-anchor="middle">writes</text>
-</svg>
-<figcaption>Tier 1: workspaces, written only by their own spoke, fully parallel. Tier 2: project /logic, written only by Base. Tier 3: knowledge/, written only by Base. The Seal reads the shared tiers and writes only its own report file, so the one writer per file rule holds everywhere. Reads are unrestricted at every tier.</figcaption>
-</figure>
-
-<dl>
-<dt>Why this never conflicts</dt>
-<dd>During the day, spokes touch only disjoint file sets, so any number can run in parallel with no locking. The two shared tiers each have exactly one writer, Base, which runs at a single moment, wrap-up, when the spokes are idle. There is no window in which two writers can race on the same file. ARA achieved consistency with one sequential writer per artifact; this achieves it with one writer per file plus a serialized merge point.</dd>
-<dt>What Base does at the merge</dt>
-<dd>Reads every workspace's staging and /logic candidates, crystallizes ripe claims into project /logic with IDs and provenance, deduplicates against existing claims (widening scope beats adding a near duplicate), promotes claims that generalize across projects into knowledge/, and runs the light audit while it is already reading everything: do cited evidence IDs resolve, did any recorded falsifier fire against the day's results. Findings become next standup's work items.</dd>
-<dt>Where sealing happens</dt>
-<dd>Split by level, matching cost and independence to cadence. Level 1 (structural: cited IDs resolve, recorded falsifiers checked against new results, entries well formed) runs inline in Base's wrap-up; it is mechanical, cheap, and judgment free, so Base running it on its own merge is safe. Levels 2 and 3 (rigor: do conclusions follow from cited evidence; reproducibility: re-run selected /src configs and confirm the evidence regenerates) run in a separate periodic Seal session, a fresh agent with no stake in the work, slotted into the weekly review cadence. This preserves ARA's key audit property, that the auditor is never the writer being audited. The Seal writes findings only to its own report file, which Base reads at the next standup and turns into work items: demote or re-scope flagged claims, fix broken citations, re-run failed reproductions.</dd>
-<dt>The two-spokes-one-project case</dt>
-<dd>A1 and A2 above share a project but never a file: each has its own trace, evidence, src, and staging. If both stage overlapping beliefs, the conflict surfaces at the merge, where Base sees both candidates side by side and reconciles them into one claim, exactly like a git merge conflict resolved by the integrator rather than by the branch authors.</dd>
-</dl>
-
-</main>
+  <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">🌙 Dark</button>
+  <script>
+    (function () {
+      const key = 'ara-theme';
+      const html = document.documentElement;
+      const btn = document.getElementById('themeToggle');
+      function apply(t) {
+        html.classList.toggle('dark', t === 'dark');
+        btn.textContent = t === 'dark' ? '☀️ Light' : '🌙 Dark';
+      }
+      let saved = localStorage.getItem(key);
+      if (!saved) saved = 'light';  // default light
+      apply(saved);
+      btn.addEventListener('click', () => {
+        const next = html.classList.contains('dark') ? 'light' : 'dark';
+        localStorage.setItem(key, next);
+        apply(next);
+      });
+    })();
+  </script>
+  <main>
+
+    <h1>ARA and hub and spoke, side by side</h1>
+    <p class="sub">One skeleton, two systems. Compiled July 2026 from the ARA paper (arXiv 2604.24658), the research
+      world model blog post, and the claude-templates skill set.</p>
+
+    <p>Both systems make research state outlive the context window: recorded work that a future session can read, trust,
+      and build on. This document defines ARA first, then re-renders the hub and spoke system onto the identical diagram
+      skeleton so that every difference is visible as a changed box rather than a new picture.</p>
+
+    <div class="legend">
+      <span><span class="dot" style="background:var(--gray-bg);border:1.5px solid var(--gray)"></span>actor /
+        session</span>
+      <span><span class="dot" style="background:var(--teal-bg);border:1.5px solid var(--teal)"></span>read skill</span>
+      <span><span class="dot" style="background:var(--purple-bg);border:1.5px solid var(--purple)"></span>write
+        skill</span>
+      <span><span class="dot" style="background:var(--blue-bg);border:1.5px solid var(--blue)"></span>storage</span>
+      <span><span class="dot" style="background:var(--amber-bg);border:1.5px solid var(--amber)"></span>audit</span>
+      <span><span class="lin"></span>solid: control flow</span>
+      <span><span class="lin dash"></span>dashed: data read / write</span>
+    </div>
+    <h2>1. What ARA is</h2>
+    <p>An ARA (Agent-Native Research Artifact) is a per-project repository that serves as the research memory, plus
+      three skills that operate on it. There is no orchestrator: the host agent does the work, and coordination happens
+      entirely through the files. One agent, one thread; the recorder blocks the loop briefly while it writes, then work
+      resumes. The Seal is the only asynchronous element, a separate periodic session.</p>
+    <figure><svg viewBox="0 0 900 500" role="img" aria-labelledby="ara-title ara-desc">
+        <title id="ara-title">ARA session lifecycle</title>
+        <desc id="ara-desc">One control thread runs start, research loop, recorder, end. The recorder writes the
+          repository; foresight
+          reads it; the seal is a separate auditor.</desc>
+        <defs>
+          <marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6"
+            orient="auto-start-reverse">
+            <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.6" stroke-linecap="round"
+              stroke-linejoin="round" />
+          </marker>
+        </defs><text class="fig-title" x="24" y="28">ARA session lifecycle</text><text class="fig-sub" x="24" y="48">One
+          control thread. Durable memory is the only coordination mechanism.</text>
+        <rect class="lane-bg" x="24" y="70" width="520" height="400" rx="16" />
+        <text class="lane-title" x="44" y="95">working session</text>
+        <!-- artifact and audit are now single boxes, no lane-bg wrappers -->
+        <g class="g-gray">
+          <rect x="92" y="112" width="194" height="52" rx="10" stroke-width="1" /><text class="bt" x="189" y="131"
+            text-anchor="middle" dominant-baseline="central">Session start</text><text class="node-sub" x="189" y="153"
+            text-anchor="middle">reads last session record</text>
+        </g>
+        <g class="g-gray">
+          <rect x="92" y="208" width="194" height="52" rx="10" stroke-width="1" /><text class="bt" x="189" y="227"
+            text-anchor="middle" dominant-baseline="central">Research loop</text><text class="node-sub" x="189" y="249"
+            text-anchor="middle">code, run, observe</text>
+        </g>
+        <g class="g-purple">
+          <rect x="92" y="303" width="194" height="60" rx="10" stroke-width="1" /><text class="bt" x="189" y="326"
+            text-anchor="middle" dominant-baseline="central">research-manager</text><text class="node-sub" x="189"
+            y="348" text-anchor="middle">subroutine</text>
+        </g>
+        <g class="g-gray">
+          <rect x="92" y="404" width="194" height="52" rx="10" stroke-width="1" /><text class="bt" x="189" y="423"
+            text-anchor="middle" dominant-baseline="central">Session end</text><text class="node-sub" x="189" y="445"
+            text-anchor="middle">writes session record</text>
+        </g>
+        <path class="ctrl" d="M189 164 L189 206" marker-end="url(#ah)" />
+        <path class="ctrl" d="M189 262 L189 300" marker-end="url(#ah)" />
+        <text class="tiny" x="195" y="284" text-anchor="start">closure</text>
+        <path class="ctrl" d="M92 333 L62 333 L62 234 L92 234" marker-end="url(#ah)" />
+        <path class="ctrl" d="M189 366 L189 401" marker-end="url(#ah)" />
+        <g class="g-teal">
+          <rect x="322" y="208" width="194" height="52" rx="10" stroke-width="1" /><text class="bt" x="419" y="227"
+            text-anchor="middle" dominant-baseline="central">Foresight</text><text class="node-sub" x="419" y="249"
+            text-anchor="middle">read-only inference</text>
+        </g>
+        <path class="ctrl" d="M286 224 L320 224" marker-end="url(#ah)" />
+        <path class="ctrl" d="M320 240 L288 240" marker-end="url(#ah)" />
+        <!-- artifact (ARA repo) — single box, no lane wrapper -->
+        <g class="g-blue">
+          <rect x="600" y="120" width="250" height="243" rx="14" stroke-width="1" />
+          <text class="lane-title" x="620" y="140">Artifacts</text>
+        </g>
+        <rect class="store-inner" x="628" y="170" width="194" height="29" rx="7" /><text class="bs" x="725" y="189"
+          text-anchor="middle" style="fill:var(--blue-dk)">/logic · C-0142</text>
+        <rect class="store-inner" x="628" y="207" width="194" height="29" rx="7" /><text class="bs" x="725" y="226"
+          text-anchor="middle" style="fill:var(--blue-dk)">/trace</text>
+        <rect class="store-inner" x="628" y="244" width="194" height="29" rx="7" /><text class="bs" x="725" y="263"
+          text-anchor="middle" style="fill:var(--blue-dk)">/evidence</text>
+        <rect class="store-inner" x="628" y="281" width="194" height="29" rx="7" /><text class="bs" x="725" y="300"
+          text-anchor="middle" style="fill:var(--blue-dk)">/src</text>
+        <text class="node-sub" x="725" y="340" text-anchor="middle">claims cite trace cite evidence by ID</text>
+        <!-- horizontal data arrows — color matches skill box -->
+        <path class="data-teal" d="M598 234 L516 234" marker-end="url(#ah)" />
+        <path class="data-purple" d="M286 333 L598 333" marker-end="url(#ah)" />
+        <!-- audit (Seal session) — single box, no lane wrapper -->
+        <g class="g-amber">
+          <rect x="600" y="404" width="250" height="52" rx="10" stroke-width="1" />
+          <text class="bt" x="725" y="423" text-anchor="middle" dominant-baseline="central">Audit (Seal session)</text>
+          <text class="node-sub" x="725" y="445" text-anchor="middle">separate agent, periodic</text>
+        </g>
+        <path class="data-amber" d="M725 402 L725 365" marker-start="url(#ah)" marker-end="url(#ah)" />
+      </svg>
+      <figcaption>Solid control flow is one unbroken thread: start, loop, recorder, end. Foresight reads the repository
+        and the recorder writes it (dashed). The Seal is a separate session that reads the repository and writes its own
+        report, with no control link to the main thread.</figcaption>
+    </figure>
+    <dl>
+      <dt>Closure moment</dt>
+      <dd>Any point where something resolves: an experiment produces a result, a hypothesis is confirmed or killed, a
+        dead end is hit, or the session ends. Most closures happen mid session. Raw evidence lands in /evidence
+        continuously; only the epistemic layers wait for outcomes.</dd>
+      <dt>Foresight</dt>
+      <dd>Read only, pulled, never scheduled. Answers questions whose answers are not literally recorded by composing
+        existing claims, labeling grounded steps versus speculative leaps, attaching confidence, and naming what
+        observation would falsify the prediction.</dd>
+      <dt>Repository</dt>
+      <dd>Four layers. /logic holds claims, concepts, and heuristics as structured entries with IDs. /trace holds the
+        exploration graph including dead ends. /evidence holds raw outputs. /src holds code and configs with rationale.
+        Cross references by ID make the whole thing a traversable knowledge graph of how the project went.</dd>
+    </dl>
+    <div class="claim-schema"><strong>Claim schema</strong><br>
+      Every crystallized entry in /logic carries:
+      <code>Statement</code> · <code>Conditions</code> · <code>Sources</code> · <code>Status</code> ·
+      <code>Confidence</code> · <code>Provenance</code> · <code>Falsification</code><br>
+      Example: <code>C-0142</code> cites <code>T-0891</code> (trace) → <code>E-3304</code> (evidence).<br>
+      Refuted claims keep their record with Status flipped, never deleted.
+    </div>
+    <dl>
+      <dt>Seal</dt>
+      <dd>Periodic audit in three levels: structural integrity, epistemic rigor, execution reproducibility. Failure
+        blocks nothing; findings are written back as work items and the artifact carries no trust stamp until they are
+        addressed.</dd>
+    </dl>
+    <h3>The research-manager, zoomed in</h3>
+
+    <p>Every step is the same LLM following a rubric in the skill file. The router decides what type of object each
+      harvested event is; only belief bound events pass through a ripeness gate.</p>
+
+    <figure>
+      <svg viewBox="0 0 900 400" role="img" aria-label="Detailed research-manager pipeline">
+        <title>research-manager pipeline</title>
+        <desc>The research-manager turns closure events into durable records: raw outputs go to evidence, attempts to
+          trace, code to source, and belief candidates through a maturity gate to logic or staging.</desc>
+        <defs>
+          <marker id="ah2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6"
+            orient="auto-start-reverse">
+            <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.6" stroke-linecap="round"
+              stroke-linejoin="round" />
+          </marker>
+        </defs>
+
+        <text class="fig-title" x="24" y="28">research-manager, zoomed in</text>
+        <!-- <text class="fig-sub" x="24" y="48">Top lane is the manager thinking; bottom lane is inert files. Solid =
+          control, dashed = writes.</text> -->
+
+        <rect class="lane-bg" x="24" y="48" width="852" height="130" rx="16" />
+        <text class="lane-title" x="44" y="73">working session</text>
+        <g class="g-blue">
+          <rect class="lane-bg" x="24" y="232" width="852" height="150" rx="16" />
+        </g>
+        <text class="lane-title" x="44" y="257">artifacts</text>
+
+        <!-- top row: four boxes across -->
+        <g class="g-gray">
+          <rect x="40" y="90" width="170" height="60" rx="10" stroke-width="1" />
+          <text class="bt" x="125" y="113" text-anchor="middle" style="fill:#444441">Closure trigger</text>
+          <text class="node-sub" x="125" y="132" text-anchor="middle">result, dead end, end</text>
+        </g>
+        <g class="g-purple">
+          <rect x="240" y="90" width="170" height="60" rx="10" stroke-width="1" />
+          <text class="bt" x="325" y="113" text-anchor="middle" style="fill:#3C3489">Harvester</text>
+          <text class="node-sub" x="325" y="132" text-anchor="middle">extract event records</text>
+        </g>
+        <g class="g-purple">
+          <rect x="460" y="90" width="170" height="60" rx="10" stroke-width="1" />
+          <text class="bt" x="545" y="113" text-anchor="middle" style="fill:#3C3489">Router</text>
+          <text class="node-sub" x="545" y="132" text-anchor="middle">type each event</text>
+        </g>
+        <g class="g-purple">
+          <rect x="680" y="90" width="170" height="60" rx="10" stroke-width="1" />
+          <text class="bt" x="765" y="113" text-anchor="middle" style="fill:#3C3489">Maturity tracker</text>
+          <text class="node-sub" x="765" y="132" text-anchor="middle">belief ripe enough?</text>
+        </g>
+
+        <path class="ctrl" d="M210 120 L238 120" marker-end="url(#ah2)" />
+        <path class="ctrl" d="M420 120 L448 120" marker-end="url(#ah2)" />
+        <path class="ctrl" d="M642 120 L670 120" marker-end="url(#ah2)" />
+        <text class="tiny" x="658" y="114" text-anchor="middle">beliefs</text>
+
+        <!-- artifact row – moved down to y=316 -->
+        <!-- <g class="g-blue"> -->
+        <rect class="store-inner" x="52" y="288" width="150" height="62" rx="10" stroke-width="1" />
+        <text class="bt" x="127" y="311" text-anchor="middle" style="fill:#0C447C">/evidence</text>
+        <text class="node-sub" x="127" y="332" text-anchor="middle">numbers, logs</text>
+        <!-- </g> -->
+        <!-- <g class="g-blue"> -->
+        <rect class="store-inner" x="232" y="288" width="150" height="62" rx="10" stroke-width="1" />
+        <text class="bt" x="307" y="311" text-anchor="middle" style="fill:#0C447C">/trace</text>
+        <text class="node-sub" x="307" y="332" text-anchor="middle">tries, dead ends</text>
+        <!-- </g> -->
+        <!-- <g class="g-blue"> -->
+        <rect class="store-inner" x="412" y="288" width="150" height="62" rx="10" stroke-width="1" />
+        <text class="bt" x="487" y="311" text-anchor="middle" style="fill:#0C447C">/src</text>
+        <text class="node-sub" x="487" y="332" text-anchor="middle">code + rationale</text>
+        <!-- </g>
+        <g class="g-blue"> -->
+        <rect class="store-inner" x="602" y="288" width="150" height="62" rx="10" stroke-width="1" />
+        <text class="bt" x="677" y="311" text-anchor="middle" style="fill:#0C447C">/logic</text>
+        <text class="node-sub" x="677" y="332" text-anchor="middle">crystallized claim</text>
+        <!-- </g>
+        <g class="g-blue"> -->
+        <rect class="store-inner" x="772" y="288" width="86" height="62" rx="10" stroke-width="1" />
+        <text class="bt" x="815" y="311" text-anchor="middle" style="fill:#0C447C">staging/</text>
+        <text class="node-sub" x="815" y="332" text-anchor="middle">waits</text>
+        <!-- </g> -->
+
+        <!-- router writes raw layers directly: data flow, dashed purple -->
+        <path class="data-purple" d="M 500 150 150 284" marker-end="url(#ah2)" />
+        <text class="tiny" x="310" y="212" text-anchor="middle">raw</text>
+        <path class="data-purple" d="M 550 150 330 284" marker-end="url(#ah2)" />
+        <text class="tiny" x="425" y="212" text-anchor="middle">tries</text>
+        <path class="data-purple" d="M 590 150 487 284" marker-end="url(#ah2)" />
+        <text class="tiny" x="515" y="212" text-anchor="middle">code</text>
+
+        <!-- maturity tracker writes logic or staging: data flow, dashed purple -->
+        <path class="data-purple" d="M 750 150 677 286" marker-end="url(#ah2)" />
+        <text class="tiny" x="710" y="212" text-anchor="end">ripe</text>
+        <path class="data-purple" d="M 780 150 815 286" marker-end="url(#ah2)" />
+        <text class="tiny" x="820" y="212" text-anchor="middle">not ripe</text>
+
+        <!-- <rect class="callout" x="52" y="434" width="806" height="42" rx="10" /> -->
+        <!-- <text class="callout-text" x="72" y="460">Claim record = Statement · Conditions · Sources · Status · Confidence
+          · Provenance · Falsification. Refuted claims flip status; they are not
+          deleted.</text> -->
+      </svg>
+      <!-- <figcaption>A crystallized claim carries Statement, Conditions, Sources, Status, Confidence, Provenance, and -->
+      <!-- Falsification. Refuted claims keep their record with Status flipped, never deleted.</figcaption> -->
+    </figure>
+    <dl>
+      <dt>Harvester and Router</dt>
+      <dd>The harvester scans everything since the last checkpoint and extracts discrete events; the router types each
+        one. Beliefs to /logic (via the gate), attempts to /trace, raw outputs to /evidence, code and configs to /src.
+        Every step is the same LLM following a rubric in the skill file, not a separate service.</dd>
+      <dt>Maturity gate</dt>
+      <dd>Applies only to belief candidates. Ripe means: resolved outcome, linked evidence, precise enough to carry a
+        falsification clause, and generalizes beyond the single run. Anything failing waits in staging and is re-checked
+        at later closures, where it matures, merges into an existing claim, or dies.</dd>
+      <dt>Claim record</dt>
+      <dd>A crystallized claim carries Statement, Conditions, Sources, Status, Confidence, Provenance, and
+        Falsification. Corrections are new entries citing the old claim by ID; refuted claims keep their record with
+        Status flipped, never deleted.</dd>
+    </dl>
+
+    <h3>How are artifacts updated?</h3>
+
+    <p>Once the manager has written to a layer, the layers do not all behave the same way, and the differences are load
+      bearing rather than incidental. The governing rule: anything another record can cite as a source must be either
+      immutable or version pinned, so that a citation never silently goes stale. This is exactly what the Seal's
+      structural check (do cited IDs still resolve) depends on.</p>
+
+    <table>
+      <tr>
+        <th>Layer</th>
+        <th>Mutability</th>
+        <th>How it changes</th>
+      </tr>
+      <tr>
+        <td>/evidence</td>
+        <td>Write once, immutable</td>
+        <td>Append only. A rerun with different numbers is a new entry with a new ID, never an overwrite, because claims
+          cite evidence by ID and mutating it would invalidate them.</td>
+      </tr>
+      <tr>
+        <td>/trace</td>
+        <td>Append only body, mutable status</td>
+        <td>Nodes (hypothesis, intervention, observation) are frozen once written; only a small lifecycle marker moves,
+          e.g. exploring becomes superseded by node 47.</td>
+      </tr>
+      <tr>
+        <td>/src</td>
+        <td>Freely mutable</td>
+        <td>Code and configs are edited normally; git carries their history, not the artifact. Citations into src must
+          therefore pin a version (commit or inlined parameter values), not just name a file.</td>
+      </tr>
+      <tr>
+        <td>/logic</td>
+        <td>Append only records, mutable status</td>
+        <td>New claims are appended with fresh IDs. Existing claims change only by status transition (supported to
+          refuted, scope widened or narrowed); the old record is preserved and the correction cites it by ID. Records
+          are never deleted.</td>
+      </tr>
+      <tr>
+        <td>staging</td>
+        <td>Freely mutable, never cited</td>
+        <td>The holding area for belief candidates that are not yet ripe. Entries are revised and deleted freely as
+          beliefs form and collapse. Precisely because it is volatile, nothing may cite staging as a source; a candidate
+          becomes citable only once it crystallizes into /logic.</td>
+      </tr>
+    </table>
+
+    <p>Evidence and trace bodies never move, so citations into them stay valid forever; src moves, so citations into it
+      pin a version; logic grows monotonically as an audit trail of belief, never a silently rewritten current state;
+      staging is the deliberate exception that absorbs churn so the others stay clean.</p>
+
+    <h2>2. Hub and spoke, on the same skeleton</h2>
+
+    <p>Same layout, same box positions, hub and spoke terminology. Read this against the ARA diagram above; every box
+      that changed is a difference between the systems.</p>
+
+    <figure><svg viewBox="0 0 900 500" role="img" aria-labelledby="hs-title hs-desc">
+        <title id="hs-title">Hub and spoke on the ARA skeleton</title>
+        <desc id="hs-desc">Same control shape as ARA. Foresight becomes file reads, the recorder writes freeform
+          markdown, the
+          repository is prose files, and there is no seal.</desc>
+        <defs>
+          <marker id="ah3" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6"
+            orient="auto-start-reverse">
+            <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.6" stroke-linecap="round"
+              stroke-linejoin="round" />
+          </marker>
+        </defs><text class="fig-title" x="24" y="28">Hub and spoke, same skeleton</text><text class="fig-sub" x="24"
+          y="48">Same control shape as ARA; four boxes change and the seal is gone.</text>
+        <rect class="lane-bg" x="24" y="70" width="520" height="400" rx="16" /><text class="lane-title" x="44"
+          y="95">one spoke session</text>
+        <!-- project files / audit – single boxes, no lane-bg wrapper (matches Fig 1) -->
+        <g class="g-gray">
+          <rect x="92" y="112" width="194" height="52" rx="10" stroke-width="1" /><text class="bt" x="189" y="131"
+            text-anchor="middle" dominant-baseline="central">Spoke init</text><text class="node-sub" x="189" y="147"
+            text-anchor="middle">status, log, context</text>
+        </g>
+        <g class="g-gray">
+          <rect x="92" y="208" width="194" height="52" rx="10" stroke-width="1" /><text class="bt" x="189" y="227"
+            text-anchor="middle" dominant-baseline="central">Research loop</text><text class="node-sub" x="189" y="243"
+            text-anchor="middle">code, run, observe</text>
+        </g>
+        <g class="g-purple">
+          <rect x="92" y="303" width="194" height="60" rx="10" stroke-width="1" /><text class="bt" x="189" y="326"
+            text-anchor="middle" dominant-baseline="central">/spoke-update</text><text class="node-sub" x="189" y="342"
+            text-anchor="middle">snapshot · append · capture</text>
+        </g>
+        <g class="g-gray">
+          <rect x="92" y="404" width="194" height="52" rx="10" stroke-width="1" /><text class="bt" x="189" y="423"
+            text-anchor="middle" dominant-baseline="central">Session end</text><text class="node-sub" x="189" y="439"
+            text-anchor="middle">writes handoff</text>
+        </g>
+        <path class="ctrl" d="M189 164 L189 206" marker-end="url(#ah3)" />
+        <path class="ctrl" d="M189 262 L189 300" marker-end="url(#ah3)" />
+        <text class="tiny" x="195" y="284" text-anchor="start">checkpoint</text>
+        <path class="ctrl" d="M92 333 L62 333 L62 234 L92 234" marker-end="url(#ah3)" />
+        <path class="ctrl" d="M189 366 L189 401" marker-end="url(#ah3)" />
+        <g class="g-teal">
+          <rect x="322" y="208" width="194" height="52" rx="10" stroke-width="1" /><text class="bt" x="419" y="227"
+            text-anchor="middle" dominant-baseline="central">File reads</text><text class="node-sub" x="419" y="243"
+            text-anchor="middle">plain text only</text>
+        </g>
+        <path class="ctrl" d="M286 224 L320 224" marker-end="url(#ah3)" />
+        <path class="ctrl" d="M320 240 L288 240" marker-end="url(#ah3)" />
+        <!-- project files — single box, no lane wrapper -->
+        <g class="g-blue">
+          <rect x="600" y="188" width="250" height="200" rx="14" stroke-width="1" />
+          <text class="bt" x="725" y="208" text-anchor="middle" dominant-baseline="central">Project files</text>
+        </g>
+        <rect class="store-inner" x="628" y="235" width="194" height="32" rx="7" />
+        <text class="node-sub" x="725" y="257" text-anchor="middle" style="fill:var(--blue-dk)">status.md</text>
+        <rect class="store-inner" x="628" y="280" width="194" height="32" rx="7" />
+        <text class="node-sub" x="725" y="302" text-anchor="middle" style="fill:var(--blue-dk)">spoke log</text>
+        <rect class="store-inner" x="628" y="325" width="194" height="32" rx="7" />
+        <text class="node-sub" x="725" y="347" text-anchor="middle" style="fill:var(--blue-dk)">learnings</text>
+        <!-- read arrow: files → File reads, teal -->
+        <path class="data-teal" d="M598 234 L516 234" marker-end="url(#ah3)" />
+        <!-- write arrow: /spoke-update → files, purple -->
+        <path class="data-purple" d="M286 333 L598 333" marker-end="url(#ah3)" />
+        <!-- no seal — audit box with no data connection -->
+        <g class="g-amber">
+          <rect x="600" y="404" width="250" height="52" rx="10" stroke-width="1" /><text class="bt" x="725" y="423"
+            text-anchor="middle" dominant-baseline="central">no seal</text><text class="node-sub" x="725" y="439"
+            text-anchor="middle">human review at Base wrap-up</text>
+        </g>
+      </svg>
+      <figcaption>Four boxes change against ARA: Foresight becomes plain file reads, the research-manager becomes
+        /spoke-update writing freeform markdown, the layered repository becomes prose project files, and the Seal has no
+        counterpart. The control skeleton is identical.</figcaption>
+    </figure>
+    <dl>
+      <dt>Spoke init instead of session record read</dt>
+      <dd>A spoke loads the preamble, its status file, its spoke log, and project context verbatim. Same continuity
+        mechanism as ARA, but the handoff lives in the Current Step and Handoff sections of the status file rather than
+        a dedicated session record.</dd>
+      <dt>File reads instead of Foresight</dt>
+      <dd>There is no inference over memory. The spoke reads text and reasons over whatever it loaded in context. It can
+        recall what is written; it cannot ask the store a question whose answer is not literally recorded, and it gets
+        no confidence labels or falsifiers.</dd>
+      <dt>/spoke-update instead of research-manager</dt>
+      <dd>Same trigger discipline (checkpoints and session end), same blocking single writer property, same write
+        isolation (a spoke writes only its own status and log). But the output is freeform markdown: a status snapshot
+        overwrite, an appended timestamped log entry, and a capture nudge into the project learnings file. There is no
+        typed routing into layers, no IDs, no claim structure, so the record is a chronological journal rather than a
+        traversable knowledge graph of how the project went.</dd>
+      <dt>Project files instead of a layered artifact</dt>
+      <dd>The closest correspondences: spoke logs with their mandated dead end format approximate /trace, learnings
+        approximate /logic without the claim schema, and linked docs or sheets approximate /evidence. The bindings
+        between them are prose mentions, not ID references.</dd>
+    </dl>
+    <h3>What hub and spoke has that ARA does not</h3>
+    <p>ARA is a single project, single thread design. Hub and spoke is an operating system across projects: multiple
+      spoke sessions run in parallel, each an independent session bound to one project or task, and a Base session
+      coordinates through the files.</p>
+    <figure><svg viewBox="0 0 900 500" role="img" aria-labelledby="hs-orch-title hs-orch-desc">
+        <title id="hs-orch-title">Hub and spoke orchestration</title>
+        <desc id="hs-orch-desc">Base coordinates parallel spoke sessions across projects; isolation is by file
+          ownership.</desc>
+        <defs>
+          <marker id="ah4" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6"
+            orient="auto-start-reverse">
+            <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.6" stroke-linecap="round"
+              stroke-linejoin="round" />
+          </marker>
+        </defs><text class="fig-title" x="24" y="28">What hub and spoke adds: width</text><text class="fig-sub" x="24"
+          y="48">Base coordinates many parallel spokes; isolation is by file ownership.</text>
+
+        <rect class="lane-bg" x="24" y="70" width="852" height="90" rx="16" /><text class="lane-title" x="44"
+          y="95">coordination</text>
+        <rect class="lane-bg" x="24" y="180" width="852" height="90" rx="16" /><text class="lane-title" x="44"
+          y="205">project state</text>
+        <rect class="lane-bg" x="24" y="290" width="852" height="180" rx="16" /><text class="lane-title" x="44"
+          y="315">parallel sessions</text>
+
+        <!-- coordination lane -->
+        <g class="g-gray">
+          <rect x="220" y="92" width="194" height="52" rx="10" stroke-width="1" /><text class="bt" x="317" y="111"
+            text-anchor="middle" dominant-baseline="central">Base session</text><text class="node-sub" x="317" y="127"
+            text-anchor="middle">standup + wrap-up</text>
+        </g>
+        <g class="g-blue">
+          <rect x="480" y="92" width="194" height="52" rx="10" stroke-width="1" /><text class="bt" x="577" y="111"
+            text-anchor="middle" dominant-baseline="central">knowledge/</text><text class="node-sub" x="577" y="127"
+            text-anchor="middle">cross-project</text>
+        </g>
+        <path class="data" d="M414 118 L478 118" marker-end="url(#ah4)" />
+        <text class="tiny" x="446" y="112" text-anchor="middle">writes</text>
+
+        <!-- project state lane -->
+        <g class="g-blue">
+          <rect x="145" y="202" width="194" height="52" rx="10" stroke-width="1" /><text class="bt" x="242" y="221"
+            text-anchor="middle" dominant-baseline="central">Project A files</text><text class="node-sub" x="242"
+            y="237" text-anchor="middle">spoke A1/A2 write</text>
+        </g>
+        <g class="g-blue">
+          <rect x="560" y="202" width="194" height="52" rx="10" stroke-width="1" /><text class="bt" x="657" y="221"
+            text-anchor="middle" dominant-baseline="central">Project B files</text><text class="node-sub" x="657"
+            y="237" text-anchor="middle">spoke B1/B2 write</text>
+        </g>
+        <!-- Base reads project files -->
+        <path class="data" d="M280 144 C250 170 240 185 240 200" marker-end="url(#ah4)" />
+        <path class="data" d="M600 144 C630 170 640 185 655 200" marker-end="url(#ah4)" />
+
+        <!-- parallel sessions lane – four spokes, 194px wide -->
+        <g class="g-gray">
+          <rect x="40" y="340" width="194" height="52" rx="10" stroke-width="1" /><text class="bt" x="137" y="359"
+            text-anchor="middle" dominant-baseline="central">Spoke A1</text><text class="node-sub" x="137" y="375"
+            text-anchor="middle">independent session</text>
+        </g>
+        <g class="g-gray">
+          <rect x="250" y="340" width="194" height="52" rx="10" stroke-width="1" /><text class="bt" x="347" y="359"
+            text-anchor="middle" dominant-baseline="central">Spoke A2</text><text class="node-sub" x="347" y="375"
+            text-anchor="middle">independent session</text>
+        </g>
+        <g class="g-gray">
+          <rect x="460" y="340" width="194" height="52" rx="10" stroke-width="1" /><text class="bt" x="557" y="359"
+            text-anchor="middle" dominant-baseline="central">Spoke B1</text><text class="node-sub" x="557" y="375"
+            text-anchor="middle">independent session</text>
+        </g>
+        <g class="g-gray">
+          <rect x="670" y="340" width="194" height="52" rx="10" stroke-width="1" /><text class="bt" x="767" y="359"
+            text-anchor="middle" dominant-baseline="central">Spoke B2</text><text class="node-sub" x="767" y="375"
+            text-anchor="middle">independent session</text>
+        </g>
+
+        <!-- spoke ↔ project files – read/write, bidirectional, gray -->
+        <path class="data" d="M137 338 L210 256" marker-start="url(#ah4)" marker-end="url(#ah4)" />
+        <path class="data" d="M347 338 L280 256" marker-start="url(#ah4)" marker-end="url(#ah4)" />
+        <path class="data" d="M557 338 L620 256" marker-start="url(#ah4)" marker-end="url(#ah4)" />
+        <path class="data" d="M767 338 L700 256" marker-start="url(#ah4)" marker-end="url(#ah4)" />
+
+        <text class="node-sub" x="450" y="450" text-anchor="middle">write isolation: each spoke writes only its own
+          project files</text>
+      </svg>
+      <figcaption>Every gray box is an independent parallel session. Write isolation: each spoke writes only its own
+        project files (dashed, both directions), spokes may read more broadly, and only Base writes cross-project
+        knowledge/.</figcaption>
+    </figure>
+    <dl>
+      <dt>Base as active hub</dt>
+      <dd>Base runs standup, consolidates spoke statuses into the work log at wrap-up, and promotes cross-project
+        learnings into knowledge/. ARA has no equivalent process; its artifact is the hub. Consolidation therefore
+        happens out of band here (a human paced Base session) versus inline in ARA (the maturity tracker at every
+        closure).</dd>
+      <dt>Scale model</dt>
+      <dd>ARA: one artifact, one project, sessions strictly sequential against it. Hub and spoke: many projects, many
+        concurrent sessions, made safe by write isolation rather than by having a single writer.</dd>
+    </dl>
+    <h2>3. Differences at a glance</h2>
+    <table>
+      <tr>
+        <th>Dimension</th>
+        <th>ARA</th>
+        <th>Hub and spoke</th>
+      </tr>
+      <tr>
+        <td>Read path</td>
+        <td>Foresight: inference over memory with confidence and falsifiers</td>
+        <td>Plain file reads; recall only</td>
+      </tr>
+      <tr>
+        <td>Recorder output</td>
+        <td>Typed entries routed into layers, IDs, claim schema with falsification</td>
+        <td>Freeform markdown: snapshot, appended log, prose learnings</td>
+      </tr>
+      <tr>
+        <td>Store shape</td>
+        <td>Knowledge graph: claims cite trace nodes cite evidence by ID</td>
+        <td>Chronological journal: prose files linked by mention</td>
+      </tr>
+      <tr>
+        <td>Refutation</td>
+        <td>Status transition on the claim, correction cites old ID</td>
+        <td>Append a new entry; old text stays but carries no status</td>
+      </tr>
+      <tr>
+        <td>Write isolation / concurrency</td>
+        <td>Single writer, sessions strictly sequential</td>
+        <td>Per-spoke writer, many concurrent sessions; Base alone writes cross-project state</td>
+      </tr>
+      <tr>
+        <td>Scope</td>
+        <td>One project, one artifact, sequential sessions</td>
+        <td>Many projects, parallel spoke sessions, Base as hub</td>
+      </tr>
+      <tr>
+        <td>Consolidation</td>
+        <td>Inline: maturity tracker at every closure</td>
+        <td>Out of band: Base promotes learnings at wrap-up</td>
+      </tr>
+    </table>
+    <div class="note"><strong>The one line summary.</strong> ARA is deeper: a structured, falsifiable, auditable memory
+      for one project. Hub and spoke is wider: a coordination layer for many projects and parallel sessions, whose
+      memory is prose. The natural synthesis is hub and spoke's shell with an ARA shaped store inside each project: keep
+      spokes, Base, and write isolation; upgrade capture to a claim schema; add a foresight style read skill.</div>
+    <h2>4. The synthesis architecture</h2>
+    <p>Hub and spoke's shell, ARA's store. Two views: first the inside of one spoke, then how multiple spokes stay
+      consistent.</p>
+    <h3>4.1 Inside one spoke</h3>
+    <p>The spoke session keeps its skeleton. The recorder is triggered at closure;
+      its typed writes land in a private workspace. Foresight is a read only call from
+      the work loop, and shared /logic and knowledge/ sit outside the workspace because the spoke never writes them.
+      Seal audits the full artifact.</p>
+
+    <figure><svg viewBox="0 0 900 500" role="img" aria-labelledby="syn-title syn-desc">
+        <title id="syn-title">Inside one synthesized spoke</title>
+        <desc id="syn-desc">A spoke keeps the hub and spoke control skeleton, records through an ARA-style recorder into
+          a private workspace, and reads through foresight. Shared logic and knowledge are written only by Base. Seal
+          audits the artifact.</desc>
+        <defs>
+          <marker id="ah5" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6"
+            orient="auto-start-reverse">
+            <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.6" stroke-linecap="round"
+              stroke-linejoin="round" />
+          </marker>
+        </defs><text class="fig-title" x="24" y="28">Synthesis: ARA store inside each spoke</text><text class="fig-sub"
+          x="24" y="48">Spoke writes Tier 1 only; Base writes Tiers 2/3. Seal audits all tiers.</text>
+
+        <rect class="lane-bg" x="24" y="70" width="520" height="400" rx="16" /><text class="lane-title" x="44"
+          y="95">spoke workflow session</text>
+
+        <!-- left column – session boxes, matching Fig 1 -->
+        <g class="g-gray">
+          <rect x="92" y="112" width="194" height="52" rx="10" stroke-width="1" /><text class="bt" x="189" y="131"
+            text-anchor="middle" dominant-baseline="central">Spoke init</text><text class="node-sub" x="189" y="147"
+            text-anchor="middle">reads handoff, /logic</text>
+        </g>
+        <g class="g-gray">
+          <rect x="92" y="208" width="194" height="52" rx="10" stroke-width="1" /><text class="bt" x="189" y="227"
+            text-anchor="middle" dominant-baseline="central">Work loop</text><text class="node-sub" x="189" y="243"
+            text-anchor="middle">code, run, observe</text>
+        </g>
+        <g class="g-purple">
+          <rect x="92" y="303" width="194" height="60" rx="10" stroke-width="1" /><text class="bt" x="189" y="326"
+            text-anchor="middle" dominant-baseline="central">recorder</text><text class="node-sub" x="189" y="342"
+            text-anchor="middle">subroutine</text>
+        </g>
+        <g class="g-gray">
+          <rect x="92" y="404" width="194" height="52" rx="10" stroke-width="1" /><text class="bt" x="189" y="423"
+            text-anchor="middle" dominant-baseline="central">Session end</text><text class="node-sub" x="189" y="439"
+            text-anchor="middle">updates Handoff</text>
+        </g>
+
+        <path class="ctrl" d="M189 164 L189 206" marker-end="url(#ah5)" />
+        <path class="ctrl" d="M189 262 L189 300" marker-end="url(#ah5)" />
+        <text class="tiny" x="195" y="284" text-anchor="start">closure</text>
+        <path class="ctrl" d="M92 333 L62 333 L62 234 L92 234" marker-end="url(#ah5)" />
+        <path class="ctrl" d="M189 366 L189 401" marker-end="url(#ah5)" />
+
+        <!-- Foresight – read skill, right of Work loop -->
+        <g class="g-teal">
+          <rect x="322" y="208" width="194" height="52" rx="10" stroke-width="1" /><text class="bt" x="419" y="227"
+            text-anchor="middle" dominant-baseline="central">Foresight</text><text class="node-sub" x="419" y="243"
+            text-anchor="middle">read-only skill</text>
+        </g>
+        <path class="ctrl" d="M286 224 L320 224" marker-end="url(#ah5)" />
+        <path class="ctrl" d="M320 240 L288 240" marker-end="url(#ah5)" />
+
+        <!-- right column – Artifact containing Tier 1/2/3, matching Fig 1 ARA repo structure -->
+        <g class="g-blue">
+          <rect x="600" y="138" width="250" height="235" rx="14" stroke-width="1" />
+        </g>
+        <text class="lane-title" x="620" y="160">Artifacts</text>
+        <rect class="store-inner" x="628" y="225" width="194" height="32" rx="7" />
+        <text class="node-sub" x="725" y="247" text-anchor="middle" style="fill:var(--blue-dk)">Tier 3 /knowledge</text>
+        <rect class="store-inner" x="628" y="270" width="194" height="32" rx="7" />
+        <text class="node-sub" x="725" y="292" text-anchor="middle" style="fill:var(--blue-dk)">Tier 2 /logic</text>
+        <rect class="store-inner" x="628" y="315" width="194" height="32" rx="7" />
+        <text class="node-sub" x="725" y="337" text-anchor="middle" style="fill:var(--blue-dk)">Tier 1 workspace</text>
+        <text class="node-sub" x="725" y="192" text-anchor="middle">spoke writes T1</text>
+        <text class="node-sub" x="725" y="204" text-anchor="middle">Base writes T2/T3</text>
+
+        <!-- data flow – skill-colored, correct read/write direction, matching Fig 1 -->
+        <path class="data-teal" d="M598 286 L419 286 L419 260" marker-end="url(#ah5)" />
+        <path class="data-purple" d="M284 333 L628 333" marker-end="url(#ah5)" />
+
+        <!-- Seal – audits the full artifact (all three tiers) -->
+        <g class="g-amber">
+          <rect x="600" y="404" width="250" height="52" rx="10" stroke-width="1" />
+          <text class="bt" x="725" y="423" text-anchor="middle" dominant-baseline="central">Audit (Seal session)</text>
+          <text class="node-sub" x="725" y="439" text-anchor="middle">separate agent, periodic</text>
+        </g>
+        <path class="data-amber" d="M725 402 L725 375" marker-start="url(#ah5)" marker-end="url(#ah5)" />
+      </svg>
+      <figcaption>Foresight reads the tier 1 workspace, shared /logic, and knowledge/; the recorder writes only the tier
+        1 workspace.
+        Staging becomes a tier 2 claim, then tier 3 knowledge, solely via Base at the merge, so the spoke never writes
+        shared tiers. Foresight
+        also reads other spokes and projects. Seal audits all three tiers periodically.</figcaption>
+    </figure>
+    <dl>
+      <dt>Harvester, in this setting</dt>
+      <dd>Fires at every closure and at session end. It scans everything since the previous checkpoint:
+        the transcript, tool outputs (MAST job results, SQL query outputs, eval numbers), and config diffs. Each
+        extracted event carries a provenance tag (user asserted, agent suggested, agent executed) and a pointer to its
+        raw source, which becomes the /evidence entry. The old freeform status snapshot survives as one harvested event
+        type among others, so nothing about resumability is lost.</dd>
+      <dt>/src, in this setting</dt>
+      <dd>Experiment configs, launch commands, and slash command definitions, each stored with the rationale for its
+        settings. This is the layer the old system scattered across the queue sheet's config columns; here it is spoke
+        owned and ID addressable, so a trace node can cite exactly the config that produced it.</dd>
+      <dt>staging/, in this setting</dt>
+      <dd>Per spoke, which is the detail that makes concurrency trivial: half formed beliefs never touch a shared file.
+        The Mature step re-checks staged items at every subsequent closure, where it matures, merges into an existing
+        claim, or dies. The spoke's Mature step only <em>marks</em> a claim as candidate ripe within its own staging;
+        the
+        <em>move</em> into shared /logic is done exclusively by Base at the merge. Spoke sessions can live for days
+        across many merges; whatever has ripened by each evening gets crystallized that evening. Staged beliefs are
+        already visible to every reader through foresight the moment they land, so merge latency delays authority (ID,
+        dedup, promotion eligibility), not knowledge.
+      </dd>
+      <dt>Foresight, in this setting</dt>
+      <dd>Called at two moments: spoke init (replacing part of the verbatim file load with an actual briefing: current
+        beliefs, open questions, known dead ends for this task) and before proposing any experiment (predicted outcome,
+        confidence, falsifier). Its read scope is deliberately wider than the spoke's write scope: shared /logic and
+        knowledge/ first,
+        then the global claim store, then any spoke's trace. Zero writes is what makes that unrestricted read scope safe
+        under concurrency.</dd>
+    </dl>
+    <h3>4.2 Tiers, concurrency, and the merge</h3>
+    <p>Storage is arranged in three tiers, distinguished by exactly two properties: who may write, and at which
+      synchronization point writes happen. Reads are unrestricted at every tier; the tiers govern writes only.</p>
+
+    <p>The tier boundary is exactly the raw-versus-belief boundary. Everything raw is tier 1 and spoke local (evidence,
+      trace, src, staging), because raw material is inherently the record of one spoke's own search and is complete only
+      at that individual level. Only beliefs are shared (tier 2 project /logic, tier 3 knowledge/), because only beliefs
+      are worth integrating across spokes, and integration means citation, not copying. A claim whose support spans
+      several spokes is a tier 2 record citing trace nodes across their tier 1 workspaces by ID; the global reasoning
+      structure is never materialized as one artifact, it exists latently in that citation graph and foresight traverses
+      it on demand. Trace being incomplete at the spoke level is therefore the correct state, not a defect: completeness
+      lives in the citation graph, not in any single trace file.</p>
+
+    <table>
+      <tr>
+        <th>Tier</th>
+        <th>Contents</th>
+        <th>Sole writer</th>
+        <th>Writes happen</th>
+      </tr>
+      <tr>
+        <td>1</td>
+        <td>Spoke workspaces: evidence, trace, src, staging</td>
+        <td>The owning spoke</td>
+        <td>Continuously, at every closure</td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td>Project /logic: crystallized claims with IDs</td>
+        <td>Base</td>
+        <td>At the merge: nightly wrap-up, or on demand /merge</td>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td>knowledge/: cross-project claims</td>
+        <td>Base</td>
+        <td>Promotion step of the same merge</td>
+      </tr>
+    </table>
+
+    <figure><svg viewBox="0 0 900 560" role="img"
+        aria-label="Storage tiers as horizontal bands across two projects. Spokes write their own tier 1 workspaces continuously. Base writes each project logic in tier 2 and promotes cross-project claims into tier 3 knowledge.">
+        <title>Tiers and writes across two projects</title>
+        <desc>Three spokes across two projects write their own tier 1 workspaces. Base writes both project logics in
+          tier
+          2 and promotes generalizing claims from both into tier 3 knowledge.</desc>
+        <defs>
+          <marker id="ah6" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6"
+            orient="auto-start-reverse">
+            <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.6" stroke-linecap="round"
+              stroke-linejoin="round" />
+          </marker>
+        </defs>
+
+        <text class="fig-title" x="24" y="28">Tiers and writes: who writes what, when</text>
+        <text class="fig-sub" x="24" y="48">Purple = writes, teal = Base's reads. Spokes write tier 1 continuously; Base
+          reads
+          tiers 1–2 and writes tiers 2–3 at the merge.</text>
+
+        <!-- actors lane – 4 actors across: Spoke A1, A2, B1, Base – NO Seal (audit deferred to Fig5) -->
+        <rect class="lane-bg" x="24" y="72" width="852" height="76" rx="16" />
+        <text class="lane-title" x="44" y="90">working sessions</text>
+        <g class="g-gray">
+          <rect x="40" y="100" width="194" height="40" rx="9" stroke-width="1" />
+          <text class="bt" x="137" y="120" text-anchor="middle" dominant-baseline="central">Spoke A1</text>
+        </g>
+        <g class="g-gray">
+          <rect x="250" y="100" width="194" height="40" rx="9" stroke-width="1" />
+          <text class="bt" x="347" y="120" text-anchor="middle" dominant-baseline="central">Spoke A2</text>
+        </g>
+        <g class="g-gray">
+          <rect x="460" y="100" width="194" height="40" rx="9" stroke-width="1" />
+          <text class="bt" x="557" y="120" text-anchor="middle" dominant-baseline="central">Spoke B1</text>
+        </g>
+        <g class="g-gray">
+          <rect x="670" y="100" width="194" height="40" rx="9" stroke-width="1" />
+          <text class="bt" x="767" y="120" text-anchor="middle" dominant-baseline="central">Base</text>
+        </g>
+
+        <!-- tier 1 – blue container (like Fig 1 artifact box) with white store-inner boxes -->
+        <g class="g-blue">
+          <rect x="24" y="164" width="646" height="80" rx="16" stroke-width="1" />
+          <text class="lane-title" x="44" y="182">tier 1: spoke artifacts</text>
+        </g>
+        <rect class="store-inner" x="40" y="192" width="194" height="44" rx="10" stroke-width="1" />
+        <text class="bt" x="137" y="208" text-anchor="middle" dominant-baseline="central" style="fill:var(--blue-dk)">A1
+          workspace</text>
+        <text class="node-sub" x="137" y="227" text-anchor="middle">evidence · trace · src · staging</text>
+        <rect class="store-inner" x="250" y="192" width="194" height="44" rx="10" stroke-width="1" />
+        <text class="bt" x="347" y="208" text-anchor="middle" dominant-baseline="central" style="fill:var(--blue-dk)">A2
+          workspace</text>
+        <text class="node-sub" x="347" y="227" text-anchor="middle">evidence · trace · src · staging</text>
+        <rect class="store-inner" x="460" y="192" width="194" height="44" rx="10" stroke-width="1" />
+        <text class="bt" x="557" y="208" text-anchor="middle" dominant-baseline="central" style="fill:var(--blue-dk)">B1
+          workspace</text>
+        <text class="node-sub" x="557" y="227" text-anchor="middle">evidence · trace · src · staging</text>
+        <!-- spoke writes – dashed purple write arrows, like the writes in Fig 1/2 -->
+        <path class="data-purple" d="M137 142 L137 190" marker-end="url(#ah6)" />
+        <path class="data-purple" d="M347 142 L347 190" marker-end="url(#ah6)" />
+        <path class="data-purple" d="M557 142 L557 190" marker-end="url(#ah6)" />
+
+        <!-- tier 2 – blue container (like Fig 1 artifact box) with white store-inner boxes -->
+        <g class="g-blue">
+          <rect x="24" y="300" width="646" height="80" rx="16" stroke-width="1" />
+          <text class="lane-title" x="44" y="318">tier 2: project artifacts</text>
+        </g>
+        <rect class="store-inner" x="40" y="328" width="404" height="44" rx="10" stroke-width="1" />
+        <text class="bt" x="242" y="345" text-anchor="middle" dominant-baseline="central"
+          style="fill:var(--blue-dk)">Project A /logic</text>
+        <text class="node-sub" x="242" y="364" text-anchor="middle">claims with IDs, cite tier 1</text>
+
+        <rect class="store-inner" x="460" y="328" width="194" height="44" rx="10" stroke-width="1" />
+        <text class="bt" x="557" y="345" text-anchor="middle" dominant-baseline="central"
+          style="fill:var(--blue-dk)">Project B /logic</text>
+        <text class="node-sub" x="557" y="364" text-anchor="middle">claims, cite tier 1</text>
+        <!-- Base writes tier 2 – single purple write line from Base that splits to Project A and B -->
+        <path class="data-purple" d="M786 142 L786 290 L242 290 L242 326" marker-end="url(#ah6)" />
+        <path class="data-purple" d="M557 290 L557 326" marker-end="url(#ah6)" />
+        <text class="tiny" x="400" y="286" text-anchor="middle">Base writes claims, at merge</text>
+
+        <!-- tier 3 – blue container (like Fig 1 artifact box) with white store-inner box -->
+        <g class="g-blue">
+          <rect x="24" y="436" width="646" height="80" rx="16" stroke-width="1" />
+          <text class="lane-title" x="44" y="454">tier 3: inter project artifacts</text>
+        </g>
+        <rect class="store-inner" x="40" y="464" width="612" height="44" rx="10" stroke-width="1" />
+        <text class="bt" x="346" y="486" text-anchor="middle" dominant-baseline="central"
+          style="fill:var(--blue-dk)">knowledge/</text>
+        <!-- Base promotes tier 3 – single purple write line from Base to knowledge -->
+        <path class="data-purple" d="M825 142 L825 426 L346 426 L346 462" marker-end="url(#ah6)" />
+        <text class="tiny" x="586" y="422" text-anchor="middle">Base promotes claims that generalize</text>
+
+        <!-- Base reads tier 1 – teal read funnel: A1, A2, B1 workspaces merge and rise to Base -->
+        <path class="data-teal" d="M137 236 L137 256 709 256 L709 142" marker-end="url(#ah6)" />
+        <path class="data-teal" d="M347 236 L347 256" />
+        <path class="data-teal" d="M557 236 L557 256" />
+        <!-- Base reads tier 2 – teal read funnel: Project A & B merge and rise to Base -->
+        <path class="data-teal" d="M242 372 L242 391 L748 391 L748 142" marker-end="url(#ah6)" />
+        <path class="data-teal" d="M557 372 L557 391" />
+      </svg>
+      <figcaption>Three spokes across two projects write their own tier 1 workspaces continuously and in parallel.
+        Base is the sole writer of tiers 2 and 3: it writes each project's /logic separately, then promotes the claims
+        that generalize from both projects into the shared knowledge/ tier, which is the whole reason tier 3 exists.
+        Because tier 1
+        partitions are disjoint and the shared tiers have a single serialized writer, no two writers ever contend for a
+        file.</figcaption>
+    </figure>
+    <dl>
+      <dt>What the merge moves, and what it leaves</dt>
+      <dd>The merge is claim only. Base reads tier 1 staging and crystallizes ripe claims into tier 2 /logic; nothing
+        else is copied upward. Trace, evidence, and src never leave the spoke workspace: they are the permanent
+        substrate, and tier 2 claims reach back into them by ID (a claim's Sources field points at spoke evidence, its
+        derivation at spoke trace nodes). This is what makes /logic an index over spoke owned raw material rather than a
+        duplicate of it.</dd>
+      <dt>What happens to each layer after a merge</dt>
+      <dd>In the spoke workspace: trace, evidence, and src are unchanged; staging is the only layer that moves,
+        shrinking as each item is either crystallized (leaves staging, now lives as a tier 2 claim), absorbed (merged
+        into an existing claim it updated), or dropped (a dead candidate, deleted). In the project workspace: tier 2
+        /logic grows by exactly the new and revised claims, each a thin record pointing back down into tier 1.</dd>
+      <dt>Why this never conflicts</dt>
+      <dd>Tier 1 partitions are disjoint, so any number of spokes writes in parallel with no locking. Tiers 2 and 3 have
+        one writer, Base, acting at one serialized moment, the merge. There is no synchronization point at which two
+        writers can touch the same file.</dd>
+    </dl>
+    <div class="note"><strong>Everything is a spoke.</strong> The entire concurrency model reduces to one rule: every
+      session is a spoke that writes only its own workspace. A normal spoke's workspace is its tier 1 partition. Base is
+      a special spoke whose workspace is tiers 2 and 3, and the merge is simply Base's /spoke-update. The Seal is a
+      special spoke whose workspace is its report file. Same init, update, and handoff machinery everywhere; the only
+      thing that varies per session is the ownership declaration.</div>
+    <div class="note"><strong>Three loops, three cadences.</strong> Continuous visibility: staging plus foresight, zero
+      latency, any spoke's fresh belief is readable everywhere the moment it lands. Daily canonicity: the merge, nightly
+      with on demand escalation, confers IDs, dedup, and promotion. Weekly rigor: the Seal, deep audit by a fresh agent.
+      Each loop runs exactly as fast as its output is perishable.</div>
+  </main>
 </body>
+
 </html>
